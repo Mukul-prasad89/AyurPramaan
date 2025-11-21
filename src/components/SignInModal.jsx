@@ -1,0 +1,149 @@
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { X, Eye, EyeOff } from 'lucide-react'
+
+const stakeholderTypes = ['Manufacturer', 'Laboratory', 'Regulator', 'Farmer', 'Admin']
+
+const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
+  const [credentials, setCredentials] = useState({ identifier: '', password: '', stakeholderType: '' })
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setCredentials((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    onClose()
+    setCredentials({ identifier: '', password: '', stakeholderType: '' })
+    setShowPassword(false)
+  }
+
+  const handleClose = () => {
+    onClose()
+    setCredentials({ identifier: '', password: '', stakeholderType: '' })
+    setShowPassword(false)
+  }
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={handleClose}
+        >
+          <motion.div
+            className="relative w-full max-w-md"
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 24 }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="bg-white rounded-3xl shadow-custom-strong overflow-hidden">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <h2 className="text-2xl font-semibold text-gray-900">Sign in</h2>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+                  aria-label="Close sign in form"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmit} className="px-6 py-6 lg:py-8 bg-white space-y-5">
+                <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
+                  <span>
+                    Stakeholder Type<span className="text-red-500"> *</span>
+                  </span>
+                  <select
+                    name="stakeholderType"
+                    value={credentials.stakeholderType}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100"
+                  >
+                    <option value="" disabled>
+                      --Select--
+                    </option>
+                    {stakeholderTypes.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
+                  <span>
+                    Username / Email<span className="text-red-500"> *</span>
+                  </span>
+                  <input
+                    type="text"
+                    name="identifier"
+                    value={credentials.identifier}
+                    onChange={handleChange}
+                    placeholder="Enter username or email"
+                    required
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100"
+                  />
+                </label>
+
+                <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
+                  <span>
+                    Password<span className="text-red-500"> *</span>
+                  </span>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
+                      value={credentials.password}
+                      onChange={handleChange}
+                      placeholder="Enter Password"
+                      required
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 pr-12 text-gray-700 placeholder-gray-400 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                      aria-label="Toggle password visibility"
+                    >
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                  </div>
+                </label>
+
+                <button type="submit" className="w-full btn-primary">
+                  Sign in
+                </button>
+
+                <p className="text-sm text-center text-gray-600">
+                  New to Herbal Trace?{' '}
+                  <button
+                    type="button"
+                    className="text-primary-600 font-semibold hover:underline"
+                    onClick={() => {
+                      handleClose()
+                      onSwitchToSignUp()
+                    }}
+                  >
+                    Create an account
+                  </button>
+                </p>
+              </form>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
+export default SignInModal
