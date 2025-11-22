@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, MapPinCheck, Leaf, FileCheck2, Shield } from 'lucide-react'
+import { User, MapPin, Leaf, FileCheck, ShieldCheck } from 'lucide-react'
 
 const sections = [
   { key: 'profile', label: 'Profile Overview', icon: User },
-  { key: 'geo', label: 'Geo-Fencing', icon: MapPinCheck },
+  { key: 'geo', label: 'Geo-Fencing', icon: MapPin },
   { key: 'compliance', label: 'Conservation Compliance', icon: Leaf },
-  { key: 'events', label: 'Collection Events', icon: FileCheck2 },
-  { key: 'certifications', label: 'Certification Review', icon: Shield }
+  { key: 'events', label: 'Collection Events', icon: FileCheck },
+  { key: 'certifications', label: 'Certification Review', icon: ShieldCheck }
 ]
 
 const regulatorProfile = {
