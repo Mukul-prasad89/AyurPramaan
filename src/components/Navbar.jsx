@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Leaf, Menu, X, ChevronDown } from 'lucide-react'
+import { useLanguage } from '../context/LanguageContext'
 
 const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isRolesOpen, setIsRolesOpen] = useState(false)
   const [isMobileRolesOpen, setIsMobileRolesOpen] = useState(false)
+  const { language, setLanguage } = useLanguage()
   const rolesMenuRef = useRef(null)
   const location = useLocation()
 
@@ -36,21 +38,53 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isRolesOpen])
 
-  const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/track', label: 'Track' },
-    { path: '/process', label: 'Process' },
-    { path: '/about', label: 'About' },
-    { path: '/contact', label: 'Contact' }
-  ]
+  const navContent = language === 'hi'
+    ? {
+        brand: 'हर्बल ट्रेस',
+        navLinks: [
+          { path: '/', label: 'मुखपृष्ठ' },
+          { path: '/track', label: 'ट्रैक' },
+          { path: '/process', label: 'प्रक्रिया' },
+          { path: '/about', label: 'हमारे बारे में' },
+          { path: '/contact', label: 'संपर्क' }
+        ],
+        roleTitle: 'भूमिका पैनल',
+        roleLinks: [
+          { path: '/farmer', label: 'किसान कार्यक्षेत्र' },
+          { path: '/laboratory', label: 'प्रयोगशाला कंसोल' },
+          { path: '/regulator', label: 'निरीक्षक कंसोल' },
+          { path: '/manufacturer', label: 'निर्माता कंसोल' },
+          { path: '/admin', label: 'प्रशासक कंसोल' }
+        ],
+        signIn: 'साइन इन',
+        signUp: 'रजिस्टर',
+        languageToggle: 'English'
+      }
+    : {
+        brand: 'Herbal Trace',
+        navLinks: [
+          { path: '/', label: 'Home' },
+          { path: '/track', label: 'Track' },
+          { path: '/process', label: 'Process' },
+          { path: '/about', label: 'About' },
+          { path: '/contact', label: 'Contact' }
+        ],
+        roleTitle: 'Role Consoles',
+        roleLinks: [
+          { path: '/farmer', label: 'Farmer Workspace' },
+          { path: '/laboratory', label: 'Laboratory Console' },
+          { path: '/regulator', label: 'Regulator Console' },
+          { path: '/manufacturer', label: 'Manufacturer Console' },
+          { path: '/admin', label: 'Admin Console' }
+        ],
+        signIn: 'Sign in',
+        signUp: 'Sign up',
+        languageToggle: 'हिन्दी'
+      }
 
-  const roleLinks = [
-    { path: '/farmer', label: 'Farmer Workspace' },
-    { path: '/laboratory', label: 'Laboratory Console' },
-    { path: '/regulator', label: 'Regulator Console' },
-    { path: '/manufacturer', label: 'Manufacturer Console' },
-    { path: '/admin', label: 'Admin Console' }
-  ]
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'hi' : 'en')
+  }
 
   return (
     <motion.nav
@@ -73,13 +107,13 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
               <Leaf className="h-6 w-6 text-white" />
             </motion.div>
             <span className="text-xl md:text-2xl font-bold text-primary-700">
-              Herbal Trace
+              {navContent.brand}
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
+            {navContent.navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -90,14 +124,6 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                 }`}
               >
                 {link.label}
-                {location.pathname === link.path && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600"
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  />
-                )}
               </Link>
             ))}
 
@@ -109,7 +135,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                   isRolesOpen ? 'text-primary-600' : 'text-gray-700 hover:text-primary-600'
                 }`}
               >
-                <span>Role Consoles</span>
+                <span>{navContent.roleTitle}</span>
                 <motion.span animate={{ rotate: isRolesOpen ? 180 : 0 }} className="inline-flex">
                   <ChevronDown className="h-4 w-4" />
                 </motion.span>
@@ -124,7 +150,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                     transition={{ duration: 0.15 }}
                     className="absolute right-0 mt-3 w-56 rounded-xl border border-gray-100 bg-white shadow-custom-light py-2"
                   >
-                    {roleLinks.map((role) => (
+                    {navContent.roleLinks.map((role) => (
                       <Link
                         key={role.path}
                         to={role.path}
@@ -140,6 +166,14 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                 )}
               </AnimatePresence>
             </div>
+
+            <button
+              type="button"
+              onClick={toggleLanguage}
+              className="px-3 py-2 text-sm font-semibold text-gray-700 hover:text-primary-600 transition-colors"
+            >
+              {navContent.languageToggle}
+            </button>
           </div>
 
           {/* Desktop CTA */}
@@ -149,7 +183,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
               onClick={onOpenSignIn}
               className="px-4 py-2 text-sm font-semibold text-primary-600 border border-primary-600 rounded-xl hover:bg-primary-50 transition-colors"
             >
-              Sign in
+              {navContent.signIn}
             </button>
             
             <motion.button
@@ -158,7 +192,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
               className="px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-custom-light hover:shadow-custom-medium"
               onClick={onOpenSignUp}
             >
-              Sign up
+              {navContent.signUp}
             </motion.button>
           </div>
 
@@ -188,7 +222,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
             className="md:hidden bg-white border-t border-gray-100 shadow-custom-light"
           >
             <div className="px-4 py-6 space-y-4">
-              {navLinks.map((link, index) => (
+              {navContent.navLinks.map((link, index) => (
                 <motion.div
                   key={link.path}
                   initial={{ opacity: 0, x: -20 }}
@@ -211,14 +245,14 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.1 }}
+                transition={{ delay: navContent.navLinks.length * 0.1 }}
               >
                 <button
                   type="button"
                   onClick={() => setIsMobileRolesOpen((prev) => !prev)}
                   className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-50"
                 >
-                  <span>Role Consoles</span>
+                  <span>{navContent.roleTitle}</span>
                   <motion.span animate={{ rotate: isMobileRolesOpen ? 180 : 0 }} className="inline-flex">
                     <ChevronDown className="h-4 w-4" />
                   </motion.span>
@@ -232,7 +266,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                       transition={{ duration: 0.2 }}
                       className="mt-2 space-y-2 pl-4"
                     >
-                      {roleLinks.map((role) => (
+                      {navContent.roleLinks.map((role) => (
                         <Link
                           key={role.path}
                           to={role.path}
@@ -254,7 +288,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.1 + 0.1 }}
+                transition={{ delay: navContent.navLinks.length * 0.1 + 0.1 }}
                 className="pt-4 border-t border-gray-200"
               >
                 <div className="flex flex-col space-y-3">
@@ -266,7 +300,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                       onOpenSignIn()
                     }}
                   >
-                    Sign in
+                    {navContent.signIn}
                   </button>
                   <button
                     type="button"
@@ -276,7 +310,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                       onOpenSignUp()
                     }}
                   >
-                    Sign up
+                    {navContent.signUp}
                   </button>
                 </div>
               </motion.div>

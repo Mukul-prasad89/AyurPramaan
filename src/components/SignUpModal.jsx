@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Eye, EyeOff } from 'lucide-react'
+import { useLanguage } from '../context/LanguageContext'
 
 const indianStates = [
   'Andhra Pradesh',
@@ -34,24 +35,30 @@ const indianStates = [
   'Jammu and Kashmir'
 ]
 
-const stakeholderTypes = ['Manufacturer', 'Laboratory', 'Regulator', 'Farmer', 'Admin']
+const stakeholderOptions = [
+  { value: 'Manufacturer', label: { en: 'Manufacturer', hi: 'निर्माता' } },
+  { value: 'Laboratory', label: { en: 'Laboratory', hi: 'प्रयोगशाला' } },
+  { value: 'Regulator', label: { en: 'Regulator', hi: 'नियामक' } },
+  { value: 'Farmer', label: { en: 'Farmer', hi: 'किसान' } },
+  { value: 'Admin', label: { en: 'Admin', hi: 'प्रशासक' } }
+]
 
 const herbOptions = [
-  'Turmeric',
-  'Ashwagandha',
-  'Tulsi',
-  'Neem',
-  'Giloy',
-  'Shatavari',
-  'Amla',
-  'Brahmi',
-  'Ginseng',
-  'Ginger'
+  { value: 'Turmeric', label: { en: 'Turmeric', hi: 'हल्दी' } },
+  { value: 'Ashwagandha', label: { en: 'Ashwagandha', hi: 'अश्वगंधा' } },
+  { value: 'Tulsi', label: { en: 'Tulsi', hi: 'तुलसी' } },
+  { value: 'Neem', label: { en: 'Neem', hi: 'नीम' } },
+  { value: 'Giloy', label: { en: 'Giloy', hi: 'गिलोय' } },
+  { value: 'Shatavari', label: { en: 'Shatavari', hi: 'शतावरी' } },
+  { value: 'Amla', label: { en: 'Amla', hi: 'आंवला' } },
+  { value: 'Brahmi', label: { en: 'Brahmi', hi: 'ब्राह्मी' } },
+  { value: 'Ginseng', label: { en: 'Ginseng', hi: 'जिनसेंग' } },
+  { value: 'Ginger', label: { en: 'Ginger', hi: 'अदरक' } }
 ]
 
 const initialFormState = {
-  loginId: '',
-  name: '',
+  firstName: '',
+  lastName: '',
   password: '',
   confirmPassword: '',
   state: '',
@@ -62,6 +69,73 @@ const initialFormState = {
 }
 
 const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
+  const { language } = useLanguage()
+  const contentMap = {
+    en: {
+      title: 'Register',
+      closeAria: 'Close registration form',
+      firstNameLabel: 'First Name',
+      firstNamePlaceholder: 'Enter First Name',
+      lastNameLabel: 'Last Name',
+      lastNamePlaceholder: 'Enter Last Name',
+      passwordLabel: 'Password',
+      passwordPlaceholder: 'Enter Password',
+      confirmPasswordLabel: 'Confirm Password',
+      confirmPasswordPlaceholder: 'Re-enter Password',
+      stateLabel: 'State',
+      statePlaceholder: '--Select State--',
+      phoneLabel: 'Phone No',
+      phonePlaceholder: 'Enter Phone No',
+      emailLabel: 'Email',
+      emailPlaceholder: 'abc@example.com',
+      stakeholderLabel: 'Stakeholder Type',
+      stakeholderPlaceholder: '--Select--',
+      productLabel: 'Products of Interest',
+      productPlaceholder: '--Select--',
+      submitButton: 'Create Account',
+      switchPrompt: 'Already have an account?',
+      switchButton: 'Sign in',
+      passwordToggleAria: 'Toggle password visibility'
+    },
+    hi: {
+      title: 'रजिस्टर करें',
+      closeAria: 'पंजीकरण फॉर्म बंद करें',
+      firstNameLabel: 'पहला नाम',
+      firstNamePlaceholder: 'पहला नाम दर्ज करें',
+      lastNameLabel: 'अंतिम नाम',
+      lastNamePlaceholder: 'अंतिम नाम दर्ज करें',
+      passwordLabel: 'पासवर्ड',
+      passwordPlaceholder: 'पासवर्ड दर्ज करें',
+      confirmPasswordLabel: 'पासवर्ड की पुष्टि करें',
+      confirmPasswordPlaceholder: 'पासवर्ड दोबारा दर्ज करें',
+      stateLabel: 'राज्य',
+      statePlaceholder: '--राज्य चुनें--',
+      phoneLabel: 'फ़ोन नंबर',
+      phonePlaceholder: 'फ़ोन नंबर दर्ज करें',
+      emailLabel: 'ईमेल',
+      emailPlaceholder: 'abc@example.com',
+      stakeholderLabel: 'हितधारक प्रकार',
+      stakeholderPlaceholder: '--चयन करें--',
+      productLabel: 'रुचि वाले उत्पाद',
+      productPlaceholder: '--चयन करें--',
+      submitButton: 'खाता बनाएं',
+      switchPrompt: 'पहले से खाता है?',
+      switchButton: 'साइन इन करें',
+      passwordToggleAria: 'पासवर्ड दृश्यता बदलें'
+    }
+  }
+
+  const content = contentMap[language] || contentMap.en
+  const stakeholderChoices = stakeholderOptions.map((option) => ({
+    value: option.value,
+    label: option.label[language] || option.label.en
+  }))
+  const herbChoices = herbOptions.map((option) => ({
+    value: option.value,
+    label: option.label[language] || option.label.en
+  }))
+  const stateOptions = indianStates.map((state) => ({ value: state, label: state }))
+
   const [formData, setFormData] = useState(initialFormState)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -107,12 +181,12 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
           >
             <div className="bg-white rounded-3xl shadow-custom-strong overflow-hidden">
               <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                <h2 className="text-2xl font-semibold text-gray-900">Register</h2>
+                <h2 className="text-2xl font-semibold text-gray-900">{content.title}</h2>
                 <button
                   type="button"
                   onClick={handleClose}
                   className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
-                  aria-label="Close registration form"
+                  aria-label={content.closeAria}
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -121,91 +195,93 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
               <form onSubmit={handleSubmit} className="px-6 py-6 lg:py-8 bg-white">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <InputField
-                    label="Login-ID"
-                    name="loginId"
-                    placeholder="Enter Login-ID"
-                    value={formData.loginId}
+                    label={content.firstNameLabel}
+                    name="firstName"
+                    placeholder={content.firstNamePlaceholder}
+                    value={formData.firstName}
                     onChange={handleChange}
                     required
                   />
 
                   <InputField
-                    label="Name"
-                    name="name"
-                    placeholder="Enter Name"
-                    value={formData.name}
+                    label={content.lastNameLabel}
+                    name="lastName"
+                    placeholder={content.lastNamePlaceholder}
+                    value={formData.lastName}
                     onChange={handleChange}
                     required
                   />
 
                   <PasswordField
-                    label="Password"
+                    label={content.passwordLabel}
                     name="password"
-                    placeholder="Enter Password"
+                    placeholder={content.passwordPlaceholder}
                     value={formData.password}
                     onChange={handleChange}
                     required
                     isVisible={showPassword}
                     onToggleVisibility={() => setShowPassword((prev) => !prev)}
+                    toggleAria={content.passwordToggleAria}
                   />
 
                   <PasswordField
-                    label="Confirm Password"
+                    label={content.confirmPasswordLabel}
                     name="confirmPassword"
-                    placeholder="Enter Password"
+                    placeholder={content.confirmPasswordPlaceholder}
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     required
                     isVisible={showConfirmPassword}
                     onToggleVisibility={() => setShowConfirmPassword((prev) => !prev)}
+                    toggleAria={content.passwordToggleAria}
                   />
 
                   <SelectField
-                    label="State"
+                    label={content.stateLabel}
                     name="state"
                     value={formData.state}
                     onChange={handleChange}
-                    options={indianStates}
-                    placeholder="--Select State--"
+                    options={stateOptions}
+                    placeholder={content.statePlaceholder}
                     required
                   />
 
                   <InputField
-                    label="Phone No"
+                    label={content.phoneLabel}
                     name="phone"
-                    placeholder="Enter Phone No"
+                    placeholder={content.phonePlaceholder}
                     value={formData.phone}
                     onChange={handleChange}
                     required
                   />
 
                   <InputField
-                    label="Email"
+                    label={content.emailLabel}
                     name="email"
                     type="email"
-                    placeholder="abc@example.com"
+                    placeholder={content.emailPlaceholder}
                     value={formData.email}
                     onChange={handleChange}
                     required
                   />
 
                   <SelectField
-                    label="Stakeholder Type"
+                    label={content.stakeholderLabel}
                     name="stakeholderType"
                     value={formData.stakeholderType}
                     onChange={handleChange}
-                    options={stakeholderTypes}
-                    placeholder="--Select--"
+                    options={stakeholderChoices}
+                    placeholder={content.stakeholderPlaceholder}
                     required
                   />
 
                   <SelectField
-                    label="Products of Interest"
+                    label={content.productLabel}
                     name="productOfInterest"
                     value={formData.productOfInterest}
                     onChange={handleChange}
-                    options={herbOptions}
-                    placeholder="--Select--"
+                    options={herbChoices}
+                    placeholder={content.productPlaceholder}
                     required
                   />
                 </div>
@@ -215,10 +291,10 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
                     type="submit"
                     className="w-full sm:w-auto btn-primary px-8"
                   >
-                    Create Account
+                    {content.submitButton}
                   </button>
                   <p className="text-sm text-gray-600">
-                    Already have an account?{' '}
+                    {content.switchPrompt}{' '}
                     <button
                       type="button"
                       className="text-primary-600 font-semibold hover:underline"
@@ -227,7 +303,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
                         onSwitchToSignIn()
                       }}
                     >
-                      Sign in
+                      {content.switchButton}
                     </button>
                   </p>
                 </div>
@@ -257,7 +333,7 @@ const InputField = ({ label, name, type = 'text', value, onChange, placeholder, 
   </label>
 )
 
-const PasswordField = ({ label, name, value, onChange, placeholder, required, isVisible, onToggleVisibility }) => (
+const PasswordField = ({ label, name, value, onChange, placeholder, required, isVisible, onToggleVisibility, toggleAria }) => (
   <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
     <span>
       {label}{required && <span className="text-red-500"> *</span>}
@@ -276,7 +352,7 @@ const PasswordField = ({ label, name, value, onChange, placeholder, required, is
         type="button"
         onClick={onToggleVisibility}
         className="absolute inset-y-0 right-3 flex items-center text-gray-500"
-        aria-label={`Toggle ${label.toLowerCase()} visibility`}
+        aria-label={toggleAria}
       >
         {isVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
       </button>
@@ -300,8 +376,8 @@ const SelectField = ({ label, name, value, onChange, options, placeholder, requi
         {placeholder}
       </option>
       {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
+        <option key={option.value} value={option.value}>
+          {option.label}
         </option>
       ))}
     </select>

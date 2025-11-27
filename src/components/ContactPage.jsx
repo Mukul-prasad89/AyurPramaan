@@ -3,8 +3,142 @@ import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { contactService } from '../services/api'
 import { validateInput } from '../utils/security'
+import { useLanguage } from '../context/LanguageContext'
 
 const ContactPage = () => {
+  const { language } = useLanguage()
+
+  const contentMap = {
+    en: {
+      headerTitle: 'Get in Touch',
+      headerDescription:
+        'Ready to implement herbal traceability for your business? Contact our team of experts to learn more about our solutions.',
+      contactInfoTitle: 'Contact Information',
+      contactInfoIntro:
+        "We'd love to hear from you. Whether you're a farmer looking to join our network, a business interested in our technology, or a consumer with questions, we're here to help.",
+      contactMethods: [
+        { icon: Mail, title: 'Email Us', detail: 'info@herbaltrace.com', description: 'Send us an email anytime' },
+        { icon: Phone, title: 'Call Us', detail: '+1 (555) 123-4567', description: 'Monday to Friday, 9 AM to 6 PM EST' },
+        { icon: MapPin, title: 'Visit Us', detail: '123 Innovation Drive, Tech City, CA 90210', description: 'Our headquarters' }
+      ],
+      officeHoursTitle: 'Office Hours',
+      officeHours: [
+        { day: 'Monday - Friday', time: '9:00 AM - 6:00 PM' },
+        { day: 'Saturday', time: '10:00 AM - 4:00 PM' },
+        { day: 'Sunday', time: 'Closed' }
+      ],
+      formTitle: 'Send us a Message',
+      formFields: {
+        nameLabel: 'Your Name',
+        namePlaceholder: 'John Doe',
+        emailLabel: 'Email Address',
+        emailPlaceholder: 'john@example.com',
+        companyLabel: 'Company Name',
+        companyPlaceholder: 'Your Company (optional)',
+        messageLabel: 'Message',
+        messagePlaceholder: 'Tell us about your needs and how we can help...'
+      },
+      submitButton: 'Send Message',
+      submitLoading: 'Sending...',
+      submitErrorTitle: 'Submission Error',
+      validation: {
+        name: 'Please enter a valid name (2-50 characters, letters only)',
+        email: 'Please enter a valid email address',
+        message: 'Please enter a valid message (10-1000 characters)'
+      },
+      faqTitle: 'Frequently Asked Questions',
+      faqSubtitle: 'Common questions about our herbal traceability solutions',
+      faqItems: [
+        {
+          question: 'How does the tracking system work?',
+          answer: 'Our system uses blockchain technology to create an immutable record of every step in the herbal supply chain, from cultivation to final product.'
+        },
+        {
+          question: 'Is the data secure and private?',
+          answer: 'Yes, we use advanced encryption and blockchain security to ensure all data is protected while maintaining transparency for consumers.'
+        },
+        {
+          question: 'How can farmers join the network?',
+          answer: 'Farmers can apply through our partner program. We provide training and support to help implement our tracking systems.'
+        },
+        {
+          question: 'What types of herbs do you track?',
+          answer: 'We track all types of medicinal and culinary herbs, from common varieties like turmeric and ginseng to rare traditional herbs.'
+        }
+      ],
+      success: {
+        title: 'Message Sent!',
+        body: "Thank you for contacting us. We've received your message and will get back to you within 24 hours.",
+        button: 'Send Another Message'
+      }
+    },
+    hi: {
+      headerTitle: 'हमसे संपर्क करें',
+      headerDescription:
+        'क्या आप अपने व्यवसाय के लिए हर्बल ट्रैसेबिलिटी लागू करने के लिए तैयार हैं? हमारे समाधानों के बारे में अधिक जानने के लिए हमारी विशेषज्ञ टीम से संपर्क करें।',
+      contactInfoTitle: 'संपर्क जानकारी',
+      contactInfoIntro:
+        'हम आपसे सुनना पसंद करेंगे। चाहे आप हमारे नेटवर्क से जुड़ना चाहने वाले किसान हों, हमारी तकनीक में रुचि रखने वाले व्यवसाय हों या सवालों वाले उपभोक्ता, हम मदद के लिए यहाँ हैं।',
+      contactMethods: [
+        { icon: Mail, title: 'हमें ईमेल करें', detail: 'info@herbaltrace.com', description: 'किसी भी समय हमें ईमेल भेजें' },
+        { icon: Phone, title: 'हमें कॉल करें', detail: '+1 (555) 123-4567', description: 'सोमवार से शुक्रवार, सुबह 9 बजे से शाम 6 बजे (EST)' },
+        { icon: MapPin, title: 'हमसे मिलें', detail: '123 इनोवेशन ड्राइव, टेक सिटी, CA 90210', description: 'हमारा मुख्यालय' }
+      ],
+      officeHoursTitle: 'कार्यालय समय',
+      officeHours: [
+        { day: 'सोमवार - शुक्रवार', time: '09:00 पूर्वाह्न - 06:00 अपराह्न' },
+        { day: 'शनिवार', time: '10:00 पूर्वाह्न - 04:00 अपराह्न' },
+        { day: 'रविवार', time: 'बंद' }
+      ],
+      formTitle: 'हमें संदेश भेजें',
+      formFields: {
+        nameLabel: 'आपका नाम',
+        namePlaceholder: 'राहुल शर्मा',
+        emailLabel: 'ईमेल पता',
+        emailPlaceholder: 'rahul@example.com',
+        companyLabel: 'कंपनी का नाम',
+        companyPlaceholder: 'आपकी कंपनी (वैकल्पिक)',
+        messageLabel: 'संदेश',
+        messagePlaceholder: 'अपनी आवश्यकताओं के बारे में बताएं और हम कैसे सहायता कर सकते हैं...'
+      },
+      submitButton: 'संदेश भेजें',
+      submitLoading: 'भेजा जा रहा है...',
+      submitErrorTitle: 'सबमिशन त्रुटि',
+      validation: {
+        name: 'कृपया मान्य नाम दर्ज करें (2-50 अक्षर, केवल अक्षर)',
+        email: 'कृपया मान्य ईमेल पता दर्ज करें',
+        message: 'कृपया मान्य संदेश दर्ज करें (10-1000 अक्षर)'
+      },
+      faqTitle: 'अक्सर पूछे जाने वाले प्रश्न',
+      faqSubtitle: 'हमारे हर्बल ट्रैसेबिलिटी समाधानों से जुड़े सामान्य प्रश्न',
+      faqItems: [
+        {
+          question: 'ट्रैकिंग सिस्टम कैसे काम करता है?',
+          answer: 'हमारी प्रणाली ब्लॉकचेन तकनीक का उपयोग करती है ताकि हर्बल सप्लाई चेन के हर चरण का अपरिवर्तनीय रिकॉर्ड बनाया जा सके, खेती से लेकर अंतिम उत्पाद तक।'
+        },
+        {
+          question: 'क्या डेटा सुरक्षित और निजी है?',
+          answer: 'हाँ, हम उन्नत एन्क्रिप्शन और ब्लॉकचेन सुरक्षा का उपयोग करते हैं ताकि सभी डेटा सुरक्षित रहे और पारदर्शिता बनी रहे।'
+        },
+        {
+          question: 'किसान नेटवर्क में कैसे शामिल हो सकते हैं?',
+          answer: 'किसान हमारे पार्टनर प्रोग्राम के माध्यम से आवेदन कर सकते हैं। हम ट्रैकिंग प्रणालियों को लागू करने में प्रशिक्षण और सहायता प्रदान करते हैं।'
+        },
+        {
+          question: 'आप किन जड़ी-बूटियों को ट्रैक करते हैं?',
+          answer: 'हम सभी प्रकार की औषधीय और मसालेदार जड़ी-बूटियों को ट्रैक करते हैं, सामान्य किस्मों से लेकर दुर्लभ पारंपरिक जड़ी-बूटियों तक।'
+        }
+      ],
+      success: {
+        title: 'संदेश भेजा गया!',
+        body: 'हमसे संपर्क करने के लिए धन्यवाद। हमें आपका संदेश मिल गया है और हम 24 घंटों के भीतर उत्तर देंगे।',
+        button: 'एक और संदेश भेजें'
+      }
+    }
+  }
+
+  const content = contentMap[language] || contentMap.en
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,13 +149,12 @@ const ContactPage = () => {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-    
-    // Clear error when user starts typing
+  const handleInputChange = (event) => {
+    const { name, value } = event.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }))
+      setErrors((prev) => ({ ...prev, [name]: '' }))
     }
   }
 
@@ -29,47 +162,46 @@ const ContactPage = () => {
     const newErrors = {}
 
     if (!validateInput.name(formData.name)) {
-      newErrors.name = 'Please enter a valid name (2-50 characters, letters only)'
+      newErrors.name = content.validation.name
     }
-    
+
     if (!validateInput.email(formData.email)) {
-      newErrors.email = 'Please enter a valid email address'
+      newErrors.email = content.validation.email
     }
-    
+
     if (!validateInput.message(formData.message)) {
-      newErrors.message = 'Please enter a valid message (10-1000 characters)'
+      newErrors.message = content.validation.message
     }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
     if (!validateForm()) return
 
     setLoading(true)
-    
+
     try {
       await contactService.submitContactForm(formData)
       setSubmitted(true)
       setFormData({ name: '', email: '', company: '', message: '' })
-    } catch (err) {
-      setErrors({ submit: err.message })
+    } catch (error) {
+      setErrors({ submit: error.message })
     } finally {
       setLoading(false)
     }
   }
 
   if (submitted) {
-    return <ContactSuccess onReset={() => setSubmitted(false)} />
+    return <ContactSuccess content={content.success} onReset={() => setSubmitted(false)} />
   }
 
   return (
     <div className="min-h-screen pt-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -78,16 +210,14 @@ const ContactPage = () => {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Get in Touch
+            {content.headerTitle}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Ready to implement herbal traceability for your business? 
-            Contact our team of experts to learn more about our solutions.
+            {content.headerDescription}
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          
           {/* Contact Information */}
           <motion.div
             className="space-y-8"
@@ -96,51 +226,34 @@ const ContactPage = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="card p-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Contact Information</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">{content.contactInfoTitle}</h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                We'd love to hear from you. Whether you're a farmer looking to join our network, 
-                a business interested in our technology, or a consumer with questions, 
-                we're here to help.
+                {content.contactInfoIntro}
               </p>
 
               <div className="space-y-6">
-                <ContactMethod
-                  icon={Mail}
-                  title="Email Us"
-                  detail="info@herbaltrace.com"
-                  description="Send us an email anytime"
-                />
-                <ContactMethod
-                  icon={Phone}
-                  title="Call Us"
-                  detail="+1 (555) 123-4567"
-                  description="Monday to Friday, 9 AM to 6 PM EST"
-                />
-                <ContactMethod
-                  icon={MapPin}
-                  title="Visit Us"
-                  detail="123 Innovation Drive, Tech City, CA 90210"
-                  description="Our headquarters"
-                />
+                {content.contactMethods.map((method) => (
+                  <ContactMethod
+                    key={method.title}
+                    icon={method.icon}
+                    title={method.title}
+                    detail={method.detail}
+                    description={method.description}
+                  />
+                ))}
               </div>
             </div>
 
             {/* Office Hours */}
             <div className="card p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Office Hours</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{content.officeHoursTitle}</h3>
               <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Monday - Friday</span>
-                  <span className="font-medium">9:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Saturday</span>
-                  <span className="font-medium">10:00 AM - 4:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Sunday</span>
-                  <span className="font-medium">Closed</span>
-                </div>
+                {content.officeHours.map((item) => (
+                  <div key={item.day} className="flex justify-between">
+                    <span className="text-gray-600">{item.day}</span>
+                    <span className="font-medium">{item.time}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -152,51 +265,50 @@ const ContactPage = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <div className="card p-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Send us a Message</h2>
-              
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">{content.formTitle}</h2>
+
               <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-                
                 <FormField
-                  label="Your Name"
+                  label={content.formFields.nameLabel}
                   name="name"
                   type="text"
                   value={formData.name}
                   onChange={handleInputChange}
                   error={errors.name}
                   required
-                  placeholder="John Doe"
+                  placeholder={content.formFields.namePlaceholder}
                 />
 
                 <FormField
-                  label="Email Address"
+                  label={content.formFields.emailLabel}
                   name="email"
                   type="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   error={errors.email}
                   required
-                  placeholder="john@example.com"
+                  placeholder={content.formFields.emailPlaceholder}
                 />
 
                 <FormField
-                  label="Company Name"
+                  label={content.formFields.companyLabel}
                   name="company"
                   type="text"
                   value={formData.company}
                   onChange={handleInputChange}
                   error={errors.company}
-                  placeholder="Your Company (optional)"
+                  placeholder={content.formFields.companyPlaceholder}
                 />
 
                 <FormField
-                  label="Message"
+                  label={content.formFields.messageLabel}
                   name="message"
                   type="textarea"
                   value={formData.message}
                   onChange={handleInputChange}
                   error={errors.message}
                   required
-                  placeholder="Tell us about your needs and how we can help..."
+                  placeholder={content.formFields.messagePlaceholder}
                   rows={5}
                 />
 
@@ -208,7 +320,7 @@ const ContactPage = () => {
                   >
                     <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h4 className="font-medium text-red-800">Submission Error</h4>
+                      <h4 className="font-medium text-red-800">{content.submitErrorTitle}</h4>
                       <p className="text-red-700 text-sm">{errors.submit}</p>
                     </div>
                   </motion.div>
@@ -226,7 +338,7 @@ const ContactPage = () => {
                   ) : (
                     <Send className="h-5 w-5" />
                   )}
-                  <span>{loading ? 'Sending...' : 'Send Message'}</span>
+                  <span>{loading ? content.submitLoading : content.submitButton}</span>
                 </motion.button>
               </form>
             </div>
@@ -242,31 +354,14 @@ const ContactPage = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-gray-600">
-              Common questions about our herbal traceability solutions
-            </p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{content.faqTitle}</h2>
+            <p className="text-xl text-gray-600">{content.faqSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <FAQItem
-              question="How does the tracking system work?"
-              answer="Our system uses blockchain technology to create an immutable record of every step in the herbal supply chain, from cultivation to final product."
-            />
-            <FAQItem
-              question="Is the data secure and private?"
-              answer="Yes, we use advanced encryption and blockchain security to ensure all data is protected while maintaining transparency for consumers."
-            />
-            <FAQItem
-              question="How can farmers join the network?"
-              answer="Farmers can apply through our partner program. We provide training and support to help implement our tracking systems."
-            />
-            <FAQItem
-              question="What types of herbs do you track?"
-              answer="We track all types of medicinal and culinary herbs, from common varieties like turmeric and ginseng to rare traditional herbs."
-            />
+            {content.faqItems.map((item) => (
+              <FAQItem key={item.question} question={item.question} answer={item.answer} />
+            ))}
           </div>
         </motion.div>
       </div>
@@ -344,7 +439,7 @@ const FAQItem = ({ question, answer }) => (
   </motion.div>
 )
 
-const ContactSuccess = ({ onReset }) => (
+const ContactSuccess = ({ content, onReset }) => (
   <div className="min-h-screen pt-20 bg-gray-50 flex items-center">
     <div className="max-w-md mx-auto px-4">
       <motion.div
@@ -362,17 +457,14 @@ const ContactSuccess = ({ onReset }) => (
           <CheckCircle className="h-8 w-8 text-white" />
         </motion.div>
         
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Message Sent!</h2>
-        <p className="text-gray-600 mb-6 leading-relaxed">
-          Thank you for contacting us. We've received your message and will get back to you 
-          within 24 hours.
-        </p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">{content.title}</h2>
+        <p className="text-gray-600 mb-6 leading-relaxed">{content.body}</p>
         
         <button
           onClick={onReset}
           className="btn-primary"
         >
-          Send Another Message
+          {content.button}
         </button>
       </motion.div>
     </div>

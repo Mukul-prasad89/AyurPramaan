@@ -14,6 +14,7 @@ import LaboratoryLandingPage from './components/laboratory/LaboratoryLandingPage
 import RegulatorLandingPage from './components/regulator/RegulatorLandingPage'
 import ManufacturerLandingPage from './components/manufacturer/ManufacturerLandingPage'
 import AdminLandingPage from './components/admin/AdminLandingPage'
+import ScrollToTop from './components/common/ScrollToTop'
 
 function App() {
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
@@ -37,6 +38,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar onOpenSignUp={handleOpenSignUp} onOpenSignIn={handleOpenSignIn} />
+      <ScrollToTop />
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />

@@ -3,8 +3,62 @@ import { motion } from 'framer-motion'
 import { Search, QrCode, Shield, Clock, Leaf, Package } from 'lucide-react'
 import { trackingService } from '../services/api'
 import { debounce } from '../utils/security'
+import { useLanguage } from '../context/LanguageContext'
 
 const TrackingPage = () => {
+  const { language } = useLanguage()
+
+  const contentMap = {
+    en: {
+      headerTitle: 'Track Your Herbal Product',
+      headerDescription:
+        'Enter your product code or scan QR code to see the complete journey of your herbal product from farm to your hands.',
+      formTitle: 'Enter Tracking Information',
+      codeLabel: 'Tracking Code',
+      codePlaceholder: 'Enter tracking code (e.g., HT-TUR-2024-001)',
+      trackButton: 'Track',
+      trackingButton: 'Tracking...',
+      qrButton: 'Scan QR Code',
+      orDivider: 'or',
+      sampleCodesTitle: 'Try Sample Codes',
+      missingCodeError: 'Please enter a tracking code',
+      errorTitle: 'Tracking Error',
+      emptyTitle: 'Ready to Track',
+      emptyDescription:
+        'Enter a tracking code or use one of the sample codes to see detailed traceability information.',
+      verifiedLabel: 'Verified',
+      batchLabel: 'Batch',
+      journeyTitle: 'Journey Timeline',
+      certificatesTitle: 'Certificates',
+      labResultsTitle: 'Lab Results'
+    },
+    hi: {
+      headerTitle: 'अपना हर्बल उत्पाद ट्रैक करें',
+      headerDescription:
+        'अपने उत्पाद का कोड दर्ज करें या क्यूआर कोड स्कैन करें और देखें कि आपकी जड़ी-बूटी खेत से आपके हाथों तक कैसे पहुँची।',
+      formTitle: 'ट्रैकिंग जानकारी दर्ज करें',
+      codeLabel: 'ट्रैकिंग कोड',
+      codePlaceholder: 'ट्रैकिंग कोड दर्ज करें (उदा., HT-TUR-2024-001)',
+      trackButton: 'ट्रैक',
+      trackingButton: 'ट्रैक किया जा रहा है...',
+      qrButton: 'क्यूआर कोड स्कैन करें',
+      orDivider: 'या',
+      sampleCodesTitle: 'नमूना कोड आज़माएं',
+      missingCodeError: 'कृपया ट्रैकिंग कोड दर्ज करें',
+      errorTitle: 'ट्रैकिंग त्रुटि',
+      emptyTitle: 'ट्रैक करने के लिए तैयार',
+      emptyDescription:
+        'विस्तृत ट्रैसेबिलिटी जानकारी देखने के लिए ट्रैकिंग कोड दर्ज करें या नमूना कोड का उपयोग करें।',
+      verifiedLabel: 'सत्यापित',
+      batchLabel: 'बैच',
+      journeyTitle: 'यात्रा समयरेखा',
+      certificatesTitle: 'प्रमाणपत्र',
+      labResultsTitle: 'प्रयोगशाला परिणाम'
+    }
+  }
+
+  const content = contentMap[language] || contentMap.en
+
   const [trackingCode, setTrackingCode] = useState('')
   const [trackingResult, setTrackingResult] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -12,7 +66,7 @@ const TrackingPage = () => {
 
   const handleTrack = async (code = trackingCode) => {
     if (!code.trim()) {
-      setError('Please enter a tracking code')
+      setError(content.missingCodeError)
       return
     }
 
@@ -57,11 +111,10 @@ const TrackingPage = () => {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Track Your Herbal Product
+            {content.headerTitle}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Enter your product code or scan QR code to see the complete journey 
-            of your herbal product from farm to your hands.
+            {content.headerDescription}
           </p>
         </motion.div>
 
@@ -75,12 +128,12 @@ const TrackingPage = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="card p-8">
-              <h2 className="text-2xl font-semibold mb-6">Enter Tracking Information</h2>
+              <h2 className="text-2xl font-semibold mb-6">{content.formTitle}</h2>
               
               <div className="space-y-6">
                 <div>
                   <label htmlFor="trackingCode" className="block text-sm font-medium text-gray-700 mb-2">
-                    Tracking Code
+                    {content.codeLabel}
                   </label>
                   <div className="flex gap-3">
                     <input
@@ -88,7 +141,7 @@ const TrackingPage = () => {
                       id="trackingCode"
                       value={trackingCode}
                       onChange={handleInputChange}
-                      placeholder="Enter tracking code (e.g., HT-TUR-2024-001)"
+                      placeholder={content.codePlaceholder}
                       className="input-field flex-1"
                       maxLength={15}
                     />
@@ -104,13 +157,13 @@ const TrackingPage = () => {
                       ) : (
                         <Search className="h-5 w-5" />
                       )}
-                      <span>{loading ? 'Tracking...' : 'Track'}</span>
+                      <span>{loading ? content.trackingButton : content.trackButton}</span>
                     </motion.button>
                   </div>
                 </div>
 
                 <div className="text-center">
-                  <div className="text-gray-500 text-sm mb-4">or</div>
+                  <div className="text-gray-500 text-sm mb-4">{content.orDivider}</div>
                   <motion.button
                     className="w-full btn-secondary flex items-center justify-center space-x-2"
                     whileHover={{ scale: 1.02 }}
@@ -118,7 +171,7 @@ const TrackingPage = () => {
                     onClick={() => alert('QR Scanner would open here in a real app')}
                   >
                     <QrCode className="h-5 w-5" />
-                    <span>Scan QR Code</span>
+                    <span>{content.qrButton}</span>
                   </motion.button>
                 </div>
               </div>
@@ -126,7 +179,7 @@ const TrackingPage = () => {
 
             {/* Sample Codes */}
             <div className="card p-6">
-              <h3 className="text-lg font-semibold mb-4">Try Sample Codes</h3>
+              <h3 className="text-lg font-semibold mb-4">{content.sampleCodesTitle}</h3>
               <div className="grid grid-cols-1 gap-2">
                 {trackingService.getSampleCodes().map((code) => (
                   <motion.button
@@ -160,7 +213,7 @@ const TrackingPage = () => {
                     <span className="text-white text-sm">!</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-red-800">Tracking Error</h3>
+                    <h3 className="font-semibold text-red-800">{content.errorTitle}</h3>
                     <p className="text-red-600">{error}</p>
                   </div>
                 </div>
@@ -168,16 +221,14 @@ const TrackingPage = () => {
             )}
 
             {trackingResult ? (
-              <TrackingResult data={trackingResult} />
+              <TrackingResult data={trackingResult} content={content} />
             ) : (
               <div className="card p-8 text-center">
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="h-12 w-12 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Ready to Track</h3>
-                <p className="text-gray-600">
-                  Enter a tracking code or use one of the sample codes to see detailed traceability information.
-                </p>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{content.emptyTitle}</h3>
+                <p className="text-gray-600">{content.emptyDescription}</p>
               </div>
             )}
           </motion.div>
@@ -188,7 +239,7 @@ const TrackingPage = () => {
 }
 
 // Tracking Result Component
-const TrackingResult = ({ data }) => (
+const TrackingResult = ({ data, content }) => (
   <motion.div
     className="space-y-6"
     initial={{ opacity: 0, y: 30 }}
@@ -208,12 +259,12 @@ const TrackingResult = ({ data }) => (
             <h3 className="text-xl font-semibold text-gray-900">{data.name}</h3>
             <div className="flex items-center space-x-1 text-green-600">
               <Shield className="h-4 w-4" />
-              <span className="text-sm font-medium">Verified</span>
+              <span className="text-sm font-medium">{content.verifiedLabel}</span>
             </div>
           </div>
           <p className="text-gray-600 mb-2">{data.grade}</p>
           <div className="inline-block bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
-            Batch: {data.id}
+            {content.batchLabel}: {data.id}
           </div>
         </div>
       </div>
@@ -223,7 +274,7 @@ const TrackingResult = ({ data }) => (
     <div className="card p-6">
       <h4 className="text-lg font-semibold mb-6 flex items-center space-x-2">
         <Clock className="h-5 w-5 text-primary-600" />
-        <span>Journey Timeline</span>
+        <span>{content.journeyTitle}</span>
       </h4>
       
       <div className="space-y-4">
@@ -256,7 +307,7 @@ const TrackingResult = ({ data }) => (
     {/* Certificates & Lab Results */}
     <div className="grid md:grid-cols-2 gap-6">
       <div className="card p-6">
-        <h4 className="text-lg font-semibold mb-4">Certificates</h4>
+        <h4 className="text-lg font-semibold mb-4">{content.certificatesTitle}</h4>
         <div className="space-y-2">
           {data.certificates.map((cert, index) => (
             <div key={index} className="flex items-center space-x-2">
@@ -268,7 +319,7 @@ const TrackingResult = ({ data }) => (
       </div>
 
       <div className="card p-6">
-        <h4 className="text-lg font-semibold mb-4">Lab Results</h4>
+        <h4 className="text-lg font-semibold mb-4">{content.labResultsTitle}</h4>
         <div className="space-y-2">
           {Object.entries(data.lab_results).map(([key, value]) => (
             <div key={key} className="flex justify-between text-sm">
