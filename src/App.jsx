@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import HomePage from './components/HomePage'
 import TrackingPage from './components/TrackingPage'
 import ProcessPage from './components/ProcessPage'
+import OfferingPage from './components/OfferingPage'
 import AboutPage from './components/AboutPage'
 import ContactPage from './components/ContactPage'
 import Footer from './components/Footer'
@@ -44,6 +45,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/track" element={<TrackingPage />} />
           <Route path="/process" element={<ProcessPage />} />
+          <Route path="/offerings" element={<OfferingPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/farmer" element={<FarmerLandingPage />} />

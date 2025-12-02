@@ -43,8 +43,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
         brand: 'हर्बल ट्रेस',
         navLinks: [
           { path: '/', label: 'मुखपृष्ठ' },
-          { path: '/track', label: 'ट्रैक' },
-          { path: '/process', label: 'प्रक्रिया' },
+          { path: '/offerings', label: 'प्रसाद' },
           { path: '/about', label: 'हमारे बारे में' },
           { path: '/contact', label: 'संपर्क' }
         ],
@@ -64,9 +63,8 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
         brand: 'Herbal Trace',
         navLinks: [
           { path: '/', label: 'Home' },
-          { path: '/track', label: 'Track' },
-          { path: '/process', label: 'Process' },
-          { path: '/about', label: 'About' },
+          { path: '/offerings', label: 'Offerings' },
+          { path: '/about', label: 'About us' },
           { path: '/contact', label: 'Contact' }
         ],
         roleTitle: 'Role Consoles',
@@ -120,7 +118,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                 className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
                   location.pathname === link.path
                     ? 'text-primary-600'
-                    : 'text-gray-700 hover:text-primary-600'
+                    : 'text-black hover:text-primary-600'
                 }`}
               >
                 {link.label}
@@ -132,7 +130,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                 type="button"
                 onClick={() => setIsRolesOpen((prev) => !prev)}
                 className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-1 ${
-                  isRolesOpen ? 'text-primary-600' : 'text-gray-700 hover:text-primary-600'
+                  isRolesOpen ? 'text-primary-600' : 'text-black hover:text-primary-600'
                 }`}
               >
                 <span>{navContent.roleTitle}</span>
@@ -170,7 +168,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
             <button
               type="button"
               onClick={toggleLanguage}
-              className="px-3 py-2 text-sm font-semibold text-gray-700 hover:text-primary-600 transition-colors"
+              className="px-3 py-2 text-sm font-semibold text-black hover:text-primary-600 transition-colors"
             >
               {navContent.languageToggle}
             </button>
@@ -198,7 +196,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            className="md:hidden p-2 rounded-lg text-black hover:bg-gray-100 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -234,7 +232,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                     className={`block px-3 py-2 rounded-lg text-base font-medium transition-colors ${
                       location.pathname === link.path
                         ? 'text-primary-600 bg-primary-50'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        : 'text-black hover:bg-gray-50'
                     }`}
                   >
                     {link.label}
@@ -250,7 +248,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                 <button
                   type="button"
                   onClick={() => setIsMobileRolesOpen((prev) => !prev)}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-50"
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-base font-medium text-black hover:bg-gray-50"
                 >
                   <span>{navContent.roleTitle}</span>
                   <motion.span animate={{ rotate: isMobileRolesOpen ? 180 : 0 }} className="inline-flex">

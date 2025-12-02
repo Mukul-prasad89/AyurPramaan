@@ -18,8 +18,8 @@ const ContactPage = () => {
         "We'd love to hear from you. Whether you're a farmer looking to join our network, a business interested in our technology, or a consumer with questions, we're here to help.",
       contactMethods: [
         { icon: Mail, title: 'Email Us', detail: 'info@herbaltrace.com', description: 'Send us an email anytime' },
-        { icon: Phone, title: 'Call Us', detail: '+1 (555) 123-4567', description: 'Monday to Friday, 9 AM to 6 PM EST' },
-        { icon: MapPin, title: 'Visit Us', detail: '123 Innovation Drive, Tech City, CA 90210', description: 'Our headquarters' }
+        { icon: Phone, title: 'Call Us', detail: '+91 98765 43210', description: 'Monday to Friday, 9 AM to 6 PM IST' },
+        { icon: MapPin, title: 'Visit Us', detail: '123 Innovation Hub, Sector 58, Gurugram, Haryana 122003', description: 'Our headquarters' }
       ],
       officeHoursTitle: 'Office Hours',
       officeHours: [
@@ -30,9 +30,9 @@ const ContactPage = () => {
       formTitle: 'Send us a Message',
       formFields: {
         nameLabel: 'Your Name',
-        namePlaceholder: 'John Doe',
+        namePlaceholder: 'Arjun Patel',
         emailLabel: 'Email Address',
-        emailPlaceholder: 'john@example.com',
+        emailPlaceholder: 'arjun@example.com',
         companyLabel: 'Company Name',
         companyPlaceholder: 'Your Company (optional)',
         messageLabel: 'Message',
@@ -81,8 +81,8 @@ const ContactPage = () => {
         'हम आपसे सुनना पसंद करेंगे। चाहे आप हमारे नेटवर्क से जुड़ना चाहने वाले किसान हों, हमारी तकनीक में रुचि रखने वाले व्यवसाय हों या सवालों वाले उपभोक्ता, हम मदद के लिए यहाँ हैं।',
       contactMethods: [
         { icon: Mail, title: 'हमें ईमेल करें', detail: 'info@herbaltrace.com', description: 'किसी भी समय हमें ईमेल भेजें' },
-        { icon: Phone, title: 'हमें कॉल करें', detail: '+1 (555) 123-4567', description: 'सोमवार से शुक्रवार, सुबह 9 बजे से शाम 6 बजे (EST)' },
-        { icon: MapPin, title: 'हमसे मिलें', detail: '123 इनोवेशन ड्राइव, टेक सिटी, CA 90210', description: 'हमारा मुख्यालय' }
+        { icon: Phone, title: 'हमें कॉल करें', detail: '+91 98765 43210', description: 'सोमवार से शुक्रवार, सुबह 9 बजे से शाम 6 बजे (IST)' },
+        { icon: MapPin, title: 'हमसे मिलें', detail: '123 इनोवेशन हब, सेक्टर 58, गुड़गांव, हरियाणा 122003', description: 'हमारा मुख्यालय' }
       ],
       officeHoursTitle: 'कार्यालय समय',
       officeHours: [

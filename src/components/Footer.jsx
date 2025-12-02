@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { Download } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
 const Footer = () => {
@@ -9,6 +10,7 @@ const Footer = () => {
     en: {
       brandLine: '\u00A9 2025 Herbal Trace. All rights reserved.',
       powerLine: 'Powered by blockchain technology for maximum transparency and security.',
+      downloadApp: 'Download Our Mobile App',
       links: [
         { label: 'Privacy Policy', href: '#' },
         { label: 'Terms & Conditions', href: '#' },
@@ -23,6 +25,7 @@ const Footer = () => {
     hi: {
       brandLine: '\u00A9 2025 हर्बल ट्रेस. सर्वाधिकार सुरक्षित.',
       powerLine: 'अधिकतम पारदर्शिता और सुरक्षा के लिए ब्लॉकचेन तकनीक द्वारा संचालित।',
+      downloadApp: 'हमारा मोबाइल ऐप डाउनलोड करें',
       links: [
         { label: 'गोपनीयता नीति', href: '#' },
         { label: 'नियम और शर्तें', href: '#' },
@@ -49,7 +52,7 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="flex flex-col items-center space-y-4 text-center">
+          <div className="flex flex-col items-center space-y-6 text-center">
             <div>
               <p className="text-gray-400">
                 {content.brandLine}
@@ -59,6 +62,7 @@ const Footer = () => {
               </p>
             </div>
 
+            {/* Links Section */}
             <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-400">
               {content.links.map((link, index) => (
                 <React.Fragment key={link.label}>
@@ -69,6 +73,21 @@ const Footer = () => {
                 </React.Fragment>
               ))}
             </div>
+
+            {/* Mobile App Download Button */}
+            <motion.div
+              className="mt-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <a 
+                href="#" 
+                className="inline-flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white rounded-xl font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                <Download className="h-5 w-5" />
+                <span>{content.downloadApp}</span>
+              </a>
+            </motion.div>
 
             <div className="flex items-center space-x-6 text-sm text-gray-400">
               {content.badges.map((badge) => (

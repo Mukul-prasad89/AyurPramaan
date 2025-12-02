@@ -1,32 +1,57 @@
 import React, { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Settings, Users, FilePieChart, ShieldAlert } from 'lucide-react'
-
-const sections = [
-  { key: 'profile', label: 'Profile Overview', icon: User },
-  { key: 'network', label: 'Network Operations', icon: Settings },
-  { key: 'users', label: 'User & Permissions', icon: Users },
-  { key: 'reports', label: 'Reports & Audits', icon: FilePieChart },
-  { key: 'governance', label: 'Governance', icon: ShieldAlert }
-]
-
-const adminProfile = {
-  adminName: 'Priya Desai',
-  role: 'Network Administrator',
-  organisation: 'Herbal Trace Initiative',
-  contact: '+91 90000 11223',
-  nodeCount: 7,
-  adminId: 'HT-ADM-1001'
-}
-
-const nodeStatus = [
-  { node: 'Validator-01', status: 'Online', version: 'v2.5.1', lastUpdated: '21 Nov 2025' },
-  { node: 'Validator-02', status: 'Syncing', version: 'v2.5.1', lastUpdated: '20 Nov 2025' },
-  { node: 'Observer-01', status: 'Online', version: 'v2.5.1', lastUpdated: '21 Nov 2025' }
-]
+import { 
+  User, 
+  Settings, 
+  Users, 
+  FilePieChart, 
+  ShieldAlert,
+  Activity,
+  Server,
+  Database,
+  Network,
+  TrendingUp,
+  TrendingDown,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Zap,
+  Globe,
+  Shield,
+  Code,
+  BarChart3,
+  Plus,
+  Search,
+  Filter,
+  MoreHorizontal,
+  Eye,
+  Edit,
+  Trash2,
+  X,
+  Download,
+  RefreshCw,
+  Cpu,
+  HardDrive,
+  Wifi,
+  Battery,
+  Leaf,
+  Tractor,
+  Beaker,
+  Factory,
+  Target,
+  Award,
+  Calendar,
+  Monitor,
+  Link,
+  GitBranch,
+  Key,
+  UserCheck
+} from 'lucide-react'
 
 const AdminLandingPage = () => {
-  const [activeSection, setActiveSection] = useState('profile')
+  const [activeTab, setActiveTab] = useState('overview')
+  const [selectedNode, setSelectedNode] = useState(null)
+  const [selectedUser, setSelectedUser] = useState(null)
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours()
@@ -35,153 +60,737 @@ const AdminLandingPage = () => {
     return 'Good evening'
   }, [])
 
+  const systemStats = [
+    { id: 1, title: 'Active Nodes', value: '12', change: '+2', trend: 'up', icon: Server, color: 'blue' },
+    { id: 2, title: 'Transactions/sec', value: '847', change: '+12.5%', trend: 'up', icon: Zap, color: 'green' },
+    { id: 3, title: 'System Uptime', value: '99.9%', change: '+0.1%', trend: 'up', icon: Activity, color: 'purple' },
+    { id: 4, title: 'Storage Used', value: '2.4TB', change: '+150GB', trend: 'up', icon: Database, color: 'orange' }
+  ]
+
+  const networkNodes = [
+    {
+      id: 'NODE-001',
+      name: 'Validator Primary',
+      type: 'Validator',
+      status: 'Online',
+      uptime: '99.9%',
+      version: 'v2.5.1',
+      location: 'Mumbai, India',
+      cpu: '45%',
+      memory: '67%',
+      network: '125 MB/s',
+      lastSync: '2025-12-02 14:30:25'
+    },
+    {
+      id: 'NODE-002',
+      name: 'Observer Node 1',
+      type: 'Observer',
+      status: 'Syncing',
+      uptime: '98.5%',
+      version: 'v2.5.0',
+      location: 'Delhi, India',
+      cpu: '78%',
+      memory: '82%',
+      network: '89 MB/s',
+      lastSync: '2025-12-02 14:25:10'
+    },
+    {
+      id: 'NODE-003',
+      name: 'API Gateway',
+      type: 'API',
+      status: 'Online',
+      uptime: '99.7%',
+      version: 'v2.5.1',
+      location: 'Bangalore, India',
+      cpu: '32%',
+      memory: '54%',
+      network: '245 MB/s',
+      lastSync: '2025-12-02 14:30:20'
+    }
+  ]
+
+  const userRoles = [
+    {
+      id: 1,
+      name: 'Rajesh Kumar',
+      email: 'rajesh@herbaltrace.com',
+      role: 'Farmer',
+      permissions: ['batch_create', 'batch_update'],
+      status: 'Active',
+      lastLogin: '2025-12-02 09:15',
+      location: 'Maharashtra'
+    },
+    {
+      id: 2,
+      name: 'Dr. Meera Singh',
+      email: 'meera@herbaltrace.com',
+      role: 'Lab Technician',
+      permissions: ['test_upload', 'certificate_issue', 'batch_approve'],
+      status: 'Active',
+      lastLogin: '2025-12-02 11:30',
+      location: 'Karnataka'
+    },
+    {
+      id: 3,
+      name: 'Anita Iyer',
+      email: 'anita@herbaltrace.com',
+      role: 'Manufacturer',
+      permissions: ['process_create', 'qr_generate', 'inventory_manage'],
+      status: 'Active',
+      lastLogin: '2025-12-01 16:45',
+      location: 'Tamil Nadu'
+    }
+  ]
+
+  const sustainabilityKPIs = [
+    { metric: 'Carbon Footprint Reduction', value: '23%', target: '25%', progress: 92, icon: Leaf },
+    { metric: 'Farmer Income Increase', value: '18%', target: '20%', progress: 90, icon: Tractor },
+    { metric: 'Lab Processing Efficiency', value: '96.2%', target: '95%', progress: 101, icon: Beaker },
+    { metric: 'Manufacturing Efficiency', value: '94.8%', target: '93%', progress: 102, icon: Factory }
+  ]
+
+  const smartContracts = [
+    {
+      name: 'HerbalTraceCore',
+      version: 'v2.5.1',
+      deployedAt: '0x742...a8f3',
+      status: 'Active',
+      transactions: '12,847',
+      gasUsed: '2.3M'
+    },
+    {
+      name: 'QualityTest',
+      version: 'v1.8.2',
+      deployedAt: '0x9d4...c2e1',
+      status: 'Active',
+      transactions: '8,293',
+      gasUsed: '1.7M'
+    },
+    {
+      name: 'ProcessingStep',
+      version: 'v1.6.0',
+      deployedAt: '0x1a5...f9b2',
+      status: 'Pending Update',
+      transactions: '5,749',
+      gasUsed: '1.2M'
+    }
+  ]
+
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-[280px_1fr] gap-8">
-          <aside className="bg-white rounded-2xl shadow-custom-light border border-gray-100 p-6 space-y-6">
+    <div className="min-h-screen bg-gray-50 pt-20">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm uppercase text-gray-400 tracking-wide">Navigation</p>
-              <h2 className="text-xl font-semibold text-gray-900">Admin Console</h2>
+              <h1 className="text-2xl font-bold text-gray-900">{greeting}, Priya Desai</h1>
+              <p className="text-gray-600">Network Administrator - Herbal Trace Initiative</p>
             </div>
-            <nav className="space-y-2">
-              {sections.map(({ key, label, icon: Icon }) => {
-                const isActive = activeSection === key
-                return (
-                  <motion.button
-                    key={key}
-                    type="button"
-                    onClick={() => setActiveSection(key)}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-colors font-medium ${
-                      isActive
-                        ? 'bg-primary-50 text-primary-700 shadow-custom-light'
-                        : 'text-gray-600 hover:bg-gray-100'
-                    }`}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Icon className="h-5 w-5" />
-                    <span>{label}</span>
-                  </motion.button>
-                )
-              })}
-            </nav>
-          </aside>
-
-          <section className="space-y-8">
-            <header className="bg-white rounded-2xl shadow-custom-light border border-gray-100 p-6">
-              <h1 className="text-2xl font-semibold text-gray-900">{greeting}, {adminProfile.adminName} 👋</h1>
-              <p className="text-gray-600 mt-2">Oversee the Herbal Trace network, smart contracts, and platform governance.</p>
-            </header>
-
-            <AnimatePresence mode="wait">
-              {activeSection === 'profile' && (
-                <motion.div
-                  key="profile"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl shadow-custom-light border border-gray-100 p-6"
-                >
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Profile Overview</h2>
-                  <dl className="grid sm:grid-cols-2 gap-4 text-gray-700">
-                    <ProfileRow label="Administrator ID" value={adminProfile.adminId} />
-                    <ProfileRow label="Name" value={adminProfile.adminName} />
-                    <ProfileRow label="Role" value={adminProfile.role} />
-                    <ProfileRow label="Organisation" value={adminProfile.organisation} />
-                    <ProfileRow label="Contact" value={adminProfile.contact} />
-                    <ProfileRow label="Active Nodes" value={`${adminProfile.nodeCount}`} />
-                  </dl>
-                </motion.div>
-              )}
-
-              {activeSection === 'network' && (
-                <motion.div
-                  key="network"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl shadow-custom-light border border-gray-100 p-6"
-                >
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Network Operations</h2>
-                  <p className="text-gray-600 mb-6">Monitor validator health, software versions, and network uptime.</p>
-                  <div className="space-y-4">
-                    {nodeStatus.map((node) => (
-                      <div key={node.node} className="p-4 border border-gray-100 rounded-xl bg-gray-50">
-                        <p className="text-gray-800 font-semibold">{node.node}</p>
-                        <p className="text-sm text-gray-500">Status: {node.status}</p>
-                        <p className="text-sm text-gray-500">Version: {node.version}</p>
-                        <p className="text-sm text-gray-500">Last updated: {node.lastUpdated}</p>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-
-              {activeSection === 'users' && (
-                <motion.div
-                  key="users"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl shadow-custom-light border border-gray-100 p-6 space-y-4"
-                >
-                  <h2 className="text-xl font-semibold text-gray-900">User & Permission Management</h2>
-                  <p className="text-gray-600">Configure role-based access, suspend accounts, or escalate privileges.</p>
-                  <div className="h-32 border-2 border-dashed border-primary-200 rounded-xl flex items-center justify-center text-primary-500 font-semibold">
-                    Access control dashboard coming soon
-                  </div>
-                </motion.div>
-              )}
-
-              {activeSection === 'reports' && (
-                <motion.div
-                  key="reports"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl shadow-custom-light border border-gray-100 p-6 space-y-4"
-                >
-                  <h2 className="text-xl font-semibold text-gray-900">Reports & Audits</h2>
-                  <p className="text-gray-600">Generate compliance reports, analytics dashboards, and audit trails.</p>
-                  <div className="h-32 border-2 border-dashed border-amber-200 rounded-xl flex items-center justify-center text-amber-600 font-semibold">
-                    Reporting suite integration pending
-                  </div>
-                </motion.div>
-              )}
-
-              {activeSection === 'governance' && (
-                <motion.div
-                  key="governance"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl shadow-custom-light border border-gray-100 p-6 space-y-4"
-                >
-                  <h2 className="text-xl font-semibold text-gray-900">Governance & Smart Contracts</h2>
-                  <p className="text-gray-600">Control network upgrades, contract versions, and validator onboarding.</p>
-                  <div className="h-32 border-2 border-dashed border-emerald-200 rounded-xl flex items-center justify-center text-emerald-600 font-semibold">
-                    Governance actions module coming soon
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </section>
+            <div className="flex items-center space-x-4">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-primary-600 text-white px-4 py-2 rounded-xl font-semibold flex items-center space-x-2 hover:bg-primary-700 transition-colors"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Add Node</span>
+              </motion.button>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* System Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {systemStats.map((stat) => (
+            <motion.div
+              key={stat.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: stat.id * 0.1 }}
+              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
+            >
+              <div className="flex items-center justify-between">
+                <div className={`p-3 rounded-xl bg-${stat.color}-100`}>
+                  <stat.icon className={`h-6 w-6 text-${stat.color}-600`} />
+                </div>
+                <span className={`text-sm font-medium ${
+                  stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                }`}>
+                  {stat.change}
+                </span>
+              </div>
+              <div className="mt-4">
+                <h3 className="text-2xl font-bold text-gray-900">{stat.value}</h3>
+                <p className="text-gray-600 text-sm">{stat.title}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex space-x-1 bg-gray-100 rounded-xl p-1 mb-8">
+          {[
+            { id: 'overview', label: 'System Overview', icon: BarChart3 },
+            { id: 'nodes', label: 'Network Nodes', icon: Server },
+            { id: 'users', label: 'User Management', icon: Users },
+            { id: 'contracts', label: 'Smart Contracts', icon: Code },
+            { id: 'integrations', label: 'Integrations', icon: Link },
+            { id: 'sustainability', label: 'Sustainability KPIs', icon: Leaf }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                activeTab === tab.id
+                  ? 'bg-white text-primary-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <tab.icon className="h-4 w-4" />
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'overview' && (
+            <motion.div
+              key="overview"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="grid lg:grid-cols-3 gap-8"
+            >
+              <SystemHealthOverview />
+              <TransactionThroughput />
+              <RecentActivities />
+            </motion.div>
+          )}
+
+          {activeTab === 'nodes' && (
+            <motion.div
+              key="nodes"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-2xl shadow-sm border border-gray-100"
+            >
+              <NetworkNodeManagement nodes={networkNodes} onSelectNode={setSelectedNode} />
+            </motion.div>
+          )}
+
+          {activeTab === 'users' && (
+            <motion.div
+              key="users"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-2xl shadow-sm border border-gray-100"
+            >
+              <UserRoleManagement users={userRoles} onSelectUser={setSelectedUser} />
+            </motion.div>
+          )}
+
+          {activeTab === 'contracts' && (
+            <motion.div
+              key="contracts"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
+            >
+              <SmartContractManagement contracts={smartContracts} />
+            </motion.div>
+          )}
+
+          {activeTab === 'integrations' && (
+            <motion.div
+              key="integrations"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-8"
+            >
+              <IntegrationControlPanel />
+            </motion.div>
+          )}
+
+          {activeTab === 'sustainability' && (
+            <motion.div
+              key="sustainability"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-8"
+            >
+              <SustainabilityDashboard kpis={sustainabilityKPIs} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Modals */}
+      <AnimatePresence>
+        {selectedNode && (
+          <NodeDetailModal node={selectedNode} onClose={() => setSelectedNode(null)} />
+        )}
+        {selectedUser && (
+          <UserDetailModal user={selectedUser} onClose={() => setSelectedUser(null)} />
+        )}
+      </AnimatePresence>
     </div>
   )
 }
 
-const ProfileRow = ({ label, value }) => (
-  <div className="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3">
-    <dt className="text-xs uppercase tracking-wide text-gray-400 mb-1">{label}</dt>
-    <dd className="text-gray-800 font-medium">{value}</dd>
+// System Health Overview Component
+const SystemHealthOverview = () => (
+  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+    <h2 className="text-xl font-semibold text-gray-900 mb-6">System Health</h2>
+    <div className="space-y-4">
+      {[
+        { label: 'Blockchain Sync', status: 'Healthy', value: '100%', color: 'green' },
+        { label: 'API Response', status: 'Good', value: '245ms', color: 'blue' },
+        { label: 'Database Load', status: 'Normal', value: '67%', color: 'yellow' },
+        { label: 'Storage Space', status: 'Healthy', value: '76% Free', color: 'green' }
+      ].map((item) => (
+        <div key={item.label} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+          <div>
+            <p className="font-medium text-gray-900">{item.label}</p>
+            <p className="text-sm text-gray-600">{item.value}</p>
+          </div>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium bg-${item.color}-100 text-${item.color}-700`}>
+            {item.status}
+          </span>
+        </div>
+      ))}
+    </div>
   </div>
+)
+
+// Transaction Throughput Component
+const TransactionThroughput = () => (
+  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+    <h2 className="text-xl font-semibold text-gray-900 mb-6">Transaction Throughput</h2>
+    <div className="h-48 flex items-center justify-center border-2 border-dashed border-gray-200 rounded-xl">
+      <p className="text-gray-500">Real-time chart placeholder</p>
+    </div>
+    <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+      <div>
+        <p className="text-gray-600">Peak TPS</p>
+        <p className="font-bold text-2xl text-green-600">1,247</p>
+      </div>
+      <div>
+        <p className="text-gray-600">Avg Response</p>
+        <p className="font-bold text-2xl text-blue-600">125ms</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Recent Activities Component
+const RecentActivities = () => (
+  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+    <h2 className="text-xl font-semibold text-gray-900 mb-6">Recent Activities</h2>
+    <div className="space-y-4">
+      {[
+        { action: 'Smart contract updated', time: '5 min ago', icon: Code, color: 'blue' },
+        { action: 'New node joined network', time: '15 min ago', icon: Server, color: 'green' },
+        { action: 'User role modified', time: '1 hour ago', icon: Users, color: 'purple' },
+        { action: 'System backup completed', time: '2 hours ago', icon: Database, color: 'gray' }
+      ].map((activity, index) => (
+        <div key={index} className="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg">
+          <div className={`p-2 rounded-lg bg-${activity.color}-100`}>
+            <activity.icon className={`h-4 w-4 text-${activity.color}-600`} />
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-gray-900">{activity.action}</p>
+            <p className="text-xs text-gray-600">{activity.time}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)
+
+// Network Node Management Component
+const NetworkNodeManagement = ({ nodes, onSelectNode }) => (
+  <div>
+    <div className="p-6 border-b border-gray-100">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-gray-900">Network Nodes</h2>
+        <div className="flex items-center space-x-3">
+          <button className="flex items-center space-x-2 px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50">
+            <RefreshCw className="h-4 w-4" />
+            <span className="text-sm">Refresh</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div className="p-6">
+      <div className="space-y-4">
+        {nodes.map((node) => (
+          <motion.div
+            key={node.id}
+            whileHover={{ scale: 1.01 }}
+            className="p-6 border border-gray-200 rounded-xl hover:shadow-md transition-all cursor-pointer"
+            onClick={() => onSelectNode(node)}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center space-x-4 mb-3">
+                  <h3 className="font-semibold text-gray-900">{node.name}</h3>
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                    {node.type}
+                  </span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    node.status === 'Online' ? 'bg-green-100 text-green-700' :
+                    node.status === 'Syncing' ? 'bg-yellow-100 text-yellow-700' :
+                    'bg-red-100 text-red-700'
+                  }`}>
+                    {node.status}
+                  </span>
+                </div>
+                <div className="grid md:grid-cols-4 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-500">Location</p>
+                    <p className="font-medium">{node.location}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">CPU Usage</p>
+                    <p className="font-medium">{node.cpu}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Memory</p>
+                    <p className="font-medium">{node.memory}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Network</p>
+                    <p className="font-medium">{node.network}</p>
+                  </div>
+                </div>
+              </div>
+              <button className="p-2 hover:bg-gray-100 rounded-lg">
+                <MoreHorizontal className="h-4 w-4 text-gray-400" />
+              </button>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </div>
+)
+
+// User Role Management Component
+const UserRoleManagement = ({ users, onSelectUser }) => (
+  <div>
+    <div className="p-6 border-b border-gray-100">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-gray-900">User & Role Management</h2>
+        <div className="flex items-center space-x-3">
+          <div className="relative">
+            <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search users..."
+              className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            />
+          </div>
+          <button className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm">
+            Add User
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div className="p-6">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Last Login</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {users.map((user) => (
+              <tr key={user.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4">
+                  <div>
+                    <p className="font-medium text-gray-900">{user.name}</p>
+                    <p className="text-sm text-gray-600">{user.email}</p>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-700">
+                    {user.role}
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                    {user.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-600">{user.lastLogin}</td>
+                <td className="px-6 py-4">
+                  <div className="flex space-x-2">
+                    <button className="p-1 hover:bg-gray-100 rounded" onClick={() => onSelectUser(user)}>
+                      <Eye className="h-4 w-4 text-gray-500" />
+                    </button>
+                    <button className="p-1 hover:bg-gray-100 rounded">
+                      <Edit className="h-4 w-4 text-gray-500" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+)
+
+// Smart Contract Management Component
+const SmartContractManagement = ({ contracts }) => (
+  <div>
+    <h2 className="text-xl font-semibold text-gray-900 mb-6">Smart Contract Management</h2>
+    <div className="space-y-4">
+      {contracts.map((contract) => (
+        <div key={contract.name} className="p-4 border border-gray-200 rounded-xl">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="font-semibold text-gray-900">{contract.name}</h3>
+              <p className="text-sm text-gray-600">Version {contract.version}</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                contract.status === 'Active' ? 'bg-green-100 text-green-700' :
+                'bg-yellow-100 text-yellow-700'
+              }`}>
+                {contract.status}
+              </span>
+              <button className="bg-primary-600 text-white px-3 py-1 rounded text-xs hover:bg-primary-700">
+                Update
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-4 text-sm">
+            <div>
+              <p className="text-gray-500">Contract Address</p>
+              <p className="font-mono">{contract.deployedAt}</p>
+            </div>
+            <div>
+              <p className="text-gray-500">Transactions</p>
+              <p className="font-medium">{contract.transactions}</p>
+            </div>
+            <div>
+              <p className="text-gray-500">Gas Used</p>
+              <p className="font-medium">{contract.gasUsed}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)
+
+// Integration Control Panel Component
+const IntegrationControlPanel = () => (
+  <div className="grid lg:grid-cols-2 gap-8">
+    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">ERP Integrations</h3>
+      <div className="space-y-3">
+        {['SAP S/4HANA', 'Oracle ERP', 'Microsoft Dynamics', 'Custom ERP'].map((erp) => (
+          <div key={erp} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+            <span className="font-medium">{erp}</span>
+            <div className="flex items-center space-x-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+              <span className="text-sm text-gray-600">Connected</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">IoT & API Management</h3>
+      <div className="space-y-3">
+        {['Sensor Network API', 'Weather Data API', 'Transportation API', 'Laboratory API'].map((api) => (
+          <div key={api} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+            <span className="font-medium">{api}</span>
+            <div className="flex items-center space-x-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+              <span className="text-sm text-gray-600">Active</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+)
+
+// Sustainability Dashboard Component
+const SustainabilityDashboard = ({ kpis }) => (
+  <div className="space-y-8">
+    <div className="grid lg:grid-cols-2 gap-8">
+      {kpis.map((kpi) => (
+        <div key={kpi.metric} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center space-x-4 mb-4">
+            <div className="p-3 bg-green-100 rounded-xl">
+              <kpi.icon className="h-6 w-6 text-green-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">{kpi.metric}</h3>
+              <div className="flex items-center space-x-4">
+                <span className="text-2xl font-bold text-primary-600">{kpi.value}</span>
+                <span className="text-sm text-gray-600">Target: {kpi.target}</span>
+              </div>
+            </div>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-3">
+            <div 
+              className="bg-primary-600 h-3 rounded-full transition-all duration-300"
+              style={{ width: `${Math.min(kpi.progress, 100)}%` }}
+            />
+          </div>
+          <p className="text-sm text-gray-600 mt-2">{kpi.progress}% of target achieved</p>
+        </div>
+      ))}
+    </div>
+    
+    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance Analytics</h3>
+      <div className="grid md:grid-cols-3 gap-6">
+        <div className="text-center">
+          <div className="text-2xl font-bold text-blue-600 mb-2">847</div>
+          <div className="text-sm text-gray-600">Active Farmers</div>
+        </div>
+        <div className="text-center">
+          <div className="text-2xl font-bold text-green-600 mb-2">96.2%</div>
+          <div className="text-sm text-gray-600">Lab Reliability Score</div>
+        </div>
+        <div className="text-center">
+          <div className="text-2xl font-bold text-purple-600 mb-2">94.8%</div>
+          <div className="text-sm text-gray-600">Processing Efficiency</div>
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
+// Modal Components
+const NodeDetailModal = ({ node, onClose }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+    onClick={onClose}
+  >
+    <motion.div
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      className="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">Node Details - {node.name}</h2>
+        <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+      
+      <div className="space-y-4">
+        <div className="grid md:grid-cols-2 gap-4">
+          {Object.entries(node).filter(([key]) => key !== 'id').map(([key, value]) => (
+            <div key={key}>
+              <label className="text-sm font-medium text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1')}</label>
+              <p className="font-semibold">{value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div className="flex space-x-3 mt-6 pt-6 border-t border-gray-200">
+        <button className="flex-1 bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition-colors">
+          Restart Node
+        </button>
+        <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+          View Logs
+        </button>
+      </div>
+    </motion.div>
+  </motion.div>
+)
+
+const UserDetailModal = ({ user, onClose }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+    onClick={onClose}
+  >
+    <motion.div
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      className="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">User Details - {user.name}</h2>
+        <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+      
+      <div className="space-y-4">
+        <div className="grid md:grid-cols-2 gap-4">
+          {Object.entries(user).filter(([key]) => key !== 'id' && key !== 'permissions').map(([key, value]) => (
+            <div key={key}>
+              <label className="text-sm font-medium text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1')}</label>
+              <p className="font-semibold">{value}</p>
+            </div>
+          ))}
+        </div>
+        
+        <div>
+          <label className="text-sm font-medium text-gray-500">Permissions</label>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {user.permissions.map((permission) => (
+              <span key={permission} className="px-2 py-1 bg-primary-50 text-primary-700 text-xs rounded-md">
+                {permission}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex space-x-3 mt-6 pt-6 border-t border-gray-200">
+        <button className="flex-1 bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition-colors">
+          Edit Permissions
+        </button>
+        <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+          View Activity
+        </button>
+      </div>
+    </motion.div>
+  </motion.div>
 )
 
 export default AdminLandingPage

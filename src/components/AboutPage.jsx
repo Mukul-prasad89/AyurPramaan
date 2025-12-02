@@ -1,14 +1,21 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Users, Award, Target, Leaf, TrendingUp, Shield, Globe, Heart } from 'lucide-react'
+import { Users, Award, Target, Leaf, TrendingUp, Shield, Globe, Heart, Code, Smartphone, PenTool, Lightbulb, Monitor, Palette } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+
+// Import team member photos
+import kunalPhoto from '../assets/kunal.jpeg'
+import manasPhoto from '../assets/manas.jpeg'
+import avinashPhoto from '../assets/avinash.jpeg'
+import shreyaPhoto from '../assets/shreya.jpeg'
+import mukulPhoto from '../assets/mukul.jpeg'
 
 const AboutPage = () => {
   const { language } = useLanguage()
 
   const contentMap = {
     en: {
-      headerTitle: 'About Herbal Trace',
+      headerTitle: 'About us',
       headerDescription:
         'Revolutionizing the herbal industry through blockchain-powered traceability, ensuring complete transparency from seed to final product.',
       missionTitle: 'Our Mission',
@@ -16,8 +23,8 @@ const AboutPage = () => {
         'Herbal Trace was founded with a simple yet powerful mission: to bring complete transparency and trust to the herbal supply chain. We believe that consumers have the right to know exactly where their herbal products come from and how they are produced.',
         'Through cutting-edge blockchain technology and comprehensive tracking systems, we ensure that every step of the herbal product journey is documented, verified, and accessible to consumers.'
       ],
-      awardTitle: 'Award-Winning Technology',
-      awardDescription: 'Recognized for innovation in supply chain transparency',
+      
+      
       cardTitle: 'From Farm to Consumer',
       cardDescription: 'Every product tells a story of quality, care, and traditional wisdom.',
       statsHeading: 'Our Impact by the Numbers',
@@ -178,14 +185,7 @@ const AboutPage = () => {
                 {paragraph}
               </p>
             ))}
-            
-            <div className="flex items-center space-x-4">
-              <Award className="h-12 w-12 text-primary-500" />
-              <div>
-                <h3 className="font-semibold text-gray-900">{content.awardTitle}</h3>
-                <p className="text-gray-600">{content.awardDescription}</p>
-              </div>
-            </div>
+
           </div>
 
           <motion.div
@@ -209,41 +209,6 @@ const AboutPage = () => {
               </div>
             </div>
           </motion.div>
-        </motion.div>
-
-        {/* Stats Section */}
-        <motion.div
-          className="mb-20"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="card p-8 md:p-12">
-            <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-              {content.statsHeading}
-            </h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {content.stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                >
-                  <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <stat.icon className="h-8 w-8 text-primary-600" />
-                  </div>
-                  <div className="text-3xl md:text-4xl font-bold text-primary-600 mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-gray-600 font-medium">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
         </motion.div>
 
         {/* Values Section */}
@@ -290,51 +255,214 @@ const AboutPage = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="grid lg:grid-cols-3 gap-8 items-center">
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                {content.teamHeading}
-              </h2>
-              {content.teamParagraphs.map((paragraph, index) => (
-                <p
-                  key={index}
-                  className={`text-lg text-gray-600 leading-relaxed ${
-                    index === content.teamParagraphs.length - 1 ? 'mb-8' : 'mb-6'
-                  }`}
-                >
-                  {paragraph}
-                </p>
-              ))}
-              
-              <div className="grid grid-cols-2 gap-6">
-                {content.teamStats.map((stat) => (
-                  <div key={stat.label} className="text-center">
-                    <div className="text-2xl font-bold text-primary-600">{stat.value}</div>
-                    <div className="text-gray-600">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Meet Our Team
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Meet the passionate individuals behind Herbal Trace who are revolutionizing the herbal industry through innovative technology and dedication to transparency.
+            </p>
+          </div>
 
+          <div className="space-y-16">
+            {/* Kunal - Team Leader (1st - Description Left, Image Right) */}
             <motion.div
-              className="relative"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              className="grid md:grid-cols-2 gap-8 items-center"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
             >
-              <div className="card p-6">
-                <img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=300&fit=crop"
-                  alt="Our team"
-                  className="w-full h-60 object-cover rounded-lg mb-4"
-                />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {content.teamCardTitle}
-                  </h3>
-                  <p className="text-gray-600">
-                    {content.teamCardDescription}
-                  </p>
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <Code className="h-6 w-6 text-blue-600" />
+                  <h3 className="text-2xl font-bold text-gray-900">Kunal</h3>
+                  <span className="text-sm text-blue-600 bg-blue-50 px-3 py-1 rounded-full font-medium">Team Leader</span>
+                </div>
+                <p className="text-lg text-gray-600 mb-4 font-medium">Blockchain Architect & Application Development</p>
+                <p className="text-gray-600 leading-relaxed">
+                  Visionary leader who spearheads the entire application development and serves as the master architect of our blockchain infrastructure, ensuring complete transparency across the herbal supply chain. His expertise in distributed systems and agricultural technology drives our innovation forward.
+                </p>
+              </div>
+              <div className="relative">
+                <div className="relative overflow-hidden rounded-2xl">
+                  <img
+                    src={kunalPhoto}
+                    alt="Kunal - Team Leader"
+                    className="w-full h-80 object-cover"
+                  />
+                  <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+                    <Award className="h-4 w-4 text-white" />
+                  </div>
+                </div>
               </div>
             </motion.div>
+
+            {/* Manas - Frontend Developer (2nd - Image Left, Description Right) */}
+            <motion.div
+              className="grid md:grid-cols-2 gap-8 items-center"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="relative">
+                <div className="relative overflow-hidden rounded-2xl">
+                  <img
+                    src={manasPhoto}
+                    alt="Manas - Frontend Developer"
+                    className="w-full h-80 object-cover"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <Monitor className="h-6 w-6 text-green-600" />
+                  <h3 className="text-2xl font-bold text-gray-900">Manas</h3>
+                  <span className="text-sm text-green-600 bg-green-50 px-3 py-1 rounded-full font-medium">Frontend Developer</span>
+                </div>
+                <p className="text-lg text-gray-600 mb-4 font-medium">User Interface Development</p>
+                <p className="text-gray-600 leading-relaxed">
+                  Creates intuitive and responsive user interfaces that make complex blockchain technology accessible to farmers, processors, and consumers with exceptional attention to detail. His designs ensure seamless user experiences across all stakeholder platforms.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Avinash - Mobile Developer (3rd - Description Left, Image Right) */}
+            <motion.div
+              className="grid md:grid-cols-2 gap-8 items-center"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <Smartphone className="h-6 w-6 text-purple-600" />
+                  <h3 className="text-2xl font-bold text-gray-900">Avinash</h3>
+                  <span className="text-sm text-purple-600 bg-purple-50 px-3 py-1 rounded-full font-medium">Mobile Developer</span>
+                </div>
+                <p className="text-lg text-gray-600 mb-4 font-medium">Mobile Application Development</p>
+                <p className="text-gray-600 leading-relaxed">
+                  Develops powerful mobile solutions that bring herbal traceability directly to farmers' hands, enabling real-time data collection and GPS tracking in remote areas. His mobile applications bridge the digital divide in rural agricultural communities.
+                </p>
+              </div>
+              <div className="relative">
+                <div className="relative overflow-hidden rounded-2xl">
+                  <img
+                    src={avinashPhoto}
+                    alt="Avinash - Mobile App Developer"
+                    className="w-full h-80 object-cover"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Shreya - Research Writer (4th - Image Left, Description Right) */}
+            <motion.div
+              className="grid md:grid-cols-2 gap-8 items-center"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="relative">
+                <div className="relative overflow-hidden rounded-2xl">
+                  <img
+                    src={shreyaPhoto}
+                    alt="Shreya - Research & Content Writer"
+                    className="w-full h-80 object-cover"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <PenTool className="h-6 w-6 text-orange-600" />
+                  <h3 className="text-2xl font-bold text-gray-900">Shreya</h3>
+                  <span className="text-sm text-orange-600 bg-orange-50 px-3 py-1 rounded-full font-medium">Research Writer</span>
+                </div>
+                <p className="text-lg text-gray-600 mb-4 font-medium">Research & Content Development</p>
+                <p className="text-gray-600 leading-relaxed">
+                  Conducts extensive research on herbal industry practices and creates compelling content that bridges traditional knowledge with modern technology for diverse audiences. Her work ensures our platform reflects authentic herbal industry needs and practices.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Tanvi - UI/UX Designer (5th - Description Left, Image Right) */}
+            <motion.div
+              className="grid md:grid-cols-2 gap-8 items-center"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <Palette className="h-6 w-6 text-pink-600" />
+                  <h3 className="text-2xl font-bold text-gray-900">Tanvi</h3>
+                  <span className="text-sm text-pink-600 bg-pink-50 px-3 py-1 rounded-full font-medium">UI/UX Designer</span>
+                </div>
+                <p className="text-lg text-gray-600 mb-4 font-medium">Design & Business Strategy</p>
+                <p className="text-gray-600 leading-relaxed">
+                  Leads UI/UX design initiatives and business model development, creating innovative interface components and researching market strategies for commercial viability. Her design philosophy ensures our platform is both beautiful and highly functional.
+                </p>
+              </div>
+              <div className="relative">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center h-80">
+                  <span className="text-8xl font-bold text-pink-600">T</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Mukul - Frontend Developer (6th - Image Left, Description Right) */}
+            <motion.div
+              className="grid md:grid-cols-2 gap-8 items-center"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="relative">
+                <div className="relative overflow-hidden rounded-2xl">
+                  <img
+                    src={mukulPhoto}
+                    alt="Mukul - Frontend Developer"
+                    className="w-full h-80 object-cover"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <Lightbulb className="h-6 w-6 text-teal-600" />
+                  <h3 className="text-2xl font-bold text-gray-900">Mukul</h3>
+                  <span className="text-sm text-teal-600 bg-teal-50 px-3 py-1 rounded-full font-medium">Frontend Developer</span>
+                </div>
+                <p className="text-lg text-gray-600 mb-4 font-medium">Frontend Development & Optimization</p>
+                <p className="text-gray-600 leading-relaxed">
+                  Contributes to frontend development by implementing innovative features and optimizing user interactions, ensuring smooth performance across different devices. His technical expertise helps create responsive and engaging user experiences.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Team Stats */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="p-4">
+              <div className="text-3xl font-bold text-primary-600 mb-2">6</div>
+              <div className="text-gray-600">Team Members</div>
+            </div>
+            <div className="p-4">
+              <div className="text-3xl font-bold text-primary-600 mb-2">5+</div>
+              <div className="text-gray-600">Specializations</div>
+            </div>
+            <div className="p-4">
+              <div className="text-3xl font-bold text-primary-600 mb-2">100%</div>
+              <div className="text-gray-600">Dedication</div>
+            </div>
+            <div className="p-4">
+              <div className="text-3xl font-bold text-primary-600 mb-2">24/7</div>
+              <div className="text-gray-600">Innovation</div>
+            </div>
           </div>
         </motion.div>
 
