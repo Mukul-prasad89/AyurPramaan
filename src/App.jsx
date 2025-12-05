@@ -7,6 +7,7 @@ import ProcessPage from './components/ProcessPage'
 import OfferingPage from './components/OfferingPage'
 import AboutPage from './components/AboutPage'
 import ContactPage from './components/ContactPage'
+import TeamFullscreenPage from './components/TeamFullscreenPage'
 import Footer from './components/Footer'
 import SignUpModal from './components/SignUpModal'
 import SignInModal from './components/SignInModal'
@@ -38,26 +39,36 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar onOpenSignUp={handleOpenSignUp} onOpenSignIn={handleOpenSignIn} />
-      <ScrollToTop />
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/track" element={<TrackingPage />} />
-          <Route path="/process" element={<ProcessPage />} />
-          <Route path="/offerings" element={<OfferingPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/farmer" element={<FarmerLandingPage />} />
-          <Route path="/laboratory" element={<LaboratoryLandingPage />} />
-          <Route path="/regulator" element={<RegulatorLandingPage />} />
-          <Route path="/manufacturer" element={<ManufacturerLandingPage />} />
-          <Route path="/admin" element={<AdminLandingPage />} />
-        </Routes>
-      </main>
-      <Footer />
-      <SignUpModal isOpen={isSignUpOpen} onClose={handleCloseModals} onSwitchToSignIn={handleOpenSignIn} />
-      <SignInModal isOpen={isSignInOpen} onClose={handleCloseModals} onSwitchToSignUp={handleOpenSignUp} />
+      <Routes>
+        {/* Fullscreen routes without navbar/footer */}
+        <Route path="/team" element={<TeamFullscreenPage />} />
+        <Route path="/farmer" element={<FarmerLandingPage />} />
+        <Route path="/laboratory" element={<LaboratoryLandingPage />} />
+        <Route path="/regulator" element={<RegulatorLandingPage />} />
+        <Route path="/manufacturer" element={<ManufacturerLandingPage />} />
+        <Route path="/admin" element={<AdminLandingPage />} />
+        
+        {/* Regular routes with navbar/footer */}
+        <Route path="/*" element={
+          <>
+            <Navbar onOpenSignUp={handleOpenSignUp} onOpenSignIn={handleOpenSignIn} />
+            <ScrollToTop />
+            <main>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/track" element={<TrackingPage />} />
+                <Route path="/process" element={<ProcessPage />} />
+                <Route path="/offerings" element={<OfferingPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+              </Routes>
+            </main>
+            <Footer />
+            <SignUpModal isOpen={isSignUpOpen} onClose={handleCloseModals} onSwitchToSignIn={handleOpenSignIn} />
+            <SignInModal isOpen={isSignInOpen} onClose={handleCloseModals} onSwitchToSignUp={handleOpenSignUp} />
+          </>
+        } />
+      </Routes>
     </div>
   )
 }

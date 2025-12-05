@@ -7,10 +7,7 @@ import { useLanguage } from '../context/LanguageContext'
 const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isRolesOpen, setIsRolesOpen] = useState(false)
-  const [isMobileRolesOpen, setIsMobileRolesOpen] = useState(false)
   const { language, setLanguage } = useLanguage()
-  const rolesMenuRef = useRef(null)
   const location = useLocation()
 
   useEffect(() => {
@@ -23,20 +20,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
 
   useEffect(() => {
     setIsMenuOpen(false)
-    setIsRolesOpen(false)
-    setIsMobileRolesOpen(false)
   }, [location])
-
-  useEffect(() => {
-    if (!isRolesOpen) return
-    const handleClickOutside = (event) => {
-      if (rolesMenuRef.current && !rolesMenuRef.current.contains(event.target)) {
-        setIsRolesOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isRolesOpen])
 
   const navContent = language === 'hi'
     ? {
@@ -46,14 +30,6 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
           { path: '/offerings', label: 'प्रसाद' },
           { path: '/about', label: 'हमारे बारे में' },
           { path: '/contact', label: 'संपर्क' }
-        ],
-        roleTitle: 'भूमिका पैनल',
-        roleLinks: [
-          { path: '/farmer', label: 'किसान कार्यक्षेत्र' },
-          { path: '/laboratory', label: 'प्रयोगशाला कंसोल' },
-          { path: '/regulator', label: 'निरीक्षक कंसोल' },
-          { path: '/manufacturer', label: 'निर्माता कंसोल' },
-          { path: '/admin', label: 'प्रशासक कंसोल' }
         ],
         signIn: 'साइन इन',
         signUp: 'रजिस्टर',
@@ -66,14 +42,6 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
           { path: '/offerings', label: 'Offerings' },
           { path: '/about', label: 'About us' },
           { path: '/contact', label: 'Contact' }
-        ],
-        roleTitle: 'Role Consoles',
-        roleLinks: [
-          { path: '/farmer', label: 'Farmer Workspace' },
-          { path: '/laboratory', label: 'Laboratory Console' },
-          { path: '/regulator', label: 'Regulator Console' },
-          { path: '/manufacturer', label: 'Manufacturer Console' },
-          { path: '/admin', label: 'Admin Console' }
         ],
         signIn: 'Sign in',
         signUp: 'Sign up',
@@ -124,46 +92,6 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                 {link.label}
               </Link>
             ))}
-
-            <div className="relative" ref={rolesMenuRef}>
-              <button
-                type="button"
-                onClick={() => setIsRolesOpen((prev) => !prev)}
-                className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-1 ${
-                  isRolesOpen ? 'text-primary-600' : 'text-black hover:text-primary-600'
-                }`}
-              >
-                <span>{navContent.roleTitle}</span>
-                <motion.span animate={{ rotate: isRolesOpen ? 180 : 0 }} className="inline-flex">
-                  <ChevronDown className="h-4 w-4" />
-                </motion.span>
-              </button>
-
-              <AnimatePresence>
-                {isRolesOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute right-0 mt-3 w-56 rounded-xl border border-gray-100 bg-white shadow-custom-light py-2"
-                  >
-                    {navContent.roleLinks.map((role) => (
-                      <Link
-                        key={role.path}
-                        to={role.path}
-                        className={`block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 ${
-                          location.pathname === role.path ? 'bg-primary-50 text-primary-600' : ''
-                        }`}
-                        onClick={() => setIsRolesOpen(false)}
-                      >
-                        {role.label}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
 
             <button
               type="button"
@@ -239,49 +167,6 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                   </Link>
                 </motion.div>
               ))}
-              
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navContent.navLinks.length * 0.1 }}
-              >
-                <button
-                  type="button"
-                  onClick={() => setIsMobileRolesOpen((prev) => !prev)}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-base font-medium text-black hover:bg-gray-50"
-                >
-                  <span>{navContent.roleTitle}</span>
-                  <motion.span animate={{ rotate: isMobileRolesOpen ? 180 : 0 }} className="inline-flex">
-                    <ChevronDown className="h-4 w-4" />
-                  </motion.span>
-                </button>
-                <AnimatePresence>
-                  {isMobileRolesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="mt-2 space-y-2 pl-4"
-                    >
-                      {navContent.roleLinks.map((role) => (
-                        <Link
-                          key={role.path}
-                          to={role.path}
-                          className={`block px-3 py-2 rounded-lg text-sm font-medium ${
-                            location.pathname === role.path
-                              ? 'text-primary-600 bg-primary-50'
-                              : 'text-gray-600 hover:bg-gray-100'
-                          }`}
-                          onClick={() => setIsMobileRolesOpen(false)}
-                        >
-                          {role.label}
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, x: -20 }}

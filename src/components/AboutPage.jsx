@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Users, Award, Target, Leaf, TrendingUp, Shield, Globe, Heart, Code, Smartphone, PenTool, Lightbulb, Monitor, Palette } from 'lucide-react'
+import { Users, Award, Target, Leaf, TrendingUp, Shield, Globe, Heart, Code, Smartphone, PenTool, Lightbulb, Monitor, Palette, ChevronLeft, ChevronRight, Quote, ExternalLink } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import { Link } from 'react-router-dom'
 
 // Import team member photos
 import kunalPhoto from '../assets/kunal.jpeg'
@@ -9,9 +10,94 @@ import manasPhoto from '../assets/manas.jpeg'
 import avinashPhoto from '../assets/avinash.jpeg'
 import shreyaPhoto from '../assets/shreya.jpeg'
 import mukulPhoto from '../assets/mukul.jpeg'
+import tanviPhoto from '../assets/tanvi.jpeg'
 
 const AboutPage = () => {
   const { language } = useLanguage()
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  // Team members data for testimonial slider
+  const teamMembers = [
+    {
+      name: 'Kunal Kumar Dubey',
+      role: 'Team Leader',
+      title: 'Blockchain Architect & Application Development',
+      photo: kunalPhoto,
+      testimonial: 'Leading the vision of complete supply chain transparency through innovative blockchain architecture. My passion lies in bridging traditional herbal knowledge with cutting-edge technology to create solutions that benefit farmers and consumers alike.',
+      color: 'blue',
+      icon: Code
+    },
+    {
+      name: 'Manas Sharma',
+      role: 'Frontend Developer',
+      title: 'User Interface Development',
+      photo: manasPhoto,
+      testimonial: 'Creating intuitive interfaces that make complex blockchain technology accessible to everyone. I believe that great design should make powerful technology feel effortless and natural for all users.',
+      color: 'green',
+      icon: Monitor
+    },
+    {
+      name: 'Avinash Verma',
+      role: 'Mobile Developer',
+      title: 'Mobile Application Development',
+      photo: avinashPhoto,
+      testimonial: 'Developing mobile solutions that bring herbal traceability directly to farmers\' hands. My goal is to bridge the digital divide and empower rural communities with technology that works everywhere.',
+      color: 'purple',
+      icon: Smartphone
+    },
+    {
+      name: 'Shreya Srivastav',
+      role: 'Research Writer',
+      title: 'Research & Content Development',
+      photo: shreyaPhoto,
+      testimonial: 'Bridging traditional herbal wisdom with modern technology through comprehensive research and compelling content. I ensure our platform truly reflects the authentic needs of the herbal industry.',
+      color: 'orange',
+      icon: PenTool
+    },
+    {
+      name: 'Tanvi Gupta',
+      role: 'UI/UX Designer',
+      title: 'Design & Business Strategy',
+      photo: tanviPhoto,
+      testimonial: 'Designing experiences that are both beautiful and highly functional. My focus is on creating user-centric designs that make herbal traceability accessible and engaging for all stakeholders.',
+      color: 'pink',
+      icon: Palette
+    },
+    {
+      name: 'Mukul Prasad',
+      role: 'Frontend Developer',
+      title: 'Frontend Development & Optimization',
+      photo: mukulPhoto,
+      testimonial: 'Implementing innovative features and optimizing user interactions to ensure seamless experiences across all devices. I\'m passionate about creating responsive and engaging interfaces.',
+      color: 'teal',
+      icon: Lightbulb
+    }
+  ]
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % teamMembers.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + teamMembers.length) % teamMembers.length)
+  }
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const getColorClasses = (color) => {
+    const colors = {
+      blue: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600', badge: 'bg-blue-50' },
+      green: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-600', badge: 'bg-green-50' },
+      purple: { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-600', badge: 'bg-purple-50' },
+      orange: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-600', badge: 'bg-orange-50' },
+      pink: { bg: 'bg-pink-50', border: 'border-pink-200', text: 'text-pink-600', badge: 'bg-pink-50' },
+      teal: { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-600', badge: 'bg-teal-50' }
+    }
+    return colors[color] || colors.blue
+  }
 
   const contentMap = {
     en: {
@@ -247,7 +333,7 @@ const AboutPage = () => {
           </div>
         </motion.div>
 
-        {/* Team Section */}
+        {/* Team Testimonial Slider */}
         <motion.div
           className="mb-20"
           initial={{ opacity: 0, y: 30 }}
@@ -259,190 +345,124 @@ const AboutPage = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Meet Our Team
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-6">
               Meet the passionate individuals behind Herbal Trace who are revolutionizing the herbal industry through innovative technology and dedication to transparency.
             </p>
+            
+            {/* Full Screen Team Button */}
+            <Link to="/team">
+              <motion.button
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-green-600 text-white px-6 py-3 rounded-full font-semibold hover:from-primary-700 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ExternalLink className="h-5 w-5" />
+                <span>View Team in Full Screen</span>
+              </motion.button>
+            </Link>
           </div>
 
-          <div className="space-y-16">
-            {/* Kunal - Team Leader (1st - Description Left, Image Right) */}
-            <motion.div
-              className="grid md:grid-cols-2 gap-8 items-center"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <div>
-                <div className="flex items-center space-x-3 mb-4">
-                  <Code className="h-6 w-6 text-blue-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">Kunal</h3>
-                  <span className="text-sm text-blue-600 bg-blue-50 px-3 py-1 rounded-full font-medium">Team Leader</span>
-                </div>
-                <p className="text-lg text-gray-600 mb-4 font-medium">Blockchain Architect & Application Development</p>
-                <p className="text-gray-600 leading-relaxed">
-                  Visionary leader who spearheads the entire application development and serves as the master architect of our blockchain infrastructure, ensuring complete transparency across the herbal supply chain. His expertise in distributed systems and agricultural technology drives our innovation forward.
-                </p>
-              </div>
-              <div className="relative">
-                <div className="relative overflow-hidden rounded-2xl">
-                  <img
-                    src={kunalPhoto}
-                    alt="Kunal - Team Leader"
-                    className="w-full h-80 object-cover"
-                  />
-                  <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
-                    <Award className="h-4 w-4 text-white" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+          {/* Testimonial Slider */}
+          <div className="relative max-w-4xl mx-auto">
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-50 to-white shadow-2xl">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
+                className="p-8 md:p-12"
+              >
+                {(() => {
+                  const member = teamMembers[currentSlide]
+                  const colors = getColorClasses(member.color)
+                  const Icon = member.icon
+                  
+                  return (
+                    <div className="grid md:grid-cols-2 gap-8 items-center">
+                      {/* Image Section */}
+                      <div className="relative">
+                        <div className={`absolute inset-0 ${colors.bg} rounded-2xl transform rotate-3`}></div>
+                        <div className="relative">
+                          <img
+                            src={member.photo}
+                            alt={`${member.name} - ${member.role}`}
+                            className="w-full h-80 object-cover rounded-2xl shadow-lg"
+                          />
+                          <div className={`absolute top-4 right-4 w-12 h-12 ${colors.bg} ${colors.border} border-2 rounded-full flex items-center justify-center shadow-lg`}>
+                            <Icon className={`h-6 w-6 ${colors.text}`} />
+                          </div>
+                        </div>
+                      </div>
 
-            {/* Manas - Frontend Developer (2nd - Image Left, Description Right) */}
-            <motion.div
-              className="grid md:grid-cols-2 gap-8 items-center"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="relative">
-                <div className="relative overflow-hidden rounded-2xl">
-                  <img
-                    src={manasPhoto}
-                    alt="Manas - Frontend Developer"
-                    className="w-full h-80 object-cover"
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center space-x-3 mb-4">
-                  <Monitor className="h-6 w-6 text-green-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">Manas</h3>
-                  <span className="text-sm text-green-600 bg-green-50 px-3 py-1 rounded-full font-medium">Frontend Developer</span>
-                </div>
-                <p className="text-lg text-gray-600 mb-4 font-medium">User Interface Development</p>
-                <p className="text-gray-600 leading-relaxed">
-                  Creates intuitive and responsive user interfaces that make complex blockchain technology accessible to farmers, processors, and consumers with exceptional attention to detail. His designs ensure seamless user experiences across all stakeholder platforms.
-                </p>
-              </div>
-            </motion.div>
+                      {/* Content Section */}
+                      <div className="space-y-6">
+                        <div className="relative">
+                          <Quote className="absolute -top-2 -left-2 h-8 w-8 text-gray-200" />
+                          <blockquote className="text-lg text-gray-700 leading-relaxed italic pl-6">
+                            "{member.testimonial}"
+                          </blockquote>
+                        </div>
 
-            {/* Avinash - Mobile Developer (3rd - Description Left, Image Right) */}
-            <motion.div
-              className="grid md:grid-cols-2 gap-8 items-center"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <div>
-                <div className="flex items-center space-x-3 mb-4">
-                  <Smartphone className="h-6 w-6 text-purple-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">Avinash</h3>
-                  <span className="text-sm text-purple-600 bg-purple-50 px-3 py-1 rounded-full font-medium">Mobile Developer</span>
-                </div>
-                <p className="text-lg text-gray-600 mb-4 font-medium">Mobile Application Development</p>
-                <p className="text-gray-600 leading-relaxed">
-                  Develops powerful mobile solutions that bring herbal traceability directly to farmers' hands, enabling real-time data collection and GPS tracking in remote areas. His mobile applications bridge the digital divide in rural agricultural communities.
-                </p>
-              </div>
-              <div className="relative">
-                <div className="relative overflow-hidden rounded-2xl">
-                  <img
-                    src={avinashPhoto}
-                    alt="Avinash - Mobile App Developer"
-                    className="w-full h-80 object-cover"
-                  />
-                </div>
-              </div>
-            </motion.div>
+                        <div className="space-y-3">
+                          <div className="flex items-center space-x-3">
+                            <h3 className="text-2xl font-bold text-gray-900">{member.name}</h3>
+                            <span className={`text-sm ${colors.text} ${colors.badge} px-3 py-1 rounded-full font-medium`}>
+                              {member.role}
+                            </span>
+                          </div>
+                          <p className={`text-lg font-medium ${colors.text}`}>
+                            {member.title}
+                          </p>
+                        </div>
 
-            {/* Shreya - Research Writer (4th - Image Left, Description Right) */}
-            <motion.div
-              className="grid md:grid-cols-2 gap-8 items-center"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="relative">
-                <div className="relative overflow-hidden rounded-2xl">
-                  <img
-                    src={shreyaPhoto}
-                    alt="Shreya - Research & Content Writer"
-                    className="w-full h-80 object-cover"
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center space-x-3 mb-4">
-                  <PenTool className="h-6 w-6 text-orange-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">Shreya</h3>
-                  <span className="text-sm text-orange-600 bg-orange-50 px-3 py-1 rounded-full font-medium">Research Writer</span>
-                </div>
-                <p className="text-lg text-gray-600 mb-4 font-medium">Research & Content Development</p>
-                <p className="text-gray-600 leading-relaxed">
-                  Conducts extensive research on herbal industry practices and creates compelling content that bridges traditional knowledge with modern technology for diverse audiences. Her work ensures our platform reflects authentic herbal industry needs and practices.
-                </p>
-              </div>
-            </motion.div>
+                        {/* Rating Stars */}
+                        <div className="flex items-center space-x-1">
+                          {[...Array(5)].map((_, i) => (
+                            <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })()}
+              </motion.div>
+            </div>
 
-            {/* Tanvi - UI/UX Designer (5th - Description Left, Image Right) */}
-            <motion.div
-              className="grid md:grid-cols-2 gap-8 items-center"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+            {/* Navigation Buttons */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+              aria-label="Previous testimonial"
             >
-              <div>
-                <div className="flex items-center space-x-3 mb-4">
-                  <Palette className="h-6 w-6 text-pink-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">Tanvi</h3>
-                  <span className="text-sm text-pink-600 bg-pink-50 px-3 py-1 rounded-full font-medium">UI/UX Designer</span>
-                </div>
-                <p className="text-lg text-gray-600 mb-4 font-medium">Design & Business Strategy</p>
-                <p className="text-gray-600 leading-relaxed">
-                  Leads UI/UX design initiatives and business model development, creating innovative interface components and researching market strategies for commercial viability. Her design philosophy ensures our platform is both beautiful and highly functional.
-                </p>
-              </div>
-              <div className="relative">
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center h-80">
-                  <span className="text-8xl font-bold text-pink-600">T</span>
-                </div>
-              </div>
-            </motion.div>
+              <ChevronLeft className="h-6 w-6 text-gray-600" />
+            </button>
+            
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+              aria-label="Next testimonial"
+            >
+              <ChevronRight className="h-6 w-6 text-gray-600" />
+            </button>
 
-            {/* Mukul - Frontend Developer (6th - Image Left, Description Right) */}
-            <motion.div
-              className="grid md:grid-cols-2 gap-8 items-center"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="relative">
-                <div className="relative overflow-hidden rounded-2xl">
-                  <img
-                    src={mukulPhoto}
-                    alt="Mukul - Frontend Developer"
-                    className="w-full h-80 object-cover"
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center space-x-3 mb-4">
-                  <Lightbulb className="h-6 w-6 text-teal-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">Mukul</h3>
-                  <span className="text-sm text-teal-600 bg-teal-50 px-3 py-1 rounded-full font-medium">Frontend Developer</span>
-                </div>
-                <p className="text-lg text-gray-600 mb-4 font-medium">Frontend Development & Optimization</p>
-                <p className="text-gray-600 leading-relaxed">
-                  Contributes to frontend development by implementing innovative features and optimizing user interactions, ensuring smooth performance across different devices. His technical expertise helps create responsive and engaging user experiences.
-                </p>
-              </div>
-            </motion.div>
+            {/* Slide Indicators */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {teamMembers.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide
+                      ? 'bg-primary-600 w-8'
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Team Stats */}

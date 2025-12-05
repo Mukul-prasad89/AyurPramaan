@@ -198,9 +198,9 @@ const BrandingSection = ({ content }) => (
       <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
         {content.title}
       </h1>
-      <h2 className="text-2xl md:text-3xl text-primary-600 font-semibold mb-6">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-6 bg-gradient-to-b from-green-400 to-green-800 bg-clip-text text-transparent">
         {content.subtitle}
-      </h2>
+      </h1>
       <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
         {content.description}
       </p>

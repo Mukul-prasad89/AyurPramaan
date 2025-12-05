@@ -390,9 +390,9 @@ const HomePage = () => {
               transition={{ duration: 0.5 }}
             >
               <div>
-                <h3 className="text-lg md:text-xl font-bold text-primary-600 mb-2 uppercase tracking-wide">
+                <h1 className="text-3xl md:text-4xl font-bold text-primary-600 mb-2 uppercase tracking-wide">
                   {sections[activeIndex].eyebrow}
-                </h3>
+                </h1>
                 <h2 className="mt-4 text-2xl md:text-3xl font-bold text-gray-900 leading-snug">
                   {sections[activeIndex].title}
                 </h2>
