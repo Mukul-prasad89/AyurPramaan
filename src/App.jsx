@@ -7,7 +7,8 @@ import ProcessPage from './components/ProcessPage'
 import OfferingPage from './components/OfferingPage'
 import AboutPage from './components/AboutPage'
 import ContactPage from './components/ContactPage'
-import TeamFullscreenPage from './components/TeamFullscreenPage'
+import PrivacyPolicyPage from './components/PrivacyPolicyPage'
+import TermsOfUsePage from './components/TermsOfUsePage'
 import Footer from './components/Footer'
 import SignUpModal from './components/SignUpModal'
 import SignInModal from './components/SignInModal'
@@ -41,7 +42,6 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <Routes>
         {/* Fullscreen routes without navbar/footer */}
-        <Route path="/team" element={<TeamFullscreenPage />} />
         <Route path="/farmer" element={<FarmerLandingPage />} />
         <Route path="/laboratory" element={<LaboratoryLandingPage />} />
         <Route path="/regulator" element={<RegulatorLandingPage />} />
@@ -61,6 +61,8 @@ function App() {
                 <Route path="/offerings" element={<OfferingPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                <Route path="/terms-of-use" element={<TermsOfUsePage />} />
               </Routes>
             </main>
             <Footer />

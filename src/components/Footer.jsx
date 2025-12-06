@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { Download } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import CookieSettingsModal from './CookieSettingsModal'
+import PrivacyPolicyModal from './PrivacyPolicyModal'
+import TermsOfUseModal from './TermsOfUseModal'
 
 const Footer = () => {
   const { language } = useLanguage()
+  const [isCookieModalOpen, setIsCookieModalOpen] = useState(false)
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false)
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false)
 
   const contentMap = {
     en: {
@@ -12,8 +19,8 @@ const Footer = () => {
       powerLine: 'Powered by blockchain technology for maximum transparency and security.',
       downloadApp: 'Download Our Mobile App',
       links: [
-        { label: 'Privacy Policy', href: '#' },
-        { label: 'Terms & Conditions', href: '#' },
+        { label: 'Privacy Policy', href: '/privacy-policy' },
+        { label: 'Terms & Conditions', href: '/terms-of-use' },
         { label: 'Cookie Settings', href: '#' }
       ],
       badges: [
@@ -27,8 +34,8 @@ const Footer = () => {
       powerLine: 'अधिकतम पारदर्शिता और सुरक्षा के लिए ब्लॉकचेन तकनीक द्वारा संचालित।',
       downloadApp: 'हमारा मोबाइल ऐप डाउनलोड करें',
       links: [
-        { label: 'गोपनीयता नीति', href: '#' },
-        { label: 'नियम और शर्तें', href: '#' },
+        { label: 'गोपनीयता नीति', href: '/privacy-policy' },
+        { label: 'नियम और शर्तें', href: '/terms-of-use' },
         { label: 'कुकी सेटिंग्स', href: '#' }
       ],
       badges: [
@@ -67,9 +74,36 @@ const Footer = () => {
               {content.links.map((link, index) => (
                 <React.Fragment key={link.label}>
                   {index > 0 && <span className="w-1 h-1 rounded-full bg-gray-700" />}
-                  <a href={link.href} className="hover:text-white transition-colors">
-                    {link.label}
-                  </a>
+                  {link.label === 'Cookie Settings' || link.label === 'कुकी सेटिंग्स' ? (
+                    <button
+                      onClick={() => setIsCookieModalOpen(true)}
+                      className="hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </button>
+                  ) : link.label === 'Privacy Policy' || link.label === 'गोपनीयता नीति' ? (
+                    <button
+                      onClick={() => setIsPrivacyModalOpen(true)}
+                      className="hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </button>
+                  ) : link.label === 'Terms & Conditions' || link.label === 'नियम और शर्तें' ? (
+                    <button
+                      onClick={() => setIsTermsModalOpen(true)}
+                      className="hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </button>
+                  ) : link.href.startsWith('/') ? (
+                    <Link to={link.href} className="hover:text-white transition-colors">
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="hover:text-white transition-colors">
+                      {link.label}
+                    </a>
+                  )}
                 </React.Fragment>
               ))}
             </div>
@@ -100,6 +134,20 @@ const Footer = () => {
           </div>
         </motion.div>
       </div>
+      
+      {/* Modals */}
+      <CookieSettingsModal
+        isOpen={isCookieModalOpen}
+        onClose={() => setIsCookieModalOpen(false)}
+      />
+      <PrivacyPolicyModal
+        isOpen={isPrivacyModalOpen}
+        onClose={() => setIsPrivacyModalOpen(false)}
+      />
+      <TermsOfUseModal
+        isOpen={isTermsModalOpen}
+        onClose={() => setIsTermsModalOpen(false)}
+      />
     </footer>
   )
 }

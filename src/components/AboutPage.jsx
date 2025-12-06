@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Users, Award, Target, Leaf, TrendingUp, Shield, Globe, Heart, Code, Smartphone, PenTool, Lightbulb, Monitor, Palette, ChevronLeft, ChevronRight, Quote, ExternalLink } from 'lucide-react'
+import { Users, Award, Target, Leaf, TrendingUp, Shield, Globe, Heart, Code, Smartphone, PenTool, Lightbulb, Monitor, Palette, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
-import { Link } from 'react-router-dom'
 
 // Import team member photos
 import kunalPhoto from '../assets/kunal.jpeg'
@@ -11,6 +10,10 @@ import avinashPhoto from '../assets/avinash.jpeg'
 import shreyaPhoto from '../assets/shreya.jpeg'
 import mukulPhoto from '../assets/mukul.jpeg'
 import tanviPhoto from '../assets/tanvi.jpeg'
+
+// Import other images
+import farmerImage from '../assets/farmer.png'
+import labImage from '../assets/lab.png'
 
 const AboutPage = () => {
   const { language } = useLanguage()
@@ -234,67 +237,149 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen pt-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Hero Section with Background */}
+      <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-green-800 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%%3E%%3Cg fill="none" fill-rule="evenodd"%%3E%%3Cg fill="%23ffffff" fill-opacity="0.4"%%3E%%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+            backgroundSize: '60px 60px'
+          }}></div>
+        </div>
         
-        {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            {content.headerTitle}
-          </h1>
-          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            {content.headerDescription}
-          </p>
-        </motion.div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative z-10">
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.div
+              className="inline-block mb-6"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            >
+              <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto">
+                <Leaf className="h-10 w-10 text-white" />
+              </div>
+            </motion.div>
+            
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              {content.headerTitle}
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed">
+              {content.headerDescription}
+            </p>
+            
+            {/* Decorative Elements */}
+            <div className="flex justify-center items-center space-x-8 mt-12">
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-2">500+</div>
+                <div className="text-sm text-white/80">Verified Farms</div>
+              </div>
+              <div className="w-px h-12 bg-white/30"></div>
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-2">10K+</div>
+                <div className="text-sm text-white/80">Products Tracked</div>
+              </div>
+              <div className="w-px h-12 bg-white/30"></div>
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-2">99.9%</div>
+                <div className="text-sm text-white/80">Accuracy</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Wave Separator */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+            <path d="M0 0L60 10C120 20 240 40 360 46.7C480 53 600 47 720 43.3C840 40 960 40 1080 46.7C1200 53 1320 67 1380 73.3L1440 80V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V0Z" fill="rgb(249, 250, 251)"/>
+          </svg>
+        </div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-        {/* Mission Section */}
+        {/* Mission Section with Image Grid */}
         <motion.div
-          className="grid lg:grid-cols-2 gap-12 items-center mb-20"
+          className="mb-20 -mt-16 relative z-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">{content.missionTitle}</h2>
-            {content.missionParagraphs.map((paragraph, index) => (
-              <p
-                key={index}
-                className={`text-lg text-gray-600 leading-relaxed ${
-                  index === content.missionParagraphs.length - 1 ? 'mb-8' : 'mb-6'
-                }`}
-              >
-                {paragraph}
-              </p>
-            ))}
-
-          </div>
-
-          <motion.div
-            className="relative"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <div className="card p-8">
-              <img
-                src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=600&h=400&fit=crop"
-                alt="Herbal farming"
-                className="w-full h-80 object-cover rounded-xl mb-6"
-              />
-              <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {content.cardTitle}
-                </h3>
-                <p className="text-gray-600">
-                  {content.cardDescription}
+          <div className="card p-8 md:p-12 shadow-custom-strong">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">{content.missionTitle}</h2>
+              {content.missionParagraphs.map((paragraph, index) => (
+                <p
+                  key={index}
+                  className="text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto mb-6"
+                >
+                  {paragraph}
                 </p>
+              ))}
+            </div>
+
+            {/* Image Grid */}
+            <div className="grid md:grid-cols-2 gap-8 mt-12">
+              <motion.div
+                className="relative group overflow-hidden rounded-2xl shadow-lg"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <img
+                  src={farmerImage}
+                  alt="Farmer in herbal field"
+                  className="w-full h-80 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end">
+                  <div className="p-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">From the Farm</h3>
+                    <p className="text-white/90">Connecting directly with verified herbal farmers</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="relative group overflow-hidden rounded-2xl shadow-lg"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <img
+                  src={labImage}
+                  alt="Laboratory testing herbal products"
+                  className="w-full h-80 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end">
+                  <div className="p-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">To Quality Assurance</h3>
+                    <p className="text-white/90">Rigorous testing ensuring product excellence</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Key Features Cards */}
+            <div className="grid md:grid-cols-3 gap-6 mt-12">
+              <div className="bg-gradient-to-br from-green-50 to-primary-50 p-6 rounded-xl border border-green-100">
+                <Shield className="h-10 w-10 text-primary-600 mb-4" />
+                <h4 className="font-semibold text-gray-900 mb-2">100% Transparent</h4>
+                <p className="text-sm text-gray-600">Complete visibility at every step</p>
+              </div>
+              <div className="bg-gradient-to-br from-blue-50 to-primary-50 p-6 rounded-xl border border-blue-100">
+                <Target className="h-10 w-10 text-blue-600 mb-4" />
+                <h4 className="font-semibold text-gray-900 mb-2">Verified Quality</h4>
+                <p className="text-sm text-gray-600">Certified and tested products</p>
+              </div>
+              <div className="bg-gradient-to-br from-purple-50 to-primary-50 p-6 rounded-xl border border-purple-100">
+                <TrendingUp className="h-10 w-10 text-purple-600 mb-4" />
+                <h4 className="font-semibold text-gray-900 mb-2">Growing Network</h4>
+                <p className="text-sm text-gray-600">Expanding across regions</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
 
         {/* Values Section */}
@@ -345,25 +430,13 @@ const AboutPage = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Meet Our Team
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-6">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Meet the passionate individuals behind Herbal Trace who are revolutionizing the herbal industry through innovative technology and dedication to transparency.
             </p>
-            
-            {/* Full Screen Team Button */}
-            <Link to="/team">
-              <motion.button
-                className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-green-600 text-white px-6 py-3 rounded-full font-semibold hover:from-primary-700 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ExternalLink className="h-5 w-5" />
-                <span>View Team in Full Screen</span>
-              </motion.button>
-            </Link>
           </div>
 
           {/* Testimonial Slider */}
-          <div className="relative max-w-4xl mx-auto">
+          <div className="relative mx-auto">
             <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-50 to-white shadow-2xl">
               <motion.div
                 key={currentSlide}
@@ -387,7 +460,7 @@ const AboutPage = () => {
                           <img
                             src={member.photo}
                             alt={`${member.name} - ${member.role}`}
-                            className="w-full h-80 object-cover rounded-2xl shadow-lg"
+                            className="w-full h-80 object-cover object-top rounded-2xl shadow-lg"
                           />
                           <div className={`absolute top-4 right-4 w-12 h-12 ${colors.bg} ${colors.border} border-2 rounded-full flex items-center justify-center shadow-lg`}>
                             <Icon className={`h-6 w-6 ${colors.text}`} />

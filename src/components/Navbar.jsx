@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Leaf, Menu, X, ChevronDown } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import logo from '../assets/logo.png'
 
 const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -67,10 +68,10 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
             <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="p-2 bg-gradient-primary rounded-xl"
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center"
             >
-              <Leaf className="h-6 w-6 text-white" />
+              <img src={logo} alt="Herbal Trace Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
             </motion.div>
             <span className="text-xl md:text-2xl font-bold text-primary-700">
               {navContent.brand}

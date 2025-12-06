@@ -16,9 +16,9 @@ const HomePage = () => {
       sections: [
         {
           eyebrow: 'Farm-to-Ledger',
-          title: 'Farmers capture every harvest with precision tracking.',
+          title: 'Blockchain-backed transparency you can trust.',
           description:
-            'Each batch is geo-tagged and logged with sensor data before leaving the farm, ensuring complete origin transparency.',
+            'Every herb is tracked, verified, and authenticated at every step—ensuring your Ayurvedic products are pure, traceable, and truly from their stated origin.',
           attribution: 'Certified Herb Collector',
           image: farmerImage,
           imageAlt: 'Farmer collecting medicinal herbs in the field'
@@ -162,9 +162,9 @@ const HomePage = () => {
       sections: [
         {
           eyebrow: 'खेत से लेजर तक',
-          title: 'किसान हर फसल को सटीक ट्रैकिंग के साथ दर्ज करते हैं।',
+          title: 'ब्लॉकचेन-समर्थित पारदर्शिता जिस पर आप भरोसा कर सकते हैं।',
           description:
-            'हर बैच को खेत छोड़ने से पहले जीपीएस टैग और सेंसर डेटा के साथ लॉग किया जाता है, पूर्ण मूल पारदर्शिता सुनिश्चित करते हुए।',
+            'हर जड़ी-बूटी को हर चरण पर ट्रैक, सत्यापित और प्रामाणिकृत किया जाता है—यह सुनिश्चित करते हुए कि आपकी आयुर्वेदिक उत्पादें शुद्ध, सुगम्य और वास्तव में उनके स्टेटेड मूल से हैं।',
           attribution: 'प्रमाणित जड़ी-बूटी संग्राहक',
           image: farmerImage,
           imageAlt: 'जड़ी-बूटियाँ इकट्ठा करती हुई किसान'
@@ -390,10 +390,7 @@ const HomePage = () => {
               transition={{ duration: 0.5 }}
             >
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-primary-600 mb-2 uppercase tracking-wide">
-                  {sections[activeIndex].eyebrow}
-                </h1>
-                <h2 className="mt-4 text-2xl md:text-3xl font-bold text-gray-900 leading-snug">
+                <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-snug">
                   {sections[activeIndex].title}
                 </h2>
                 <p className="mt-4 text-gray-600 leading-relaxed text-base md:text-lg">
@@ -707,7 +704,7 @@ const ProcessStage = ({ stage, index, isLast, stageLabel }) => {
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
     >
       {/* Content */}
       <div className="flex-1 space-y-6">
@@ -735,7 +732,7 @@ const ProcessStage = ({ stage, index, isLast, stageLabel }) => {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: detailIndex * 0.1 + 0.3 }}
+                    transition={{ delay: detailIndex * 0.05 + 0.1, duration: 0.3 }}
                   >
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                     <span className="text-gray-700">{detail}</span>

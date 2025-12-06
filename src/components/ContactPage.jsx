@@ -260,9 +260,9 @@ const ContactPage = () => {
 
           {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 1000 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.8, type: "spring", stiffness: 80, damping: 20 }}
           >
             <div className="card p-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">{content.formTitle}</h2>

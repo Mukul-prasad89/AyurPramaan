@@ -286,7 +286,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
                   />
                 </div>
 
-                <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
                   <button
                     type="submit"
                     className="w-full sm:w-auto btn-primary px-8"

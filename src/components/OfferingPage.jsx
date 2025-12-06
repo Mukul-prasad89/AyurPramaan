@@ -2,6 +2,10 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Award, Users, Shield, Leaf, TrendingUp, CheckCircle } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import farmerImage from '../assets/farmer.png'
+import customerImage from '../assets/customer.png'
+import labImage from '../assets/lab.png'
+import manufacturerImage from '../assets/manufacturer.png'
 
 const OfferingPage = () => {
   const { language } = useLanguage()
@@ -198,7 +202,7 @@ const BrandingSection = ({ content }) => (
       <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
         {content.title}
       </h1>
-      <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-6 bg-gradient-to-b from-green-400 to-green-800 bg-clip-text text-transparent">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-6 text-gray-900">
         {content.subtitle}
       </h1>
       <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
@@ -264,8 +268,12 @@ const FarmersSection = ({ content }) => (
         </div>
       </div>
       <div className="relative">
-        <div className="w-full h-96 bg-gradient-to-br from-green-100 to-primary-100 rounded-3xl flex items-center justify-center">
-          <Users className="h-32 w-32 text-primary-600" />
+        <div className="w-full h-96 rounded-3xl overflow-hidden shadow-custom-medium">
+          <img
+            src={farmerImage}
+            alt="Farmer in herbal field"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>
@@ -283,8 +291,12 @@ const ConsumerSection = ({ content }) => (
   >
     <div className="grid lg:grid-cols-2 gap-12 items-center">
       <div className="relative lg:order-1">
-        <div className="w-full h-96 bg-gradient-to-br from-blue-100 to-primary-100 rounded-3xl flex items-center justify-center">
-          <Shield className="h-32 w-32 text-primary-600" />
+        <div className="w-full h-96 rounded-3xl overflow-hidden shadow-custom-medium">
+          <img
+            src={customerImage}
+            alt="Customer verifying product"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
       <div className="lg:order-2">
@@ -354,8 +366,12 @@ const LaboratorySection = ({ content }) => (
         </div>
       </div>
       <div className="relative">
-        <div className="w-full h-96 bg-gradient-to-br from-purple-100 to-primary-100 rounded-3xl flex items-center justify-center">
-          <Award className="h-32 w-32 text-primary-600" />
+        <div className="w-full h-96 rounded-3xl overflow-hidden shadow-custom-medium">
+          <img
+            src={labImage}
+            alt="Laboratory testing herbal products"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>
@@ -373,8 +389,12 @@ const ManufacturerSection = ({ content }) => (
   >
     <div className="grid lg:grid-cols-2 gap-12 items-center">
       <div className="relative lg:order-1">
-        <div className="w-full h-96 bg-gradient-to-br from-orange-100 to-primary-100 rounded-3xl flex items-center justify-center">
-          <TrendingUp className="h-32 w-32 text-primary-600" />
+        <div className="w-full h-96 rounded-3xl overflow-hidden shadow-custom-medium">
+          <img
+            src={manufacturerImage}
+            alt="Manufacturing facility"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
       <div className="lg:order-2">
