@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight, ShieldCheck, QrCode, ListChecks, Sprout, Tractor, Scissors, Factory, Truck, Pill, CheckCircle } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ShieldCheck, QrCode, ListChecks, Sprout, Tractor, Scissors, Factory, Truck, Pill, CheckCircle, Download, Users } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import farmerImage from '../assets/1st.png'
 import consumerImage from '../assets/2nd.png'
@@ -15,15 +15,27 @@ const HomePage = () => {
       
       sections: [
         {
-          eyebrow: 'Farm-to-Ledger',
-          title: 'Blockchain-backed transparency you can trust.',
+          type: 'hero',
+          title: 'From Farm to Consumer',
+          titleHighlight: 'Complete Transparency',
           description:
-            'Every herb is tracked, verified, and authenticated at every step—ensuring your Ayurvedic products are pure, traceable, and truly from their stated origin.',
+            'Track every step of your herbal product journey with blockchain-verified traceability, GPS authentication, and tamper-proof QR codes',
+          attribution: '',
+          image: null,
+          imageAlt: ''
+        },
+        {
+          type: 'slide',
+          eyebrow: 'Farm-to-Ledger',
+          title: 'Welcome to HerbalTrace!!',
+          description:
+            'A platform that lets you track the complete journey of herbal medicines. From the moment they are collected, through testing, processing, and distribution, all the way to the final product — every step is recorded and verified. Simply scan the QR code on the product to view its entire history, secured through blockchain technology for full transparency and trust.',
           attribution: 'Certified Herb Collector',
           image: farmerImage,
           imageAlt: 'Farmer collecting medicinal herbs in the field'
         },
         {
+          type: 'slide',
           eyebrow: 'Consumer Verification',
           title: 'One scan reveals the complete product journey.',
           description:
@@ -33,6 +45,7 @@ const HomePage = () => {
           imageAlt: 'Customer scanning a QR code on a herbal product'
         },
         {
+          type: 'slide',
           eyebrow: 'Security Protocol',
           title: 'Encrypted signatures protect every product code.',
           description:
@@ -161,6 +174,17 @@ const HomePage = () => {
       pageSubtitle: 'तीन आवाज़ें जो पारदर्शिता, भरोसा और सुरक्षा को साथ जोड़ती हैं।',
       sections: [
         {
+          type: 'hero',
+          title: 'खेत से उपभोक्ता तक',
+          titleHighlight: 'पूर्ण पारदर्शिता',
+          description:
+            'ब्लॉकचेन-सत्यापित ट्रेसबिलिटी, GPS प्रमाणीकरण और छेड़छाड़-रोधी QR कोड के साथ अपने हर्बल उत्पाद की यात्रा के हर चरण को ट्रैक करें',
+          attribution: '',
+          image: null,
+          imageAlt: ''
+        },
+        {
+          type: 'slide',
           eyebrow: 'खेत से लेजर तक',
           title: 'ब्लॉकचेन-समर्थित पारदर्शिता जिस पर आप भरोसा कर सकते हैं।',
           description:
@@ -170,6 +194,7 @@ const HomePage = () => {
           imageAlt: 'जड़ी-बूटियाँ इकट्ठा करती हुई किसान'
         },
         {
+          type: 'slide',
           eyebrow: 'उपभोक्ता सत्यापन',
           title: 'एक स्कैन से पूरी उत्पाद यात्रा का पता चलता है।',
           description:
@@ -179,6 +204,7 @@ const HomePage = () => {
           imageAlt: 'उत्पाद पर क्यूआर कोड स्कैन करता ग्राहक'
         },
         {
+          type: 'slide',
           eyebrow: 'सुरक्षा प्रोटोकॉल',
           title: 'एन्क्रिप्टेड हस्ताक्षर हर उत्पाद कोड की सुरक्षा करते हैं।',
           description:
@@ -313,6 +339,15 @@ const HomePage = () => {
     setActiveIndex(0)
   }, [language])
 
+  // Auto-slide effect - infinite loop every 5 seconds
+  useEffect(() => {
+    const autoSlideInterval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % sections.length)
+    }, 5000) // Change slide every 5 seconds
+
+    return () => clearInterval(autoSlideInterval)
+  }, [sections.length])
+
   useEffect(() => {
     const handleScroll = () => {
       const whyChooseSection = document.querySelector('[data-section="why-choose"]')
@@ -338,12 +373,21 @@ const HomePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white py-24">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white">
+      {/* Hero Section with Green Gradient Background - Now includes 4 slides */}
+      <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-green-800 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+            backgroundSize: '60px 60px'
+          }}></div>
+        </div>
+        
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <button
           type="button"
           onClick={handlePrev}
-          className={`hidden md:flex fixed left-8 top-1/2 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white shadow-custom-strong text-gray-600 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 z-10 transition-opacity duration-300 ${
+          className={`hidden md:flex fixed left-8 top-1/2 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-custom-strong text-gray-600 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 z-10 transition-opacity duration-300 ${
             isSliderVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Previous story"
@@ -354,78 +398,125 @@ const HomePage = () => {
         <button
           type="button"
           onClick={handleNext}
-          className={`hidden md:flex fixed right-8 top-1/2 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white shadow-custom-strong text-gray-600 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 z-10 transition-opacity duration-300 ${
+          className={`hidden md:flex fixed right-8 top-1/2 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-custom-strong text-gray-600 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 z-10 transition-opacity duration-300 ${
             isSliderVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Next story"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
-        <div className="flex flex-col justify-center min-h-[70vh]">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-flex items-center justify-center px-4 py-1 rounded-full bg-primary-100 text-primary-700 text-sm font-semibold uppercase tracking-wider">
-              {content.pageBadge}
-            </span>
-            <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mt-6 mb-4">
-              {content.pageTitle}
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-              {content.pageSubtitle}
-            </p>
-          </motion.div>
-
-        <div className="relative">
+        
+        <div className="flex flex-col justify-center min-h-[65vh]">
           <AnimatePresence mode="wait" initial={false}>
-            <motion.section
-              key={`${language}-${activeIndex}`}
-              className="grid gap-10 md:grid-cols-2 md:gap-14 items-center"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div>
-                <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-snug">
-                  {sections[activeIndex].title}
-                </h2>
-                <p className="mt-4 text-gray-600 leading-relaxed text-base md:text-lg">
-                  {sections[activeIndex].description}
-                </p>
-
-                <div className="mt-6 text-sm font-semibold text-gray-500">
-                  {sections[activeIndex].attribution}
-                </div>
-              </div>
-
+            {sections[activeIndex].type === 'hero' ? (
+              /* Hero Slide - Full Screen Centered */
               <motion.div
-                className="relative"
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
+                key={`hero-${language}-${activeIndex}`}
+                className="text-center max-w-5xl mx-auto py-16"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="relative overflow-hidden rounded-3xl shadow-custom-strong">
-                  <img
-                    src={sections[activeIndex].image}
-                    alt={sections[activeIndex].imageAlt}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4">
+                  {sections[activeIndex].title}
+                </h1>
+                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-amber-200 leading-tight mb-8">
+                  {sections[activeIndex].titleHighlight}
+                </h2>
+                <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed mb-12">
+                  {sections[activeIndex].description}
+                </p>
+                
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <motion.a
+                    href="#"
+                    className="inline-flex items-center space-x-3 px-8 py-4 bg-amber-200 hover:bg-amber-300 text-gray-800 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Download className="h-5 w-5" />
+                    <span>Download the App</span>
+                  </motion.a>
+                  <motion.a
+                    href="#"
+                    className="inline-flex items-center space-x-3 px-8 py-4 bg-transparent border-2 border-white text-white rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Users className="h-5 w-5" />
+                    <span>Join the Network</span>
+                  </motion.a>
                 </div>
               </motion.div>
-            </motion.section>
+            ) : (
+              /* Regular Slide with Image */
+              <>
+                <motion.div
+                  className="text-center mb-12"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <span className="inline-flex items-center justify-center px-4 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-semibold uppercase tracking-wider">
+                    {content.pageBadge}
+                  </span>
+                  <h1 className="text-3xl md:text-5xl font-bold text-white mt-6 mb-4">
+                    {content.pageTitle}
+                  </h1>
+                  <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto">
+                    {content.pageSubtitle}
+                  </p>
+                </motion.div>
+
+                <motion.section
+                  key={`slide-${language}-${activeIndex}`}
+                  className="grid gap-10 md:grid-cols-2 md:gap-14 items-center"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div>
+                    <h2 className="mt-4 text-3xl md:text-4xl font-bold text-white leading-snug">
+                      {sections[activeIndex].title}
+                    </h2>
+                    <p className="mt-4 text-white/90 leading-relaxed text-base md:text-lg">
+                      {sections[activeIndex].description}
+                    </p>
+
+                    <div className="mt-6 text-sm font-semibold text-white/70">
+                      {sections[activeIndex].attribution}
+                    </div>
+                  </div>
+
+                  <motion.div
+                    className="relative"
+                    initial={{ opacity: 0, x: 40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -40 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-white/10 backdrop-blur-sm p-2">
+                      <img
+                        src={sections[activeIndex].image}
+                        alt={sections[activeIndex].imageAlt}
+                        className="w-full h-full object-cover rounded-2xl"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-2xl" />
+                    </div>
+                  </motion.div>
+                </motion.section>
+              </>
+            )}
           </AnimatePresence>
 
           <div className="mt-8 flex items-center justify-center space-x-4 md:hidden">
             <button
               type="button"
               onClick={handlePrev}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-custom-light text-gray-600 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-custom-light text-gray-600 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
               aria-label="Previous story"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -433,7 +524,7 @@ const HomePage = () => {
             <button
               type="button"
               onClick={handleNext}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-custom-light text-gray-600 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-custom-light text-gray-600 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
               aria-label="Next story"
             >
               <ChevronRight className="h-5 w-5" />
@@ -443,19 +534,29 @@ const HomePage = () => {
           <div className="mt-10 flex items-center justify-center space-x-3">
             {sections.map((section, index) => (
               <button
-                key={section.title}
+                key={index}
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                aria-label={`Go to story ${index + 1}`}
-                className={`h-3 w-3 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ${
-                  activeIndex === index ? 'bg-primary-600 w-8' : 'bg-gray-300'
+                aria-label={`Go to slide ${index + 1}`}
+                className={`h-3 w-3 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                  activeIndex === index ? 'bg-white w-8' : 'bg-white/50'
                 }`}
               />
             ))}
           </div>
         </div>
-        </div>
+      </div>
+      
+      {/* Wave Separator */}
+      <div className="relative -mt-1">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+          <path d="M0 0L60 10C120 20 240 40 360 46.7C480 53 600 47 720 43.3C840 40 960 40 1080 46.7C1200 53 1320 67 1380 73.3L1440 80V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V0Z" fill="white"/>
+        </svg>
+      </div>
+      </div>
 
+      {/* Rest of the page content */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {whyChoose && (
           <motion.section
             data-section="why-choose"
@@ -502,14 +603,16 @@ const HomePage = () => {
           </motion.section>
         )}
 
+        {/* Our Solutions Section with Light Grey Background */}
         {process && (
           <motion.section
-            className="mt-24"
+            className="mt-24 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-16 bg-gray-100"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6 }}
           >
+            <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                 {process.headerTitle}
@@ -529,6 +632,7 @@ const HomePage = () => {
                   isLast={index === process.stages.length - 1}
                 />
               ))}
+            </div>
             </div>
           </motion.section>
         )}
@@ -689,7 +793,7 @@ const HomePage = () => {
           </div>
           </div>
         </motion.section>
-      </div>
+        </div>
     </div>
   )
 }

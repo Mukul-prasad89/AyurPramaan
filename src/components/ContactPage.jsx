@@ -17,9 +17,9 @@ const ContactPage = () => {
       contactInfoIntro:
         "We'd love to hear from you. Whether you're a farmer looking to join our network, a business interested in our technology, or a consumer with questions, we're here to help.",
       contactMethods: [
-        { icon: Mail, title: 'Email Us', detail: 'info@herbaltrace.com', description: 'Send us an email anytime' },
-        { icon: Phone, title: 'Call Us', detail: '+91 98765 43210', description: 'Monday to Friday, 9 AM to 6 PM IST' },
-        { icon: MapPin, title: 'Visit Us', detail: '123 Innovation Hub, Sector 58, Gurugram, Haryana 122003', description: 'Our headquarters' }
+        { icon: Mail, title: 'Email Us', detail: 'herbal.trace1@gmail.com', description: 'Send us an email anytime' },
+        { icon: Phone, title: 'Call Us', detail: '+91 6203 585 026', description: 'Monday to Friday, 9 AM to 6 PM IST' },
+        { icon: MapPin, title: 'Visit Us', detail: 'Knowledge Park 2, Greater Noida, Uttar Pradesh', description: 'Our headquarters' }
       ],
       officeHoursTitle: 'Office Hours',
       officeHours: [
@@ -80,9 +80,9 @@ const ContactPage = () => {
       contactInfoIntro:
         'हम आपसे सुनना पसंद करेंगे। चाहे आप हमारे नेटवर्क से जुड़ना चाहने वाले किसान हों, हमारी तकनीक में रुचि रखने वाले व्यवसाय हों या सवालों वाले उपभोक्ता, हम मदद के लिए यहाँ हैं।',
       contactMethods: [
-        { icon: Mail, title: 'हमें ईमेल करें', detail: 'info@herbaltrace.com', description: 'किसी भी समय हमें ईमेल भेजें' },
-        { icon: Phone, title: 'हमें कॉल करें', detail: '+91 98765 43210', description: 'सोमवार से शुक्रवार, सुबह 9 बजे से शाम 6 बजे (IST)' },
-        { icon: MapPin, title: 'हमसे मिलें', detail: '123 इनोवेशन हब, सेक्टर 58, गुड़गांव, हरियाणा 122003', description: 'हमारा मुख्यालय' }
+        { icon: Mail, title: 'हमें ईमेल करें', detail: 'herbal.trace1@gmail.com', description: 'किसी भी समय हमें ईमेल भेजें' },
+        { icon: Phone, title: 'हमें कॉल करें', detail: '+91 6203 585 026', description: 'सोमवार से शुक्रवार, सुबह 9 बजे से शाम 6 बजे (IST)' },
+        { icon: MapPin, title: 'हमसे मिलें', detail: 'नॉलेज पार्क 2, ग्रेटर नोएडा, उत्तर प्रदेश', description: 'हमारा मुख्यालय' }
       ],
       officeHoursTitle: 'कार्यालय समय',
       officeHours: [
@@ -240,19 +240,6 @@ const ContactPage = () => {
                     detail={method.detail}
                     description={method.description}
                   />
-                ))}
-              </div>
-            </div>
-
-            {/* Office Hours */}
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">{content.officeHoursTitle}</h3>
-              <div className="space-y-2">
-                {content.officeHours.map((item) => (
-                  <div key={item.day} className="flex justify-between">
-                    <span className="text-gray-600">{item.day}</span>
-                    <span className="font-medium">{item.time}</span>
-                  </div>
                 ))}
               </div>
             </div>
