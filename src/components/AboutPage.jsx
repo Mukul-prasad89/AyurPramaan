@@ -14,6 +14,7 @@ import tanviPhoto from '../assets/tanvi.jpeg'
 // Import other images
 import farmerImage from '../assets/farmer.png'
 import labImage from '../assets/lab.png'
+import logoImage from '../assets/logo.png'
 
 const AboutPage = () => {
   const { language } = useLanguage()
@@ -259,8 +260,8 @@ const AboutPage = () => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
             >
-              <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto">
-                <Leaf className="h-10 w-10 text-white" />
+              <div className="w-20 h-20 bg-white backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto overflow-hidden">
+                <img src={logoImage} alt="HerbalTrace Logo" className="h-16 w-16 object-contain" />
               </div>
             </motion.div>
             
