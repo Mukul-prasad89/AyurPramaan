@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Eye, EyeOff } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
 const stakeholderOptions = [
-  { value: 'Manufacturer', label: { en: 'Manufacturer', hi: 'निर्माता' } },
-  { value: 'Laboratory', label: { en: 'Laboratory', hi: 'प्रयोगशाला' } },
-  { value: 'Regulator', label: { en: 'Regulator', hi: 'नियामक' } },
-  { value: 'Farmer', label: { en: 'Farmer', hi: 'किसान' } },
-  { value: 'Admin', label: { en: 'Admin', hi: 'प्रशासक' } }
+  { value: 'Manufacturer', label: { en: 'Manufacturer', hi: 'निर्माता' }, path: '/manufacturer' },
+  { value: 'Laboratory', label: { en: 'Laboratory', hi: 'प्रयोगशाला' }, path: '/laboratory' },
+  { value: 'Regulator', label: { en: 'Regulator', hi: 'नियामक' }, path: '/regulator' },
+  { value: 'Farmer', label: { en: 'Farmer', hi: 'किसान' }, path: '/farmer' },
+  { value: 'Admin', label: { en: 'Admin', hi: 'प्रशासक' }, path: '/admin' }
 ]
 
 const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
@@ -51,9 +52,11 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
   const content = contentMap[language] || contentMap.en
   const options = stakeholderOptions.map((option) => ({
     value: option.value,
-    label: option.label[language] || option.label.en
+    label: option.label[language] || option.label.en,
+    path: option.path
   }))
 
+  const navigate = useNavigate()
   const [credentials, setCredentials] = useState({ loginId: '', identifier: '', password: '', stakeholderType: '' })
   const [showPassword, setShowPassword] = useState(false)
 
@@ -64,9 +67,27 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    onClose()
-    setCredentials({ loginId: '', identifier: '', password: '', stakeholderType: '' })
-    setShowPassword(false)
+    
+    // Find the selected stakeholder's dashboard path
+    const selectedStakeholder = stakeholderOptions.find(
+      (option) => option.value === credentials.stakeholderType
+    )
+    
+    if (selectedStakeholder) {
+      // Store user info in localStorage for demo purposes
+      localStorage.setItem('herbaltrace_user', JSON.stringify({
+        stakeholderType: credentials.stakeholderType,
+        loginId: credentials.loginId,
+        identifier: credentials.identifier,
+        isLoggedIn: true
+      }))
+      
+      // Close modal and navigate to dashboard
+      onClose()
+      setCredentials({ loginId: '', identifier: '', password: '', stakeholderType: '' })
+      setShowPassword(false)
+      navigate(selectedStakeholder.path)
+    }
   }
 
   const handleClose = () => {

@@ -38,6 +38,7 @@ import {
   Activity,
   DollarSign
 } from 'lucide-react'
+import DashboardNavbar from '../common/DashboardNavbar'
 
 const FarmerLandingPage = () => {
   const [activeTab, setActiveTab] = useState('overview')
@@ -157,9 +158,17 @@ const FarmerLandingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50">
+      {/* Dashboard Navbar */}
+      <DashboardNavbar 
+        userName="Ravi Kumar" 
+        userRole="Farmer"
+        dateJoined="15 March 2024"
+        approvedBy="Admin Priya Desai"
+      />
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="bg-white shadow-sm border-b border-gray-200 pt-16">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -691,97 +700,441 @@ const SustainabilityScore = () => (
 )
 
 // Modal Components
-const NewCollectionModal = ({ location, onClose }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-    onClick={onClose}
-  >
+const NewCollectionModal = ({ location, onClose }) => {
+  const [formData, setFormData] = useState({
+    herbalSpecies: '',
+    commonName: '',
+    scientificName: '',
+    quantity: '',
+    unit: 'Kilograms (kg)',
+    harvestDate: '',
+    harvestTime: '',
+    harvestMethod: 'Manual Harvesting',
+    partCollected: 'Whole Plant',
+    latitude: '',
+    longitude: '',
+    altitude: '',
+    gpsAccuracy: '',
+    locationName: '',
+    weatherConditions: '',
+    soilType: '',
+    moistureContent: '',
+    temperature: '',
+    additionalNotes: ''
+  })
+  const [images, setImages] = useState([])
+  const [isCapturingLocation, setIsCapturingLocation] = useState(false)
+
+  const herbalSpeciesOptions = [
+    'Ashwagandha (Withania somnifera)',
+    'Turmeric (Curcuma longa)',
+    'Brahmi (Bacopa monnieri)',
+    'Tulsi (Ocimum sanctum)',
+    'Neem (Azadirachta indica)',
+    'Aloe Vera (Aloe barbadensis)',
+    'Ginger (Zingiber officinale)',
+    'Giloy (Tinospora cordifolia)',
+    'Amla (Phyllanthus emblica)',
+    'Shatavari (Asparagus racemosus)'
+  ]
+
+  const unitOptions = ['Kilograms (kg)', 'Grams (g)', 'Pounds (lb)', 'Ounces (oz)']
+  const harvestMethodOptions = ['Manual Harvesting', 'Mechanical Harvesting', 'Semi-Mechanical', 'Selective Harvesting']
+  const partCollectedOptions = ['Whole Plant', 'Leaves', 'Roots', 'Flowers', 'Seeds', 'Bark', 'Fruits', 'Rhizome']
+  const weatherOptions = ['Sunny', 'Cloudy', 'Partly Cloudy', 'Rainy', 'Drizzle', 'Windy', 'Humid']
+  const soilTypeOptions = ['Loamy', 'Clay', 'Sandy', 'Silt', 'Peaty', 'Chalky', 'Red Soil', 'Black Soil', 'Alluvial']
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+  }
+
+  const captureCurrentLocation = () => {
+    setIsCapturingLocation(true)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setFormData(prev => ({
+            ...prev,
+            latitude: position.coords.latitude.toFixed(6),
+            longitude: position.coords.longitude.toFixed(6),
+            altitude: position.coords.altitude ? position.coords.altitude.toFixed(2) : '',
+            gpsAccuracy: position.coords.accuracy ? position.coords.accuracy.toFixed(2) : ''
+          }))
+          setIsCapturingLocation(false)
+        },
+        (error) => {
+          console.error('Error capturing location:', error)
+          setIsCapturingLocation(false)
+        },
+        { enableHighAccuracy: true }
+      )
+    }
+  }
+
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files)
+    if (images.length + files.length <= 5) {
+      const newImages = files.map(file => ({
+        file,
+        preview: URL.createObjectURL(file),
+        name: file.name
+      }))
+      setImages(prev => [...prev, ...newImages])
+    }
+  }
+
+  const removeImage = (index) => {
+    setImages(prev => prev.filter((_, i) => i !== index))
+  }
+
+  return (
     <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.95, opacity: 0 }}
-      className="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-      onClick={(e) => e.stopPropagation()}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      onClick={onClose}
     >
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">New Collection Event</h2>
-        <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
-          <X className="h-5 w-5" />
-        </button>
-      </div>
-      
-      <div className="space-y-4">
-        <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Species</label>
-            <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
-              <option>Select Species</option>
-              <option>Ashwagandha</option>
-              <option>Turmeric</option>
-              <option>Brahmi</option>
-              <option>Tulsi</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Quantity (kg)</label>
-            <input type="number" step="0.1" className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="0.0" />
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Record Collection Event</h2>
+          
+          <div className="space-y-6">
+            {/* Herbal Species */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Herbal Species <span className="text-red-500">*</span>
+              </label>
+              <select 
+                value={formData.herbalSpecies}
+                onChange={(e) => handleInputChange('herbalSpecies', e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              >
+                <option value="">Select Species</option>
+                {herbalSpeciesOptions.map(species => (
+                  <option key={species} value={species}>{species}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Common Name & Scientific Name */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Common Name</label>
+                <input 
+                  type="text" 
+                  value={formData.commonName}
+                  onChange={(e) => handleInputChange('commonName', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                  placeholder="e.g., Indian Ginseng" 
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Scientific Name</label>
+                <input 
+                  type="text" 
+                  value={formData.scientificName}
+                  onChange={(e) => handleInputChange('scientificName', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                  placeholder="e.g., Withania somnifera" 
+                />
+              </div>
+            </div>
+
+            {/* Quantity & Unit */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Quantity <span className="text-red-500">*</span>
+                </label>
+                <input 
+                  type="number" 
+                  step="0.01"
+                  value={formData.quantity}
+                  onChange={(e) => handleInputChange('quantity', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                  placeholder="0.00" 
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Unit</label>
+                <select 
+                  value={formData.unit}
+                  onChange={(e) => handleInputChange('unit', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                  {unitOptions.map(unit => (
+                    <option key={unit} value={unit}>{unit}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Harvest Date & Time */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Harvest Date <span className="text-red-500">*</span>
+                </label>
+                <input 
+                  type="date" 
+                  value={formData.harvestDate}
+                  onChange={(e) => handleInputChange('harvestDate', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Harvest Time</label>
+                <input 
+                  type="time" 
+                  value={formData.harvestTime}
+                  onChange={(e) => handleInputChange('harvestTime', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                />
+              </div>
+            </div>
+
+            {/* Harvest Method & Part Collected */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Harvest Method <span className="text-red-500">*</span>
+                </label>
+                <select 
+                  value={formData.harvestMethod}
+                  onChange={(e) => handleInputChange('harvestMethod', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                  {harvestMethodOptions.map(method => (
+                    <option key={method} value={method}>{method}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Part Collected <span className="text-red-500">*</span>
+                </label>
+                <select 
+                  value={formData.partCollected}
+                  onChange={(e) => handleInputChange('partCollected', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                  {partCollectedOptions.map(part => (
+                    <option key={part} value={part}>{part}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* GPS Location Section */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                GPS Location <span className="text-red-500">*</span>
+              </label>
+              <button 
+                type="button"
+                onClick={captureCurrentLocation}
+                disabled={isCapturingLocation}
+                className="mb-4 bg-green-600 text-white px-4 py-2.5 rounded-lg font-medium flex items-center space-x-2 hover:bg-green-700 transition-colors disabled:opacity-50"
+              >
+                <Navigation className="h-4 w-4" />
+                <span>{isCapturingLocation ? 'Capturing...' : 'Capture Current Location'}</span>
+              </button>
+              
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <input 
+                    type="text" 
+                    value={formData.latitude}
+                    onChange={(e) => handleInputChange('latitude', e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                    placeholder="Latitude" 
+                  />
+                </div>
+                <div>
+                  <input 
+                    type="text" 
+                    value={formData.longitude}
+                    onChange={(e) => handleInputChange('longitude', e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                    placeholder="Longitude" 
+                  />
+                </div>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-4 mt-4">
+                <div>
+                  <input 
+                    type="text" 
+                    value={formData.altitude}
+                    onChange={(e) => handleInputChange('altitude', e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                    placeholder="Altitude (meters)" 
+                  />
+                </div>
+                <div>
+                  <input 
+                    type="text" 
+                    value={formData.gpsAccuracy}
+                    onChange={(e) => handleInputChange('gpsAccuracy', e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                    placeholder="GPS Accuracy (meters)" 
+                  />
+                </div>
+              </div>
+              
+              <div className="mt-4">
+                <input 
+                  type="text" 
+                  value={formData.locationName}
+                  onChange={(e) => handleInputChange('locationName', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                  placeholder="Location Name (e.g., Farm Name, Village)" 
+                />
+              </div>
+            </div>
+
+            {/* Weather & Soil Type */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Weather Conditions</label>
+                <select 
+                  value={formData.weatherConditions}
+                  onChange={(e) => handleInputChange('weatherConditions', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                  <option value="">Select Weather</option>
+                  {weatherOptions.map(weather => (
+                    <option key={weather} value={weather}>{weather}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Soil Type</label>
+                <select 
+                  value={formData.soilType}
+                  onChange={(e) => handleInputChange('soilType', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                  <option value="">Select Soil Type</option>
+                  {soilTypeOptions.map(soil => (
+                    <option key={soil} value={soil}>{soil}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Moisture Content & Temperature */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Moisture Content (%)</label>
+                <input 
+                  type="number" 
+                  step="0.1"
+                  value={formData.moistureContent}
+                  onChange={(e) => handleInputChange('moistureContent', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                  placeholder="0.0" 
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Temperature (°C)</label>
+                <input 
+                  type="number" 
+                  step="0.1"
+                  value={formData.temperature}
+                  onChange={(e) => handleInputChange('temperature', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                  placeholder="0.0" 
+                />
+              </div>
+            </div>
+
+            {/* Harvest Images */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Harvest Images <span className="text-red-500">*</span> <span className="text-gray-500 font-normal">(Max 5)</span>
+              </label>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors cursor-pointer">
+                <input 
+                  type="file" 
+                  accept="image/png,image/jpeg" 
+                  multiple 
+                  onChange={handleImageUpload}
+                  className="hidden" 
+                  id="image-upload"
+                  disabled={images.length >= 5}
+                />
+                <label htmlFor="image-upload" className="cursor-pointer">
+                  <Upload className="h-10 w-10 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-700 font-medium">Click to upload images</p>
+                  <p className="text-sm text-gray-500 mt-1">PNG, JPG up to 10MB</p>
+                </label>
+              </div>
+              
+              {images.length > 0 && (
+                <div className="grid grid-cols-5 gap-2 mt-4">
+                  {images.map((img, index) => (
+                    <div key={index} className="relative aspect-square">
+                      <img 
+                        src={img.preview} 
+                        alt={`Upload ${index + 1}`} 
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                      <button 
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Additional Notes */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Additional Notes</label>
+              <textarea 
+                value={formData.additionalNotes}
+                onChange={(e) => handleInputChange('additionalNotes', e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                rows="3" 
+                placeholder="Any additional information about the harvest..."
+              />
+            </div>
           </div>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Moisture %</label>
-            <input type="number" step="0.1" className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="0.0" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Quality Grade</label>
-            <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
-              <option>Select Grade</option>
-              <option>Grade A+</option>
-              <option>Grade A</option>
-              <option>Grade B+</option>
-              <option>Grade B</option>
-            </select>
-          </div>
+        {/* Action Buttons */}
+        <div className="flex space-x-3 p-6 pt-0">
+          <button 
+            onClick={onClose} 
+            className="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+          >
+            Cancel
+          </button>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="flex-1 bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
+          >
+            <CheckCircle className="h-5 w-5" />
+            <span>Record Collection</span>
+          </motion.button>
         </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">GPS Location</label>
-          <div className="flex items-center space-x-2 p-3 bg-green-50 rounded-lg">
-            <Navigation className="h-4 w-4 text-green-600" />
-            <span className="text-sm text-green-700">
-              {location ? `Lat: ${location.lat.toFixed(6)}, Lng: ${location.lng.toFixed(6)}` : 'Capturing GPS...'}
-            </span>
-            <span className="text-xs text-green-600">±{location?.accuracy ? Math.round(location.accuracy) + 'm' : 'N/A'}</span>
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Collection Photos</label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-            <Camera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-            <p className="text-sm text-gray-600">Take photos of collected herbs</p>
-            <button className="mt-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200">
-              Open Camera
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      <div className="flex space-x-3 mt-6 pt-6 border-t border-gray-200">
-        <button className="flex-1 bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition-colors">
-          Save Collection
-        </button>
-        <button onClick={onClose} className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-          Cancel
-        </button>
-      </div>
+      </motion.div>
     </motion.div>
-  </motion.div>
-)
+  )
+}
 
 const EventDetailModal = ({ event, onClose }) => (
   <motion.div

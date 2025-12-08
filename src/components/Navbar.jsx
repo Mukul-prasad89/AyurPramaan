@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Leaf, Menu, X, ChevronDown } from 'lucide-react'
+import { Leaf, Menu, X, ChevronDown, Globe } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import logo from '../assets/logo.png'
 
@@ -93,18 +93,19 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
                 {link.label}
               </Link>
             ))}
-
-            <button
-              type="button"
-              onClick={toggleLanguage}
-              className="px-3 py-2 text-sm font-semibold text-black hover:text-primary-600 transition-colors"
-            >
-              {navContent.languageToggle}
-            </button>
           </div>
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-4">
+            <button
+              type="button"
+              onClick={toggleLanguage}
+              className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-primary-600 border border-dotted border-gray-400 hover:border-primary-600 rounded-lg transition-colors flex items-center gap-1.5"
+              title={language === 'en' ? 'Switch to Hindi' : 'Switch to English'}
+            >
+              <Globe className="h-4 w-4" />
+              <span>{language === 'en' ? 'हिन्दी' : 'English'}</span>
+            </button>
             <button
               type="button"
               onClick={onOpenSignIn}

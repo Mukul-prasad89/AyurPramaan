@@ -18,6 +18,7 @@ import RegulatorLandingPage from './components/regulator/RegulatorLandingPage'
 import ManufacturerLandingPage from './components/manufacturer/ManufacturerLandingPage'
 import AdminLandingPage from './components/admin/AdminLandingPage'
 import ScrollToTop from './components/common/ScrollToTop'
+import Chatbot from './components/common/Chatbot'
 
 function App() {
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
@@ -71,6 +72,9 @@ function App() {
           </>
         } />
       </Routes>
+      
+      {/* Global Chatbot - appears on all pages */}
+      <Chatbot />
     </div>
   )
 }

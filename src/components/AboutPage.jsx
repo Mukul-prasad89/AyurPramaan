@@ -51,21 +51,21 @@ const AboutPage = () => {
     },
     {
       name: 'Shreya Srivastav',
-      role: 'Research Writer',
-      title: 'Research & Content Development',
+      role: 'UI/UX Designer',
+      title: 'Design & Visual Experience',
       photo: shreyaPhoto,
-      testimonial: 'Bridging traditional herbal wisdom with modern technology through comprehensive research and compelling content. I ensure our platform truly reflects the authentic needs of the herbal industry.',
+      testimonial: 'Crafting beautiful and intuitive designs that make herbal traceability accessible to everyone. I focus on creating visual experiences that blend modern aesthetics with traditional herbal wisdom.',
       color: 'orange',
-      icon: PenTool
+      icon: Palette
     },
     {
       name: 'Tanvi Gupta',
-      role: 'UI/UX Designer',
-      title: 'Design & Business Strategy',
+      role: 'App Developer',
+      title: 'Mobile Application Development (Flutter)',
       photo: tanviPhoto,
-      testimonial: 'Designing experiences that are both beautiful and highly functional. My focus is on creating user-centric designs that make herbal traceability accessible and engaging for all stakeholders.',
+      testimonial: 'Building cross-platform mobile applications using Flutter to bring herbal traceability to users everywhere. My focus is on creating seamless, performant apps that work beautifully on any device.',
       color: 'pink',
-      icon: Palette
+      icon: Smartphone
     },
     {
       name: 'Mukul Prasad',
@@ -271,24 +271,6 @@ const AboutPage = () => {
             <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed">
               {content.headerDescription}
             </p>
-            
-            {/* Decorative Elements */}
-            <div className="flex justify-center items-center space-x-8 mt-12">
-              <div className="text-center">
-                <div className="text-4xl font-bold mb-2">500+</div>
-                <div className="text-sm text-white/80">Verified Farms</div>
-              </div>
-              <div className="w-px h-12 bg-white/30"></div>
-              <div className="text-center">
-                <div className="text-4xl font-bold mb-2">10K+</div>
-                <div className="text-sm text-white/80">Products Tracked</div>
-              </div>
-              <div className="w-px h-12 bg-white/30"></div>
-              <div className="text-center">
-                <div className="text-4xl font-bold mb-2">99.9%</div>
-                <div className="text-sm text-white/80">Accuracy</div>
-              </div>
-            </div>
           </motion.div>
         </div>
         

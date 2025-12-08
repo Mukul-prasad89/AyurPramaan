@@ -25,6 +25,7 @@ import {
   CheckCircle,
   XCircle
 } from 'lucide-react'
+import DashboardNavbar from '../common/DashboardNavbar'
 
 const LaboratoryLandingPage = () => {
   const [activeTab, setActiveTab] = useState('overview')
@@ -92,9 +93,17 @@ const LaboratoryLandingPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50">
+      {/* Dashboard Navbar */}
+      <DashboardNavbar 
+        userName="Dr. Meera Singh" 
+        userRole="Laboratory"
+        dateJoined="10 January 2024"
+        approvedBy="Admin Priya Desai"
+      />
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="bg-white shadow-sm border-b border-gray-200 pt-16">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div>

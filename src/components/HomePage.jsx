@@ -5,10 +5,12 @@ import { useLanguage } from '../context/LanguageContext'
 import farmerImage from '../assets/1st.png'
 import consumerImage from '../assets/2nd.png'
 import securityImage from '../assets/3rd.png'
+import JoinNetworkModal from './JoinNetworkModal'
 
 const HomePage = () => {
   const { language } = useLanguage()
   const [isSliderVisible, setIsSliderVisible] = useState(true)
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false)
 
   const contentMap = {
     en: {
@@ -27,10 +29,10 @@ const HomePage = () => {
         {
           type: 'slide',
           eyebrow: 'Farm-to-Ledger',
-          title: 'Welcome to HerbalTrace!!',
+          title: 'Hello,\nWelcome to HerbalTrace!!',
           description:
-            'A platform that lets you track the complete journey of herbal medicines. From the moment they are collected, through testing, processing, and distribution, all the way to the final product — every step is recorded and verified. Simply scan the QR code on the product to view its entire history, secured through blockchain technology for full transparency and trust.',
-          attribution: 'Certified Herb Collector',
+            'Track herbal medicines from collection to final product. Scan a QR to view their verified journey, secured with blockchain for full transparency.',
+          attribution: '',
           image: farmerImage,
           imageAlt: 'Farmer collecting medicinal herbs in the field'
         },
@@ -40,7 +42,7 @@ const HomePage = () => {
           title: 'One scan reveals the complete product journey.',
           description:
             'Customers access origin photos, lab results, and checkpoint data instantly through QR verification.',
-          attribution: 'Wellness Store Owner',
+          attribution: '',
           image: consumerImage,
           imageAlt: 'Customer scanning a QR code on a herbal product'
         },
@@ -50,7 +52,7 @@ const HomePage = () => {
           title: 'Encrypted signatures protect every product code.',
           description:
             'Dynamic blockchain seals and real-time monitoring prevent tampering and ensure authenticity.',
-          attribution: 'Herbal Trace Security Team',
+          attribution: '',
           image: securityImage,
           imageAlt: 'Secure verification and quality control process'
         }
@@ -409,27 +411,47 @@ const HomePage = () => {
         <div className="flex flex-col justify-center min-h-[65vh]">
           <AnimatePresence mode="wait" initial={false}>
             {sections[activeIndex].type === 'hero' ? (
-              /* Hero Slide - Full Screen Centered */
+              /* Hero Slide - Full Screen Centered with Left Slide Animation */
               <motion.div
                 key={`hero-${language}-${activeIndex}`}
                 className="text-center max-w-5xl mx-auto py-16"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.5 }}
               >
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4">
+                <motion.h1 
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 whitespace-pre-line"
+                  initial={{ opacity: 0, x: -100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                >
                   {sections[activeIndex].title}
-                </h1>
-                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-amber-200 leading-tight mb-8">
+                </motion.h1>
+                <motion.h2 
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-amber-200 leading-tight mb-8"
+                  initial={{ opacity: 0, x: -100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
+                >
                   {sections[activeIndex].titleHighlight}
-                </h2>
-                <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed mb-12">
+                </motion.h2>
+                <motion.p 
+                  className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed mb-12"
+                  initial={{ opacity: 0, x: -80 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+                >
                   {sections[activeIndex].description}
-                </p>
+                </motion.p>
                 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <motion.div 
+                  className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                  initial={{ opacity: 0, x: -60 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.55, ease: "easeOut" }}
+                >
                   <motion.a
                     href="#"
                     className="inline-flex items-center space-x-3 px-8 py-4 bg-amber-200 hover:bg-amber-300 text-gray-800 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -439,16 +461,16 @@ const HomePage = () => {
                     <Download className="h-5 w-5" />
                     <span>Download the App</span>
                   </motion.a>
-                  <motion.a
-                    href="#"
+                  <motion.button
+                    onClick={() => setIsJoinModalOpen(true)}
                     className="inline-flex items-center space-x-3 px-8 py-4 bg-transparent border-2 border-white text-white rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <Users className="h-5 w-5" />
                     <span>Join the Network</span>
-                  </motion.a>
-                </div>
+                  </motion.button>
+                </motion.div>
               </motion.div>
             ) : (
               /* Regular Slide with Image */
@@ -479,7 +501,7 @@ const HomePage = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <div>
-                    <h2 className="mt-4 text-3xl md:text-4xl font-bold text-white leading-snug">
+                    <h2 className="mt-4 text-3xl md:text-4xl font-bold text-white leading-snug whitespace-pre-line">
                       {sections[activeIndex].title}
                     </h2>
                     <p className="mt-4 text-white/90 leading-relaxed text-base md:text-lg">
@@ -794,6 +816,12 @@ const HomePage = () => {
           </div>
         </motion.section>
         </div>
+      
+      {/* Join Network Modal */}
+      <JoinNetworkModal 
+        isOpen={isJoinModalOpen} 
+        onClose={() => setIsJoinModalOpen(false)} 
+      />
     </div>
   )
 }

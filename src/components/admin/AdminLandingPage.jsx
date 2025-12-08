@@ -47,6 +47,7 @@ import {
   Key,
   UserCheck
 } from 'lucide-react'
+import DashboardNavbar from '../common/DashboardNavbar'
 
 const AdminLandingPage = () => {
   const [activeTab, setActiveTab] = useState('overview')
@@ -177,9 +178,17 @@ const AdminLandingPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50">
+      {/* Dashboard Navbar */}
+      <DashboardNavbar 
+        userName="Priya Desai" 
+        userRole="Admin"
+        dateJoined="1 August 2023"
+        approvedBy="System Administrator"
+      />
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="bg-white shadow-sm border-b border-gray-200 pt-16">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
