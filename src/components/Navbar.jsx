@@ -73,7 +73,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
             >
               <img src={logo} alt="Herbal Trace Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
             </motion.div>
-            <span className="text-xl md:text-2xl font-bold text-primary-700">
+            <span className="text-2xl md:text-3xl font-bold text-primary-700">
               {navContent.brand}
             </span>
           </Link>
@@ -124,18 +124,28 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
             </motion.button>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden p-2 rounded-lg text-black hover:bg-gray-100 transition-colors"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
+          {/* Mobile Language Toggle + Menu button */}
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              type="button"
+              onClick={toggleLanguage}
+              className="p-2 text-gray-600 hover:text-primary-600 border border-dotted border-gray-400 hover:border-primary-600 rounded-lg transition-colors"
+              title={language === 'en' ? 'Switch to Hindi' : 'Switch to English'}
+            >
+              <Globe className="h-5 w-5" />
+            </button>
+            <button
+              className="p-2 rounded-lg text-black hover:bg-gray-100 transition-colors"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 

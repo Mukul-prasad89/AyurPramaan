@@ -134,30 +134,33 @@ const ManufacturerLandingPage = () => {
         approvedBy="Admin Priya Desai"
       />
 
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 pt-16">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{greeting}, Anita Iyer</h1>
-              <p className="text-gray-600">Herbal Essence Processing Unit - AYUSH GMP Certified</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowNewProcessModal(true)}
-                className="bg-primary-600 text-white px-4 py-2 rounded-xl font-semibold flex items-center space-x-2 hover:bg-primary-700 transition-colors"
-              >
-                <Plus className="h-4 w-4" />
-                <span>New Process</span>
-              </motion.button>
+      {/* Header/Greeting Section */}
+      <div className="pt-20 md:pt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-6 md:p-8 shadow-lg">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <p className="text-primary-100 text-sm md:text-base mb-1">Welcome back</p>
+                <h1 className="text-2xl md:text-3xl font-bold text-white">{greeting}, Anita Iyer</h1>
+                <p className="text-primary-100 text-sm md:text-base mt-2">Herbal Essence Processing Unit - AYUSH GMP Certified</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowNewProcessModal(true)}
+                  className="bg-white text-primary-700 px-5 py-2.5 rounded-xl font-semibold flex items-center space-x-2 hover:bg-primary-50 transition-colors text-sm md:text-base shadow-md"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>New Process</span>
+                </motion.button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat) => (
@@ -187,7 +190,7 @@ const ManufacturerLandingPage = () => {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex space-x-1 bg-gray-100 rounded-xl p-1 mb-8">
+        <div className="flex flex-wrap gap-1 bg-gray-100 rounded-xl p-1 mb-8 overflow-x-auto">
           {[
             { id: 'overview', label: 'Overview', icon: BarChart3 },
             { id: 'batches', label: 'Batch Management', icon: Package },
@@ -199,7 +202,7 @@ const ManufacturerLandingPage = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap text-sm md:text-base ${
                 activeTab === tab.id
                   ? 'bg-white text-primary-600 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
