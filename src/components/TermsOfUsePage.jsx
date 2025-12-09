@@ -87,7 +87,7 @@ const TermsOfUsePage = () => {
       contact: {
         title: '7. Contact Us',
         content: 'If you have questions, concerns, or need support, contact:',
-        email: 'support@herbaltrace.com'
+        email: 'herbal.trace1@gmail.com'
       },
       
       acceptance: {

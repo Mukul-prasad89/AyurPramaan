@@ -4,42 +4,25 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Eye, EyeOff } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
-const stakeholderOptions = [
-  { value: 'Manufacturer', label: { en: 'Manufacturer', hi: 'निर्माता' }, path: '/manufacturer' },
-  { value: 'Laboratory', label: { en: 'Laboratory', hi: 'प्रयोगशाला' }, path: '/laboratory' },
-  { value: 'Regulator', label: { en: 'Regulator', hi: 'नियामक' }, path: '/regulator' },
-  { value: 'Farmer', label: { en: 'Farmer', hi: 'किसान' }, path: '/farmer' },
-  { value: 'Consumer', label: { en: 'Consumer', hi: 'उपभोक्ता' }, path: '/consumer' },
-  { value: 'Admin', label: { en: 'Admin', hi: 'प्रशासक' }, path: '/admin' }
-]
-
 const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
   const { language } = useLanguage()
   const contentMap = {
     en: {
       title: 'Sign in',
-      stakeholderLabel: 'Stakeholder Type',
-      selectPlaceholder: '--Select--',
-      loginIdLabel: 'Login ID',
-      loginIdPlaceholder: 'Enter Login ID',
-      identifierLabel: 'Username / Email',
-      identifierPlaceholder: 'Enter username or email',
+      emailLabel: 'Email',
+      emailPlaceholder: 'Enter your email',
       passwordLabel: 'Password',
       passwordPlaceholder: 'Enter Password',
       submitButton: 'Sign in',
-      switchPrompt: 'New to Herbal Trace?',
+      switchPrompt: 'New to HerbalTrace?',
       switchButton: 'Create an account',
       closeAria: 'Close sign in form',
       togglePasswordAria: 'Toggle password visibility'
     },
     hi: {
       title: 'साइन इन करें',
-      stakeholderLabel: 'हितधारक प्रकार',
-      selectPlaceholder: '--चयन करें--',
-      loginIdLabel: 'लॉगिन आईडी',
-      loginIdPlaceholder: 'लॉगिन आईडी दर्ज करें',
-      identifierLabel: 'उपयोगकर्ता नाम / ईमेल',
-      identifierPlaceholder: 'उपयोगकर्ता नाम या ईमेल दर्ज करें',
+      emailLabel: 'ईमेल',
+      emailPlaceholder: 'अपना ईमेल दर्ज करें',
       passwordLabel: 'पासवर्ड',
       passwordPlaceholder: 'पासवर्ड दर्ज करें',
       submitButton: 'साइन इन करें',
@@ -51,14 +34,9 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
   }
 
   const content = contentMap[language] || contentMap.en
-  const options = stakeholderOptions.map((option) => ({
-    value: option.value,
-    label: option.label[language] || option.label.en,
-    path: option.path
-  }))
 
   const navigate = useNavigate()
-  const [credentials, setCredentials] = useState({ loginId: '', identifier: '', password: '', stakeholderType: '' })
+  const [credentials, setCredentials] = useState({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (event) => {
@@ -69,31 +47,22 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
     
-    // Find the selected stakeholder's dashboard path
-    const selectedStakeholder = stakeholderOptions.find(
-      (option) => option.value === credentials.stakeholderType
-    )
+    // Store user info in localStorage for demo purposes
+    localStorage.setItem('herbaltrace_user', JSON.stringify({
+      email: credentials.email,
+      isLoggedIn: true
+    }))
     
-    if (selectedStakeholder) {
-      // Store user info in localStorage for demo purposes
-      localStorage.setItem('herbaltrace_user', JSON.stringify({
-        stakeholderType: credentials.stakeholderType,
-        loginId: credentials.loginId,
-        identifier: credentials.identifier,
-        isLoggedIn: true
-      }))
-      
-      // Close modal and navigate to dashboard
-      onClose()
-      setCredentials({ loginId: '', identifier: '', password: '', stakeholderType: '' })
-      setShowPassword(false)
-      navigate(selectedStakeholder.path)
-    }
+    // Close modal and navigate to home or dashboard
+    onClose()
+    setCredentials({ email: '', password: '' })
+    setShowPassword(false)
+    // For now, just close the modal - navigation can be handled based on user role from backend
   }
 
   const handleClose = () => {
     onClose()
-    setCredentials({ loginId: '', identifier: '', password: '', stakeholderType: '' })
+    setCredentials({ email: '', password: '' })
     setShowPassword(false)
   }
 
@@ -131,51 +100,14 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
               <form onSubmit={handleSubmit} className="px-6 py-6 lg:py-8 bg-white space-y-5">
                 <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
                   <span>
-                    {content.stakeholderLabel}<span className="text-red-500"> *</span>
-                  </span>
-                  <select
-                    name="stakeholderType"
-                    value={credentials.stakeholderType}
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100"
-                  >
-                    <option value="" disabled>
-                      {content.selectPlaceholder}
-                    </option>
-                    {options.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
-                  <span>
-                    {content.loginIdLabel}<span className="text-red-500"> *</span>
+                    {content.emailLabel}<span className="text-red-500"> *</span>
                   </span>
                   <input
-                    type="text"
-                    name="loginId"
-                    value={credentials.loginId}
+                    type="email"
+                    name="email"
+                    value={credentials.email}
                     onChange={handleChange}
-                    placeholder={content.loginIdPlaceholder}
-                    required
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100"
-                  />
-                </label>
-
-                <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
-                  <span>
-                    {content.identifierLabel}<span className="text-red-500"> *</span>
-                  </span>
-                  <input
-                    type="text"
-                    name="identifier"
-                    value={credentials.identifier}
-                    onChange={handleChange}
-                    placeholder={content.identifierPlaceholder}
+                    placeholder={content.emailPlaceholder}
                     required
                     className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100"
                   />

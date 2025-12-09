@@ -115,7 +115,7 @@ const PrivacyPolicyPage = () => {
       contact: {
         title: 'Contact Us',
         content: 'To request data access, correction, or deletion, or if you have questions about this Privacy Policy, contact us at:',
-        email: 'privacy@herbaltrace.com',
+        email: 'herbal.trace1@gmail.com',
         note: 'We will respond to your request within 30 days.'
       },
       

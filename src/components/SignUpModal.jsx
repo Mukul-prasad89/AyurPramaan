@@ -3,70 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Eye, EyeOff } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
-const indianStates = [
-  'Andhra Pradesh',
-  'Arunachal Pradesh',
-  'Assam',
-  'Bihar',
-  'Chhattisgarh',
-  'Goa',
-  'Gujarat',
-  'Haryana',
-  'Himachal Pradesh',
-  'Jharkhand',
-  'Karnataka',
-  'Kerala',
-  'Madhya Pradesh',
-  'Maharashtra',
-  'Manipur',
-  'Meghalaya',
-  'Mizoram',
-  'Nagaland',
-  'Odisha',
-  'Punjab',
-  'Rajasthan',
-  'Sikkim',
-  'Tamil Nadu',
-  'Telangana',
-  'Tripura',
-  'Uttar Pradesh',
-  'Uttarakhand',
-  'West Bengal',
-  'Jammu and Kashmir'
-]
-
-const stakeholderOptions = [
-  { value: 'Manufacturer', label: { en: 'Manufacturer', hi: 'निर्माता' } },
-  { value: 'Laboratory', label: { en: 'Laboratory', hi: 'प्रयोगशाला' } },
-  { value: 'Regulator', label: { en: 'Regulator', hi: 'नियामक' } },
-  { value: 'Farmer', label: { en: 'Farmer', hi: 'किसान' } },
-  { value: 'Consumer', label: { en: 'Consumer', hi: 'उपभोक्ता' } },
-  { value: 'Admin', label: { en: 'Admin', hi: 'प्रशासक' } }
-]
-
-const herbOptions = [
-  { value: 'Turmeric', label: { en: 'Turmeric', hi: 'हल्दी' } },
-  { value: 'Ashwagandha', label: { en: 'Ashwagandha', hi: 'अश्वगंधा' } },
-  { value: 'Tulsi', label: { en: 'Tulsi', hi: 'तुलसी' } },
-  { value: 'Neem', label: { en: 'Neem', hi: 'नीम' } },
-  { value: 'Giloy', label: { en: 'Giloy', hi: 'गिलोय' } },
-  { value: 'Shatavari', label: { en: 'Shatavari', hi: 'शतावरी' } },
-  { value: 'Amla', label: { en: 'Amla', hi: 'आंवला' } },
-  { value: 'Brahmi', label: { en: 'Brahmi', hi: 'ब्राह्मी' } },
-  { value: 'Ginseng', label: { en: 'Ginseng', hi: 'जिनसेंग' } },
-  { value: 'Ginger', label: { en: 'Ginger', hi: 'अदरक' } }
-]
-
 const initialFormState = {
   firstName: '',
   lastName: '',
-  password: '',
-  confirmPassword: '',
-  state: '',
   email: '',
-  phone: '',
-  stakeholderType: '',
-  productOfInterest: ''
+  password: ''
 }
 
 const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
@@ -127,19 +68,9 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
   }
 
   const content = contentMap[language] || contentMap.en
-  const stakeholderChoices = stakeholderOptions.map((option) => ({
-    value: option.value,
-    label: option.label[language] || option.label.en
-  }))
-  const herbChoices = herbOptions.map((option) => ({
-    value: option.value,
-    label: option.label[language] || option.label.en
-  }))
-  const stateOptions = indianStates.map((state) => ({ value: state, label: state }))
 
   const [formData, setFormData] = useState(initialFormState)
   const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -152,14 +83,12 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
     onClose()
     setFormData(initialFormState)
     setShowPassword(false)
-    setShowConfirmPassword(false)
   }
 
   const handleClose = () => {
     onClose()
     setFormData(initialFormState)
     setShowPassword(false)
-    setShowConfirmPassword(false)
   }
 
   return (
@@ -173,7 +102,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
           onClick={handleClose}
         >
           <motion.div
-            className="relative w-full max-w-4xl"
+            className="relative w-full max-w-md"
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -194,7 +123,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
               </div>
 
               <form onSubmit={handleSubmit} className="px-6 py-6 lg:py-8 bg-white">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-5">
                   <InputField
                     label={content.firstNameLabel}
                     name="firstName"
@@ -213,6 +142,16 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
                     required
                   />
 
+                  <InputField
+                    label={content.emailLabel}
+                    name="email"
+                    type="email"
+                    placeholder={content.emailPlaceholder}
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+
                   <PasswordField
                     label={content.passwordLabel}
                     name="password"
@@ -224,77 +163,16 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }) => {
                     onToggleVisibility={() => setShowPassword((prev) => !prev)}
                     toggleAria={content.passwordToggleAria}
                   />
-
-                  <PasswordField
-                    label={content.confirmPasswordLabel}
-                    name="confirmPassword"
-                    placeholder={content.confirmPasswordPlaceholder}
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    isVisible={showConfirmPassword}
-                    onToggleVisibility={() => setShowConfirmPassword((prev) => !prev)}
-                    toggleAria={content.passwordToggleAria}
-                  />
-
-                  <SelectField
-                    label={content.stateLabel}
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    options={stateOptions}
-                    placeholder={content.statePlaceholder}
-                    required
-                  />
-
-                  <InputField
-                    label={content.phoneLabel}
-                    name="phone"
-                    placeholder={content.phonePlaceholder}
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  <InputField
-                    label={content.emailLabel}
-                    name="email"
-                    type="email"
-                    placeholder={content.emailPlaceholder}
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  <SelectField
-                    label={content.stakeholderLabel}
-                    name="stakeholderType"
-                    value={formData.stakeholderType}
-                    onChange={handleChange}
-                    options={stakeholderChoices}
-                    placeholder={content.stakeholderPlaceholder}
-                    required
-                  />
-
-                  <SelectField
-                    label={content.productLabel}
-                    name="productOfInterest"
-                    value={formData.productOfInterest}
-                    onChange={handleChange}
-                    options={herbChoices}
-                    placeholder={content.productPlaceholder}
-                    required
-                  />
                 </div>
 
-                <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="mt-8 space-y-4">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto btn-primary px-8"
+                    className="w-full btn-primary"
                   >
                     {content.submitButton}
                   </button>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-center text-gray-600">
                     {content.switchPrompt}{' '}
                     <button
                       type="button"
@@ -358,30 +236,6 @@ const PasswordField = ({ label, name, value, onChange, placeholder, required, is
         {isVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
       </button>
     </div>
-  </label>
-)
-
-const SelectField = ({ label, name, value, onChange, options, placeholder, required }) => (
-  <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
-    <span>
-      {label}{required && <span className="text-red-500"> *</span>}
-    </span>
-    <select
-      name={name}
-      value={value}
-      onChange={onChange}
-      required={required}
-      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100"
-    >
-      <option value="" disabled>
-        {placeholder}
-      </option>
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
   </label>
 )
 

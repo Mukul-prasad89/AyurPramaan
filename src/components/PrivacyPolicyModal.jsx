@@ -45,7 +45,7 @@ const PrivacyPolicyModal = ({ isOpen, onClose }) => {
       contact: {
         title: 'Contact Us',
         text: 'If you have questions about this Privacy Policy, please contact us at:',
-        email: 'privacy@herbaltrace.com'
+        email: 'herbal.trace1@gmail.com'
       }
     },
     hi: {
@@ -85,8 +85,8 @@ const PrivacyPolicyModal = ({ isOpen, onClose }) => {
       ],
       contact: {
         title: 'हमसे संपर्क करें',
-        text: 'यदि इस गोपनीयता नीति के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे संपर्क करें:',
-        email: 'privacy@herbaltrace.com'
+        text: 'यदि आपके इस गोपनीयता नीति के बारे में प्रश्न हैं, तो कृपया हमसे संपर्क करें:',
+        email: 'herbal.trace1@gmail.com'
       }
     }
   }

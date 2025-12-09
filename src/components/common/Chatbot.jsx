@@ -73,7 +73,7 @@ const Chatbot = () => {
       }
     } catch (error) {
       console.error('Chatbot API Error:', error)
-      return "I apologize, but I'm having trouble connecting right now. Please try again in a moment, or contact our support team at support@herbaltrace.com for immediate assistance."
+      return "I apologize, but I'm having trouble connecting right now. Please try again in a moment, or contact our support team at herbal.trace1@gmail.com for immediate assistance."
     }
   }
 
@@ -274,7 +274,7 @@ const Chatbot = () => {
                     </motion.button>
                   </div>
                   <p className="text-xs text-gray-400 mt-2 text-center">
-                    Powered by Gemini AI • 24/7 Support
+                    Powered by ChatGPT-4 • 24/7 Support
                   </p>
                 </div>
               </>

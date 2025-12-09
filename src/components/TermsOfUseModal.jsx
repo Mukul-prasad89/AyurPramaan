@@ -45,7 +45,7 @@ const TermsOfUseModal = ({ isOpen, onClose }) => {
       contact: {
         title: 'Questions?',
         text: 'For questions about these Terms of Use, contact us at:',
-        email: 'support@herbaltrace.com'
+        email: 'herbal.trace1@gmail.com'
       }
     },
     hi: {
@@ -84,9 +84,9 @@ const TermsOfUseModal = ({ isOpen, onClose }) => {
         }
       ],
       contact: {
-        title: 'प्रश्न?',
+        title: 'संपर्क',
         text: 'इन उपयोग की शर्तों के बारे में प्रश्नों के लिए, हमसे संपर्क करें:',
-        email: 'support@herbaltrace.com'
+        email: 'herbal.trace1@gmail.com'
       }
     }
   }
