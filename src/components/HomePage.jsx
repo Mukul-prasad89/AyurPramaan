@@ -459,7 +459,9 @@ const HomePage = () => {
                   transition={{ duration: 0.6, delay: 0.55, ease: "easeOut" }}
                 >
                   <motion.a
-                    href="#"
+                    href="https://store8.gofile.io/download/web/08f5f051-f3e5-42f1-aa3f-60f3f4b56629/app-release.apk"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center space-x-3 px-8 py-4 bg-amber-200 hover:bg-amber-300 text-gray-800 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

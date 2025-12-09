@@ -4,11 +4,22 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Eye, EyeOff } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
+const stakeholderOptions = [
+  { value: 'Farmer', label: { en: 'Farmer', hi: 'किसान' }, path: '/farmer' },
+  { value: 'Consumer', label: { en: 'Consumer', hi: 'उपभोक्ता' }, path: '/consumer' },
+  { value: 'Laboratory', label: { en: 'Laboratory', hi: 'प्रयोगशाला' }, path: '/laboratory' },
+  { value: 'Manufacturer', label: { en: 'Manufacturer', hi: 'निर्माता' }, path: '/manufacturer' },
+  { value: 'Regulator', label: { en: 'Regulator', hi: 'नियामक' }, path: '/regulator' },
+  { value: 'Admin', label: { en: 'Admin', hi: 'प्रशासक' }, path: '/admin' }
+]
+
 const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
   const { language } = useLanguage()
   const contentMap = {
     en: {
       title: 'Sign in',
+      stakeholderLabel: 'Select Role',
+      stakeholderPlaceholder: '--Select your role--',
       emailLabel: 'Email',
       emailPlaceholder: 'Enter your email',
       passwordLabel: 'Password',
@@ -21,6 +32,8 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
     },
     hi: {
       title: 'साइन इन करें',
+      stakeholderLabel: 'भूमिका चुनें',
+      stakeholderPlaceholder: '--अपनी भूमिका चुनें--',
       emailLabel: 'ईमेल',
       emailPlaceholder: 'अपना ईमेल दर्ज करें',
       passwordLabel: 'पासवर्ड',
@@ -34,9 +47,14 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
   }
 
   const content = contentMap[language] || contentMap.en
+  const options = stakeholderOptions.map((option) => ({
+    value: option.value,
+    label: option.label[language] || option.label.en,
+    path: option.path
+  }))
 
   const navigate = useNavigate()
-  const [credentials, setCredentials] = useState({ email: '', password: '' })
+  const [credentials, setCredentials] = useState({ email: '', password: '', stakeholderType: '' })
   const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (event) => {
@@ -47,22 +65,30 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
     
-    // Store user info in localStorage for demo purposes
-    localStorage.setItem('herbaltrace_user', JSON.stringify({
-      email: credentials.email,
-      isLoggedIn: true
-    }))
+    // Find the selected stakeholder's dashboard path
+    const selectedStakeholder = stakeholderOptions.find(
+      (option) => option.value === credentials.stakeholderType
+    )
     
-    // Close modal and navigate to home or dashboard
-    onClose()
-    setCredentials({ email: '', password: '' })
-    setShowPassword(false)
-    // For now, just close the modal - navigation can be handled based on user role from backend
+    if (selectedStakeholder) {
+      // Store user info in localStorage for demo purposes
+      localStorage.setItem('herbaltrace_user', JSON.stringify({
+        stakeholderType: credentials.stakeholderType,
+        email: credentials.email,
+        isLoggedIn: true
+      }))
+      
+      // Close modal and navigate to dashboard
+      onClose()
+      setCredentials({ email: '', password: '', stakeholderType: '' })
+      setShowPassword(false)
+      navigate(selectedStakeholder.path)
+    }
   }
 
   const handleClose = () => {
     onClose()
-    setCredentials({ email: '', password: '' })
+    setCredentials({ email: '', password: '', stakeholderType: '' })
     setShowPassword(false)
   }
 
@@ -98,6 +124,30 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp }) => {
               </div>
 
               <form onSubmit={handleSubmit} className="px-6 py-6 lg:py-8 bg-white space-y-5">
+                {/* Stakeholder Selection */}
+                <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
+                  <span>
+                    {content.stakeholderLabel}<span className="text-red-500"> *</span>
+                  </span>
+                  <select
+                    name="stakeholderType"
+                    value={credentials.stakeholderType}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100"
+                  >
+                    <option value="" disabled>
+                      {content.stakeholderPlaceholder}
+                    </option>
+                    {options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                {/* Email */}
                 <label className="flex flex-col space-y-2 text-sm font-medium text-gray-700">
                   <span>
                     {content.emailLabel}<span className="text-red-500"> *</span>
