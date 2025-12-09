@@ -9,6 +9,7 @@ const stakeholderOptions = [
   { value: 'Laboratory', label: { en: 'Laboratory', hi: 'प्रयोगशाला' }, path: '/laboratory' },
   { value: 'Regulator', label: { en: 'Regulator', hi: 'नियामक' }, path: '/regulator' },
   { value: 'Farmer', label: { en: 'Farmer', hi: 'किसान' }, path: '/farmer' },
+  { value: 'Consumer', label: { en: 'Consumer', hi: 'उपभोक्ता' }, path: '/consumer' },
   { value: 'Admin', label: { en: 'Admin', hi: 'प्रशासक' }, path: '/admin' }
 ]
 

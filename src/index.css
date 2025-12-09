@@ -45,3 +45,12 @@
     @apply bg-gradient-to-br from-accent-400 to-accent-500;
   }
 }
+
+/* Truck marker animation */
+.truck-marker {
+  transition: transform 0.1s ease-out;
+}
+
+.truck-marker:hover {
+  transform: scale(1.1);
+}

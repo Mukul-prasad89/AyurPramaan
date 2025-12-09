@@ -68,7 +68,7 @@ const DashboardNavbar = ({
                 alt="HerbalTrace Logo" 
                 className="h-10 w-10 md:h-12 md:w-12 object-contain"
               />
-              <span className="text-2xl md:text-3xl font-bold text-primary-700">Herbal Trace</span>
+              <span className="text-2xl md:text-3xl font-bold text-primary-700">HerbalTrace</span>
             </div>
 
             {/* Right Section - Profile */}

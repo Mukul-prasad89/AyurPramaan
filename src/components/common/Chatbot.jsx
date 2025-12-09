@@ -2,9 +2,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Send, Bot, User, Loader2, Minimize2, Maximize2 } from 'lucide-react'
 
-// Access API key from environment variables (secure approach)
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent'
+// Access Backend URL from environment variables
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://herbaltrace-backend.onrender.com'
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -36,77 +35,44 @@ const Chatbot = () => {
     }
   }, [isOpen, isMinimized])
 
-  const systemPrompt = `You are HerbalTrace Assistant, a helpful AI assistant for the HerbalTrace platform - a blockchain-based herbal medicine traceability system. 
-
-Your role is to help users with:
-1. Understanding how to track herbal medicines from farm to final product
-2. Explaining blockchain verification and QR code scanning
-3. Guiding farmers on collection events and handover processes
-4. Helping laboratories understand testing protocols
-5. Assisting manufacturers with batch processing and compliance
-6. Supporting regulators with audit and inspection features
-7. General questions about herbal medicine quality and authenticity
-
-Be friendly, concise, and helpful. If you don't know something specific about the platform, provide general guidance and suggest contacting support for detailed assistance.
-
-Always respond in a conversational, professional manner. Keep responses brief but informative.`
-
   const sendMessageToGemini = async (userMessage) => {
     try {
-      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+      const response = await fetch(`${BACKEND_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                { text: systemPrompt },
-                { text: `User message: ${userMessage}` }
-              ]
-            }
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
-          },
-          safetySettings: [
-            {
-              category: "HARM_CATEGORY_HARASSMENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_HATE_SPEECH",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            }
-          ]
+          message: userMessage
         })
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to get response from Gemini')
-      }
-
       const data = await response.json()
       
-      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-        return data.candidates[0].content.parts[0].text
+      // Check if backend returned an error
+      if (data.success === false) {
+        console.error('Backend error:', data.error, data.details)
+        return "I'm experiencing some technical difficulties right now. Our team is working on it. Please try again shortly!"
+      }
+
+      // Check for successful response
+      if (data.response) {
+        return data.response
+      } else if (data.message && data.success !== false) {
+        return data.message
+      } else if (data.reply) {
+        return data.reply
+      } else if (data.text) {
+        return data.text
+      } else if (data.answer) {
+        return data.answer
       } else {
-        throw new Error('Invalid response format')
+        // If we got here, log what we received for debugging
+        console.log('Unexpected response format:', data)
+        return "I received your message but couldn't process the response properly. Please try again!"
       }
     } catch (error) {
-      console.error('Gemini API Error:', error)
+      console.error('Chatbot API Error:', error)
       return "I apologize, but I'm having trouble connecting right now. Please try again in a moment, or contact our support team at support@herbaltrace.com for immediate assistance."
     }
   }

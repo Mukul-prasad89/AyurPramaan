@@ -17,6 +17,8 @@ import LaboratoryLandingPage from './components/laboratory/LaboratoryLandingPage
 import RegulatorLandingPage from './components/regulator/RegulatorLandingPage'
 import ManufacturerLandingPage from './components/manufacturer/ManufacturerLandingPage'
 import AdminLandingPage from './components/admin/AdminLandingPage'
+import ConsumerLandingPage from './components/consumer/ConsumerLandingPage'
+import ProductJourneyPage from './components/consumer/ProductJourneyPage'
 import ScrollToTop from './components/common/ScrollToTop'
 import Chatbot from './components/common/Chatbot'
 
@@ -48,6 +50,8 @@ function App() {
         <Route path="/regulator" element={<RegulatorLandingPage />} />
         <Route path="/manufacturer" element={<ManufacturerLandingPage />} />
         <Route path="/admin" element={<AdminLandingPage />} />
+        <Route path="/consumer" element={<ConsumerLandingPage />} />
+        <Route path="/product-journey/:productId" element={<ProductJourneyPage />} />
         
         {/* Regular routes with navbar/footer */}
         <Route path="/*" element={

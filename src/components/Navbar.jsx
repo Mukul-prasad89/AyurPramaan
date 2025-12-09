@@ -37,7 +37,7 @@ const Navbar = ({ onOpenSignUp = () => {}, onOpenSignIn = () => {} }) => {
         languageToggle: 'English'
       }
     : {
-        brand: 'Herbal Trace',
+        brand: 'HerbalTrace',
         navLinks: [
           { path: '/', label: 'Home' },
           { path: '/offerings', label: 'Offerings' },

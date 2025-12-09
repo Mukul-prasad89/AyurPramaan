@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext'
 import farmerImage from '../assets/1st.png'
 import consumerImage from '../assets/2nd.png'
 import securityImage from '../assets/3rd.png'
+import womenImage from '../assets/women.png'
 import JoinNetworkModal from './JoinNetworkModal'
 
 const HomePage = () => {
@@ -29,7 +30,8 @@ const HomePage = () => {
         {
           type: 'slide',
           eyebrow: 'Farm-to-Ledger',
-          title: 'Hello,\nWelcome to HerbalTrace!!',
+          title: 'Hello,',
+          titleHighlight: 'Welcome to HerbalTrace!!',
           description:
             'Track herbal medicines from collection to final product. Scan a QR to view their verified journey, secured with blockchain for full transparency.',
           attribution: '',
@@ -501,10 +503,22 @@ const HomePage = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <div>
-                    <h2 className="mt-4 text-3xl md:text-4xl font-bold text-white leading-snug whitespace-pre-line">
-                      {sections[activeIndex].title}
-                    </h2>
-                    <p className="mt-4 text-white/90 leading-relaxed text-base md:text-lg">
+                    {/* Check if this slide has titleHighlight (Hello, Welcome to HerbalTrace slide) */}
+                    {sections[activeIndex].titleHighlight ? (
+                      <div className="mt-4">
+                        <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-amber-200" style={{ lineHeight: '1.1' }}>
+                          {sections[activeIndex].title}
+                        </h2>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-2" style={{ lineHeight: '1.15' }}>
+                          {sections[activeIndex].titleHighlight}
+                        </h2>
+                      </div>
+                    ) : (
+                      <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-white whitespace-pre-line" style={{ lineHeight: '1.15' }}>
+                        {sections[activeIndex].title}
+                      </h2>
+                    )}
+                    <p className="mt-6 text-white/90 leading-relaxed text-lg md:text-xl">
                       {sections[activeIndex].description}
                     </p>
 
@@ -624,17 +638,53 @@ const HomePage = () => {
             </div>
           </motion.section>
         )}
+      </div>
 
-        {/* Our Solutions Section with Light Grey Background */}
-        {process && (
-          <motion.section
-            className="mt-24 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-16 bg-gray-100"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="max-w-7xl mx-auto">
+      {/* Women Wisdom Section - Full Width Banner */}
+      <motion.section
+        className="mt-24 relative overflow-hidden w-full"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px]">
+          <img
+            src={womenImage}
+            alt="Women working in herbal fields"
+            className="w-full h-full object-cover"
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/40"></div>
+          {/* Text Overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white text-center px-4"
+              style={{ 
+                textShadow: '2px 2px 8px rgba(0,0,0,0.5)',
+                lineHeight: '1.2'
+              }}
+            >
+              "Wisdom grows where she works"
+            </motion.h2>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Our Solutions Section with Light Grey Background - Full Width */}
+      {process && (
+        <motion.section
+          className="w-full py-16 bg-gray-100"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                 {process.headerTitle}
@@ -655,11 +705,12 @@ const HomePage = () => {
                 />
               ))}
             </div>
-            </div>
-          </motion.section>
-        )}
+          </div>
+        </motion.section>
+      )}
 
-        {/* What Makes Us Different Section */}
+      {/* What Makes Us Different Section */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.section
           className="mt-24 py-16 bg-gray-50 rounded-3xl"
           initial={{ opacity: 0, y: 40 }}
