@@ -55,10 +55,10 @@ const RegulatorLandingPage = () => {
   }, [])
 
   const blockchainStats = [
-    { id: 1, title: 'Verified Batches', value: '2,847', change: '+127', trend: 'up', icon: Database, color: 'blue' },
-    { id: 2, title: 'Compliance Rate', value: '96.2%', change: '+1.3%', trend: 'up', icon: ShieldCheck, color: 'green' },
-    { id: 3, title: 'Active Alerts', value: '8', change: '-3', trend: 'down', icon: AlertTriangle, color: 'orange' },
-    { id: 4, title: 'Reports Generated', value: '124', change: '+24', trend: 'up', icon: FileText, color: 'purple' }
+    { id: 1, title: 'Verified Batches', value: '0', change: '0', trend: 'up', icon: Database, color: 'blue' },
+    { id: 2, title: 'Compliance Rate', value: '0%', change: '0%', trend: 'up', icon: ShieldCheck, color: 'green' },
+    { id: 3, title: 'Active Alerts', value: '0', change: '0', trend: 'up', icon: AlertTriangle, color: 'orange' },
+    { id: 4, title: 'Reports Generated', value: '0', change: '0', trend: 'up', icon: FileText, color: 'purple' }
   ]
 
   const blockchainRecords = [

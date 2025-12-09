@@ -30,7 +30,10 @@ import {
   Boxes,
   Shield,
   FileText,
-  TrendingUp
+  TrendingUp,
+  MessageCircle,
+  Send,
+  RefreshCw
 } from 'lucide-react'
 import DashboardNavbar from '../common/DashboardNavbar'
 
@@ -40,6 +43,7 @@ const ManufacturerLandingPage = () => {
   const [selectedProcess, setSelectedProcess] = useState(null)
   const [showNewProcessModal, setShowNewProcessModal] = useState(false)
   const [showQRModal, setShowQRModal] = useState(false)
+  const [showComplaintModal, setShowComplaintModal] = useState(false)
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours()
@@ -49,10 +53,10 @@ const ManufacturerLandingPage = () => {
   }, [])
 
   const stats = [
-    { id: 1, title: 'Active Batches', value: '12', change: '+3', trend: 'up', icon: Package, color: 'blue' },
-    { id: 2, title: 'Daily Production', value: '850kg', change: '+5.2%', trend: 'up', icon: Factory, color: 'green' },
-    { id: 3, title: 'Process Efficiency', value: '96.8%', change: '+1.2%', trend: 'up', icon: TrendingUp, color: 'purple' },
-    { id: 4, title: 'QR Codes Generated', value: '248', change: '+12', trend: 'up', icon: QrCode, color: 'orange' }
+    { id: 1, title: 'Active Batches', value: '0', change: '0', trend: 'up', icon: Package, color: 'blue' },
+    { id: 2, title: 'Daily Production', value: '0kg', change: '0%', trend: 'up', icon: Factory, color: 'green' },
+    { id: 3, title: 'Process Efficiency', value: '0%', change: '0%', trend: 'up', icon: TrendingUp, color: 'purple' },
+    { id: 4, title: 'QR Codes Generated', value: '0', change: '0', trend: 'up', icon: QrCode, color: 'orange' }
   ]
 
   const incomingBatches = [
@@ -153,6 +157,15 @@ const ManufacturerLandingPage = () => {
                 >
                   <Plus className="h-4 w-4" />
                   <span>New Process</span>
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowComplaintModal(true)}
+                  className="bg-red-500 text-white px-5 py-2.5 rounded-xl font-semibold flex items-center space-x-2 hover:bg-red-600 transition-colors text-sm md:text-base shadow-md"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  <span>Raise Complaint</span>
                 </motion.button>
               </div>
             </div>
@@ -345,6 +358,9 @@ const ManufacturerLandingPage = () => {
         )}
         {showQRModal && (
           <QRGenerationModal onClose={() => setShowQRModal(false)} />
+        )}
+        {showComplaintModal && (
+          <ComplaintModal onClose={() => setShowComplaintModal(false)} />
         )}
       </AnimatePresence>
     </div>

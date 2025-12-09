@@ -62,10 +62,10 @@ const AdminLandingPage = () => {
   }, [])
 
   const systemStats = [
-    { id: 1, title: 'Active Nodes', value: '12', change: '+2', trend: 'up', icon: Server, color: 'blue' },
-    { id: 2, title: 'Transactions/sec', value: '847', change: '+12.5%', trend: 'up', icon: Zap, color: 'green' },
-    { id: 3, title: 'System Uptime', value: '99.9%', change: '+0.1%', trend: 'up', icon: Activity, color: 'purple' },
-    { id: 4, title: 'Storage Used', value: '2.4TB', change: '+150GB', trend: 'up', icon: Database, color: 'orange' }
+    { id: 1, title: 'Active Nodes', value: '0', change: '0', trend: 'up', icon: Server, color: 'blue' },
+    { id: 2, title: 'Transactions/sec', value: '0', change: '0%', trend: 'up', icon: Zap, color: 'green' },
+    { id: 3, title: 'System Uptime', value: '0%', change: '0%', trend: 'up', icon: Activity, color: 'purple' },
+    { id: 4, title: 'Storage Used', value: '0TB', change: '0GB', trend: 'up', icon: Database, color: 'orange' }
   ]
 
   const networkNodes = [

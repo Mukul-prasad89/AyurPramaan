@@ -30,6 +30,7 @@ import DashboardNavbar from '../common/DashboardNavbar'
 const LaboratoryLandingPage = () => {
   const [activeTab, setActiveTab] = useState('overview')
   const [selectedBatch, setSelectedBatch] = useState(null)
+  const [isNewTestModalOpen, setIsNewTestModalOpen] = useState(false)
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours()
@@ -39,10 +40,10 @@ const LaboratoryLandingPage = () => {
   }, [])
 
   const stats = [
-    { id: 1, title: 'Pending Tests', value: '24', change: '+12%', trend: 'up', icon: Clock, color: 'orange' },
-    { id: 2, title: 'Completed Today', value: '18', change: '+8%', trend: 'up', icon: CheckCircle2, color: 'green' },
-    { id: 3, title: 'Pass Rate', value: '94.2%', change: '+2.1%', trend: 'up', icon: Award, color: 'blue' },
-    { id: 4, title: 'Avg. Turnaround', value: '2.4h', change: '-0.3h', trend: 'down', icon: TrendingUp, color: 'purple' }
+    { id: 1, title: 'Pending Tests', value: '0', change: '0%', trend: 'up', icon: Clock, color: 'orange' },
+    { id: 2, title: 'Completed Today', value: '0', change: '0%', trend: 'up', icon: CheckCircle2, color: 'green' },
+    { id: 3, title: 'Pass Rate', value: '0%', change: '0%', trend: 'up', icon: Award, color: 'blue' },
+    { id: 4, title: 'Avg. Turnaround', value: '0h', change: '0h', trend: 'up', icon: TrendingUp, color: 'purple' }
   ]
 
   const pendingBatches = [
@@ -116,6 +117,7 @@ const LaboratoryLandingPage = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsNewTestModalOpen(true)}
                   className="bg-white text-primary-700 px-5 py-2.5 rounded-xl font-semibold flex items-center space-x-2 hover:bg-primary-50 transition-colors text-sm md:text-base shadow-md"
                 >
                   <Plus className="h-4 w-4" />
@@ -395,6 +397,13 @@ const LaboratoryLandingPage = () => {
           <BatchModal batch={selectedBatch} onClose={() => setSelectedBatch(null)} />
         )}
       </AnimatePresence>
+
+      {/* New Test Modal */}
+      <AnimatePresence>
+        {isNewTestModalOpen && (
+          <NewTestModal onClose={() => setIsNewTestModalOpen(false)} />
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -613,6 +622,314 @@ const BatchModal = ({ batch, onClose }) => {
             Download Details
           </button>
         </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+// New Test Modal Component
+const NewTestModal = ({ onClose }) => {
+  const [formData, setFormData] = useState({
+    batchId: '',
+    herbType: '',
+    farmerName: '',
+    priority: 'Medium',
+    selectedTests: [],
+    deadline: '',
+    notes: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
+  const availableTests = [
+    { id: 'moisture', name: 'Moisture Content', duration: '30 min' },
+    { id: 'pesticide', name: 'Pesticide Residue', duration: '2 hours' },
+    { id: 'heavymetals', name: 'Heavy Metals', duration: '3 hours' },
+    { id: 'dna', name: 'DNA Authentication', duration: '4 hours' },
+    { id: 'microbial', name: 'Microbial Load', duration: '1.5 hours' },
+    { id: 'aflatoxin', name: 'Aflatoxin Analysis', duration: '2.5 hours' }
+  ]
+
+  const herbTypes = [
+    'Ashwagandha Root',
+    'Turmeric Powder',
+    'Tulsi Leaves',
+    'Neem Extract',
+    'Brahmi Leaves',
+    'Shatavari Root',
+    'Giloy Stem',
+    'Amla Fruit',
+    'Other'
+  ]
+
+  const handleTestToggle = (testId) => {
+    setFormData(prev => ({
+      ...prev,
+      selectedTests: prev.selectedTests.includes(testId)
+        ? prev.selectedTests.filter(id => id !== testId)
+        : [...prev.selectedTests, testId]
+    }))
+  }
+
+  const generateBatchId = () => {
+    const year = new Date().getFullYear()
+    const random = Math.floor(Math.random() * 900) + 100
+    setFormData(prev => ({
+      ...prev,
+      batchId: `HT-BATCH-${year}-${random}`
+    }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    if (!formData.batchId || !formData.herbType || formData.selectedTests.length === 0) {
+      alert('Please fill in all required fields and select at least one test.')
+      return
+    }
+
+    setIsSubmitting(true)
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    
+    setIsSubmitting(false)
+    setIsSuccess(true)
+    
+    // Close modal after showing success
+    setTimeout(() => {
+      onClose()
+    }, 2000)
+  }
+
+  if (isSuccess) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      >
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          className="bg-white rounded-2xl p-8 max-w-md w-full text-center"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.2 }}
+            className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
+          >
+            <CheckCircle className="h-10 w-10 text-green-600" />
+          </motion.div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Test Added Successfully!</h2>
+          <p className="text-gray-600 mb-2">Batch ID: <span className="font-semibold text-primary-600">{formData.batchId}</span></p>
+          <p className="text-gray-500 text-sm">{formData.selectedTests.length} test(s) queued for analysis</p>
+        </motion.div>
+      </motion.div>
+    )
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="bg-white rounded-2xl p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">Create New Test</h2>
+            <p className="text-sm text-gray-500 mt-1">Add a new batch for laboratory testing</p>
+          </div>
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Batch ID Section */}
+          <div className="bg-gray-50 rounded-xl p-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Batch ID *</label>
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={formData.batchId}
+                onChange={(e) => setFormData(prev => ({ ...prev, batchId: e.target.value }))}
+                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                placeholder="Enter or generate batch ID"
+              />
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={generateBatchId}
+                className="px-4 py-2.5 bg-primary-100 text-primary-700 rounded-lg font-medium hover:bg-primary-200 transition-colors"
+              >
+                Generate
+              </motion.button>
+            </div>
+          </div>
+
+          {/* Herb & Farmer Info */}
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Herb Type *</label>
+              <select
+                value={formData.herbType}
+                onChange={(e) => setFormData(prev => ({ ...prev, herbType: e.target.value }))}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+              >
+                <option value="">Select herb type</option>
+                {herbTypes.map(herb => (
+                  <option key={herb} value={herb}>{herb}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Farmer / Source</label>
+              <input
+                type="text"
+                value={formData.farmerName}
+                onChange={(e) => setFormData(prev => ({ ...prev, farmerName: e.target.value }))}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="Enter farmer or source name"
+              />
+            </div>
+          </div>
+
+          {/* Priority & Deadline */}
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Priority Level</label>
+              <div className="flex gap-2">
+                {['Low', 'Medium', 'High'].map(priority => (
+                  <button
+                    key={priority}
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, priority }))}
+                    className={`flex-1 py-2.5 px-4 rounded-lg font-medium transition-all ${
+                      formData.priority === priority
+                        ? priority === 'High' 
+                          ? 'bg-red-100 text-red-700 border-2 border-red-300'
+                          : priority === 'Medium'
+                          ? 'bg-yellow-100 text-yellow-700 border-2 border-yellow-300'
+                          : 'bg-green-100 text-green-700 border-2 border-green-300'
+                        : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                    }`}
+                  >
+                    {priority}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Deadline</label>
+              <input
+                type="date"
+                value={formData.deadline}
+                onChange={(e) => setFormData(prev => ({ ...prev, deadline: e.target.value }))}
+                min={new Date().toISOString().split('T')[0]}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+          </div>
+
+          {/* Test Selection */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-3">Select Tests * <span className="text-gray-400 font-normal">(Choose one or more)</span></label>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {availableTests.map(test => (
+                <motion.button
+                  key={test.id}
+                  type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handleTestToggle(test.id)}
+                  className={`p-4 rounded-xl text-left transition-all ${
+                    formData.selectedTests.includes(test.id)
+                      ? 'bg-primary-100 border-2 border-primary-500'
+                      : 'bg-gray-50 border-2 border-transparent hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h4 className={`font-medium ${formData.selectedTests.includes(test.id) ? 'text-primary-700' : 'text-gray-900'}`}>
+                        {test.name}
+                      </h4>
+                      <p className="text-xs text-gray-500 mt-1">Duration: {test.duration}</p>
+                    </div>
+                    {formData.selectedTests.includes(test.id) && (
+                      <CheckCircle className="h-5 w-5 text-primary-600 flex-shrink-0" />
+                    )}
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+            {formData.selectedTests.length > 0 && (
+              <p className="text-sm text-primary-600 mt-3">
+                {formData.selectedTests.length} test(s) selected
+              </p>
+            )}
+          </div>
+
+          {/* Notes */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Additional Notes</label>
+            <textarea
+              value={formData.notes}
+              onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+              rows={3}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
+              placeholder="Any special instructions or observations..."
+            />
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <motion.button
+              type="submit"
+              disabled={isSubmitting}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-6 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                  />
+                  <span>Adding...</span>
+                </>
+              ) : (
+                <>
+                  <Plus className="h-4 w-4" />
+                  <span>Add to Queue</span>
+                </>
+              )}
+            </motion.button>
+          </div>
+        </form>
       </motion.div>
     </motion.div>
   )
