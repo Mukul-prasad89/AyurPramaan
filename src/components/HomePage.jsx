@@ -170,12 +170,13 @@ const HomePage = () => {
             bgColor: 'bg-pink-100'
           }
         ]
-      }
+      },
+      downloadApp: 'Download the App',
+      joinNetwork: 'Join the Network',
+      wisdomQuote: '"Wisdom grows where she works"'
     },
     hi: {
-      pageBadge: 'हर्बल ट्रेस की आवाज़ें',
-      pageTitle: 'हर्बल ट्रेस नेटवर्क की कहानियाँ',
-      pageSubtitle: 'तीन आवाज़ें जो पारदर्शिता, भरोसा और सुरक्षा को साथ जोड़ती हैं।',
+      
       sections: [
         {
           type: 'hero',
@@ -329,7 +330,10 @@ const HomePage = () => {
             bgColor: 'bg-pink-100'
           }
         ]
-      }
+      },
+      downloadApp: 'ऐप डाउनलोड करें',
+      joinNetwork: 'नेटवर्क से जुड़ें',
+      wisdomQuote: '"जहाँ वो काम करती है, वहाँ ज्ञान बढ़ता है"'
     }
   }
 
@@ -461,7 +465,7 @@ const HomePage = () => {
                     whileTap={{ scale: 0.98 }}
                   >
                     <Download className="h-5 w-5" />
-                    <span>Download the App</span>
+                    <span>{content.downloadApp}</span>
                   </motion.a>
                   <motion.button
                     onClick={() => setIsJoinModalOpen(true)}
@@ -470,7 +474,7 @@ const HomePage = () => {
                     whileTap={{ scale: 0.98 }}
                   >
                     <Users className="h-5 w-5" />
-                    <span>Join the Network</span>
+                    <span>{content.joinNetwork}</span>
                   </motion.button>
                 </motion.div>
               </motion.div>
@@ -669,7 +673,7 @@ const HomePage = () => {
                 lineHeight: '1.2'
               }}
             >
-              "Wisdom grows where she works"
+              {content.wisdomQuote}
             </motion.h2>
           </div>
         </div>
