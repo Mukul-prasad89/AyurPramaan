@@ -37,7 +37,9 @@ import {
   FlaskConical,
   Navigation,
   ExternalLink,
-  RefreshCw
+  RefreshCw,
+  MessageCircle,
+  Send
 } from 'lucide-react'
 import DashboardNavbar from '../common/DashboardNavbar'
 
@@ -46,6 +48,7 @@ const RegulatorLandingPage = () => {
   const [selectedBatch, setSelectedBatch] = useState(null)
   const [selectedViolation, setSelectedViolation] = useState(null)
   const [mapView, setMapView] = useState('supply-chain')
+  const [showComplaintModal, setShowComplaintModal] = useState(false)
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours()
@@ -202,10 +205,19 @@ const RegulatorLandingPage = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-red-500 text-white px-5 py-2.5 rounded-xl font-semibold flex items-center space-x-2 hover:bg-red-600 transition-colors text-sm md:text-base shadow-md"
+                  className="bg-white text-primary-700 px-5 py-2.5 rounded-xl font-semibold flex items-center space-x-2 hover:bg-primary-50 transition-colors text-sm md:text-base shadow-md"
                 >
                   <AlertTriangle className="h-4 w-4" />
                   <span>Report Violation</span>
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowComplaintModal(true)}
+                  className="bg-red-500 text-white px-5 py-2.5 rounded-xl font-semibold flex items-center space-x-2 hover:bg-red-600 transition-colors text-sm md:text-base shadow-md"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  <span>Raise Complaint</span>
                 </motion.button>
               </div>
             </div>
@@ -358,6 +370,9 @@ const RegulatorLandingPage = () => {
         )}
         {selectedViolation && (
           <ViolationDetailModal violation={selectedViolation} onClose={() => setSelectedViolation(null)} />
+        )}
+        {showComplaintModal && (
+          <ComplaintModal onClose={() => setShowComplaintModal(false)} />
         )}
       </AnimatePresence>
     </div>
@@ -925,5 +940,195 @@ const ViolationDetailModal = ({ violation, onClose }) => (
     </motion.div>
   </motion.div>
 )
+
+// Complaint Modal Component
+const ComplaintModal = ({ onClose }) => {
+  const [category, setCategory] = useState('')
+  const [subject, setSubject] = useState('')
+  const [message, setMessage] = useState('')
+  const [priority, setPriority] = useState('medium')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  const categories = [
+    'Compliance Issue',
+    'System Access Problem',
+    'Data Discrepancy',
+    'Report Generation Issue',
+    'Blockchain Sync Issue',
+    'App/System Issue',
+    'Other'
+  ]
+
+  const handleSubmit = async () => {
+    if (!category || !subject || !message) return
+    
+    setIsSubmitting(true)
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    setIsSubmitting(false)
+    setIsSubmitted(true)
+    
+    setTimeout(() => {
+      onClose()
+    }, 2000)
+  }
+
+  if (isSubmitted) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      >
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="bg-white rounded-2xl p-8 max-w-md w-full text-center"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+            className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <CheckCircle className="h-10 w-10 text-green-600" />
+          </motion.div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Complaint Submitted!</h3>
+          <p className="text-gray-600">Your complaint has been sent to the admin. You will receive a response soon.</p>
+        </motion.div>
+      </motion.div>
+    )
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="bg-white rounded-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+              <MessageCircle className="h-5 w-5 text-red-600" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900">Raise Complaint</h2>
+          </div>
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category <span className="text-red-500">*</span>
+            </label>
+            <select 
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+            >
+              <option value="">Select Category</option>
+              {categories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Subject <span className="text-red-500">*</span>
+            </label>
+            <input 
+              type="text"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              placeholder="Brief subject of your complaint"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+            <div className="flex space-x-3">
+              {['low', 'medium', 'high', 'urgent'].map(p => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setPriority(p)}
+                  className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium capitalize transition-colors ${
+                    priority === p
+                      ? p === 'urgent' ? 'bg-red-600 text-white'
+                        : p === 'high' ? 'bg-orange-500 text-white'
+                        : p === 'medium' ? 'bg-yellow-500 text-white'
+                        : 'bg-green-500 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Message <span className="text-red-500">*</span>
+            </label>
+            <textarea 
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              rows="4"
+              placeholder="Describe your complaint in detail..."
+            />
+          </div>
+        </div>
+        
+        <div className="flex space-x-3 mt-6 pt-6 border-t border-gray-200">
+          <button 
+            onClick={onClose}
+            className="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+          >
+            Cancel
+          </button>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleSubmit}
+            disabled={!category || !subject || !message || isSubmitting}
+            className={`flex-1 py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-colors ${
+              !category || !subject || !message || isSubmitting
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-red-600 text-white hover:bg-red-700'
+            }`}
+          >
+            {isSubmitting ? (
+              <>
+                <RefreshCw className="h-5 w-5 animate-spin" />
+                <span>Submitting...</span>
+              </>
+            ) : (
+              <>
+                <Send className="h-5 w-5" />
+                <span>Submit Complaint</span>
+              </>
+            )}
+          </motion.button>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
 
 export default RegulatorLandingPage

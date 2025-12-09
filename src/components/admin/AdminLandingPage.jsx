@@ -45,7 +45,9 @@ import {
   Link,
   GitBranch,
   Key,
-  UserCheck
+  UserCheck,
+  MessageCircle,
+  Send
 } from 'lucide-react'
 import DashboardNavbar from '../common/DashboardNavbar'
 
@@ -247,6 +249,7 @@ const AdminLandingPage = () => {
             { id: 'overview', label: 'System Overview', icon: BarChart3 },
             { id: 'nodes', label: 'Network Nodes', icon: Server },
             { id: 'users', label: 'User Management', icon: Users },
+            { id: 'complaints', label: 'Complaints', icon: MessageCircle },
             { id: 'contracts', label: 'Smart Contracts', icon: Code },
             { id: 'integrations', label: 'Integrations', icon: Link },
             { id: 'sustainability', label: 'Sustainability KPIs', icon: Leaf }
@@ -306,6 +309,19 @@ const AdminLandingPage = () => {
               className="bg-white rounded-2xl shadow-sm border border-gray-100"
             >
               <UserRoleManagement users={userRoles} onSelectUser={setSelectedUser} />
+            </motion.div>
+          )}
+
+          {activeTab === 'complaints' && (
+            <motion.div
+              key="complaints"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-2xl shadow-sm border border-gray-100"
+            >
+              <ComplaintsManagement />
             </motion.div>
           )}
 
@@ -574,6 +590,257 @@ const UserRoleManagement = ({ users, onSelectUser }) => (
     </div>
   </div>
 )
+
+// Complaints Management Component
+const ComplaintsManagement = () => {
+  const [selectedComplaint, setSelectedComplaint] = useState(null)
+  const [filterStatus, setFilterStatus] = useState('all')
+  const [responseText, setResponseText] = useState('')
+
+  const complaints = [
+    {
+      id: 'CMP-001',
+      from: 'Rajesh Kumar',
+      role: 'Farmer',
+      category: 'Payment Issues',
+      subject: 'Delayed payment for November harvest',
+      message: 'I have not received payment for my Ashwagandha harvest submitted on November 15th. Please resolve this urgently.',
+      priority: 'high',
+      status: 'pending',
+      createdAt: '2025-12-08 14:30',
+      response: null
+    },
+    {
+      id: 'CMP-002',
+      from: 'Dr. Meera Singh',
+      role: 'Laboratory',
+      category: 'Equipment Malfunction',
+      subject: 'HPLC machine calibration issue',
+      message: 'The HPLC machine in Lab 2 is showing inconsistent readings. Need urgent maintenance.',
+      priority: 'urgent',
+      status: 'in-progress',
+      createdAt: '2025-12-07 09:15',
+      response: 'Maintenance team has been notified. They will visit by EOD.'
+    },
+    {
+      id: 'CMP-003',
+      from: 'Anita Iyer',
+      role: 'Manufacturer',
+      category: 'Supply Chain Delay',
+      subject: 'Raw material delivery delayed',
+      message: 'Batch HT-BATCH-2025-101 has not arrived despite being marked as dispatched 3 days ago.',
+      priority: 'medium',
+      status: 'resolved',
+      createdAt: '2025-12-05 16:45',
+      response: 'Issue resolved. Batch was held at quality check and has now been released. Expected delivery tomorrow.'
+    },
+    {
+      id: 'CMP-004',
+      from: 'Inspector Kavya Sharma',
+      role: 'Regulator',
+      category: 'System Access Problem',
+      subject: 'Cannot access blockchain records for December',
+      message: 'Getting error 403 when trying to view blockchain records dated after December 1st.',
+      priority: 'high',
+      status: 'pending',
+      createdAt: '2025-12-08 11:00',
+      response: null
+    },
+    {
+      id: 'CMP-005',
+      from: 'Priya Sharma',
+      role: 'Consumer',
+      category: 'Product Quality Issue',
+      subject: 'Received expired product',
+      message: 'The Ashwagandha tablets I received (Batch HT-LOT-2025-089) show expiry date as Nov 2025. Please investigate.',
+      priority: 'urgent',
+      status: 'in-progress',
+      createdAt: '2025-12-06 18:20',
+      response: 'We are investigating this issue with the manufacturer. Will update within 24 hours.'
+    }
+  ]
+
+  const filteredComplaints = filterStatus === 'all' 
+    ? complaints 
+    : complaints.filter(c => c.status === filterStatus)
+
+  const getPriorityColor = (priority) => {
+    switch(priority) {
+      case 'urgent': return 'bg-red-100 text-red-700'
+      case 'high': return 'bg-orange-100 text-orange-700'
+      case 'medium': return 'bg-yellow-100 text-yellow-700'
+      default: return 'bg-green-100 text-green-700'
+    }
+  }
+
+  const getStatusColor = (status) => {
+    switch(status) {
+      case 'pending': return 'bg-gray-100 text-gray-700'
+      case 'in-progress': return 'bg-blue-100 text-blue-700'
+      case 'resolved': return 'bg-green-100 text-green-700'
+      default: return 'bg-gray-100 text-gray-700'
+    }
+  }
+
+  const getRoleColor = (role) => {
+    switch(role) {
+      case 'Farmer': return 'bg-green-100 text-green-700'
+      case 'Laboratory': return 'bg-purple-100 text-purple-700'
+      case 'Manufacturer': return 'bg-blue-100 text-blue-700'
+      case 'Regulator': return 'bg-orange-100 text-orange-700'
+      case 'Consumer': return 'bg-pink-100 text-pink-700'
+      default: return 'bg-gray-100 text-gray-700'
+    }
+  }
+
+  return (
+    <div>
+      <div className="p-6 border-b border-gray-100">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-red-100 rounded-xl">
+              <MessageCircle className="h-6 w-6 text-red-600" />
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">Complaints Management</h2>
+              <p className="text-sm text-gray-600">Review and resolve stakeholder complaints</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="relative">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search complaints..."
+                className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+            <select 
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="in-progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-4 gap-4 mt-6">
+          <div className="bg-gray-50 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900">{complaints.length}</div>
+            <div className="text-sm text-gray-600">Total</div>
+          </div>
+          <div className="bg-yellow-50 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-yellow-600">{complaints.filter(c => c.status === 'pending').length}</div>
+            <div className="text-sm text-gray-600">Pending</div>
+          </div>
+          <div className="bg-blue-50 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-blue-600">{complaints.filter(c => c.status === 'in-progress').length}</div>
+            <div className="text-sm text-gray-600">In Progress</div>
+          </div>
+          <div className="bg-green-50 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-green-600">{complaints.filter(c => c.status === 'resolved').length}</div>
+            <div className="text-sm text-gray-600">Resolved</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6">
+        <div className="space-y-4">
+          {filteredComplaints.map((complaint) => (
+            <motion.div
+              key={complaint.id}
+              whileHover={{ scale: 1.01 }}
+              className={`p-6 border rounded-xl transition-all cursor-pointer ${
+                selectedComplaint?.id === complaint.id 
+                  ? 'border-primary-500 bg-primary-50' 
+                  : 'border-gray-200 hover:shadow-md'
+              }`}
+              onClick={() => setSelectedComplaint(selectedComplaint?.id === complaint.id ? null : complaint)}
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center space-x-3">
+                  <span className="font-mono text-sm text-gray-500">{complaint.id}</span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getRoleColor(complaint.role)}`}>
+                    {complaint.role}
+                  </span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(complaint.priority)}`}>
+                    {complaint.priority}
+                  </span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(complaint.status)}`}>
+                    {complaint.status}
+                  </span>
+                </div>
+                <span className="text-sm text-gray-500">{complaint.createdAt}</span>
+              </div>
+
+              <div className="mb-2">
+                <span className="font-medium text-gray-900">{complaint.from}</span>
+                <span className="text-gray-500 mx-2">•</span>
+                <span className="text-gray-600">{complaint.category}</span>
+              </div>
+
+              <h3 className="font-semibold text-gray-900 mb-2">{complaint.subject}</h3>
+              <p className="text-gray-600 text-sm">{complaint.message}</p>
+
+              {complaint.response && (
+                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                    <span className="text-sm font-medium text-green-700">Admin Response</span>
+                  </div>
+                  <p className="text-sm text-green-800">{complaint.response}</p>
+                </div>
+              )}
+
+              {/* Response Form */}
+              <AnimatePresence>
+                {selectedComplaint?.id === complaint.id && complaint.status !== 'resolved' && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-4 pt-4 border-t border-gray-200"
+                  >
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Your Response
+                    </label>
+                    <textarea
+                      value={responseText}
+                      onChange={(e) => setResponseText(e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      rows="3"
+                      placeholder="Type your response to this complaint..."
+                    />
+                    <div className="flex items-center justify-end space-x-3 mt-3">
+                      <button 
+                        className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm"
+                        onClick={() => setSelectedComplaint(null)}
+                      >
+                        Cancel
+                      </button>
+                      <button className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors text-sm">
+                        Mark In Progress
+                      </button>
+                      <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm flex items-center space-x-2">
+                        <Send className="h-4 w-4" />
+                        <span>Send & Resolve</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 // Smart Contract Management Component
 const SmartContractManagement = ({ contracts }) => (
