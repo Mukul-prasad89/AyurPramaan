@@ -681,7 +681,7 @@ const HomePage = () => {
         </div>
       </motion.section>
 
-      {/* Our Solutions Section with Light Grey Background - Full Width */}
+      
       {process && (
         <motion.section
           className="w-full py-16 bg-gray-100"

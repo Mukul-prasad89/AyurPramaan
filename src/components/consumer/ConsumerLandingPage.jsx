@@ -174,7 +174,7 @@ const ConsumerLandingPage = () => {
         approvedBy="Self-Registered"
       />
 
-      {/* Main Content */}
+      
       <main className="pt-20 md:pt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Greeting Section */}
